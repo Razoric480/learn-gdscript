@@ -1,7 +1,7 @@
 # Utility class that provides utility to quickly create regex objects and
 # replace text with multiple regular expressions.
 class_name RegExpGroup
-extends Reference
+extends RefCounted
 
 static func compile(pattern: String) -> RegEx:
 	var regex := RegEx.new()

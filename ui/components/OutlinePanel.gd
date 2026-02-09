@@ -11,18 +11,18 @@ extends Panel
 const COLOR_TRANSPARENT := Color(1.0, 1.0, 1.0, 0.0)
 const ANIMATION_DURATION := 0.6
 
-export var max_border_width := 8.0 setget set_max_border_width
-export var border_width := 0.0 setget set_border_width
+@export var max_border_width := 8.0: set = set_max_border_width
+@export var border_width := 0.0: set = set_border_width
 
-onready var _border_style: StyleBoxFlat = get("custom_styles/panel")
+@onready var _border_style: StyleBoxFlat = get("theme_override_styles/panel")
 
-onready var _tween := $Tween as Tween
+@onready var _tween := $Tween as Tween
 
 
 func _ready() -> void:
 	set_border_width(0.0)
 	hide()
-	_tween.connect("tween_completed", self, "_on_tween_completed")
+	_tween.connect("tween_completed", Callable(self, "_on_tween_completed"))
 
 
 func appear() -> void:
@@ -37,7 +37,7 @@ func appear() -> void:
 		Tween.EASE_OUT
 	)
 	_tween.interpolate_property(
-		self, "self_modulate", COLOR_TRANSPARENT, Color.white, ANIMATION_DURATION / 2
+		self, "self_modulate", COLOR_TRANSPARENT, Color.WHITE, ANIMATION_DURATION / 2
 	)
 	_tween.start()
 	_tween.seek(0.0)
@@ -56,7 +56,7 @@ func disappear() -> void:
 		Tween.EASE_OUT
 	)
 	_tween.interpolate_property(
-		self, "self_modulate", Color.white, COLOR_TRANSPARENT, ANIMATION_DURATION / 2
+		self, "self_modulate", Color.WHITE, COLOR_TRANSPARENT, ANIMATION_DURATION / 2
 	)
 	_tween.start()
 	_tween.seek(0.0)
@@ -73,7 +73,7 @@ func set_max_border_width(new_width: float) -> void:
 func set_border_width(new_width: float) -> void:
 	border_width = new_width
 	_border_style.expand_margin_left = new_width
-	_border_style.expand_margin_top = new_width
+	_border_style.expand_SIDE_TOP = new_width
 	_border_style.expand_margin_right = new_width
 	_border_style.expand_margin_bottom = new_width
 

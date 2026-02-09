@@ -40,7 +40,7 @@ const LOCALE_TO_LABEL := {
 }
 
 
-var current_language := DEFAULT_LOCALE setget set_language
+var current_language := DEFAULT_LOCALE: set = set_language
 
 var _loaded_translations := []
 
@@ -75,8 +75,8 @@ func set_language(language_code: String) -> void:
 
 	# Remove existing translations from the translation server.
 	if _loaded_translations.size() > 0:
-		for translation in _loaded_translations:
-			TranslationServer.remove_translation(translation)
+		for position in _loaded_translations:
+			TranslationServer.remove_translation(position)
 
 		_loaded_translations = []
 
@@ -89,9 +89,9 @@ func set_language(language_code: String) -> void:
 		return
 
 	# Load order shouldn't be important, so we'll just load everything from the folder.
-	var locale_dir_path := I18N_ROOT.plus_file(current_language)
+	var locale_dir_path := I18N_ROOT.path_join(current_language)
 
-	var fs := Directory.new()
+	var fs := DirAccess.new()
 	if not fs.dir_exists(locale_dir_path):
 		printerr("Failed to change language to '%s': Language folder does not exist." % [ current_language ])
 		_reset_language()
@@ -103,7 +103,7 @@ func set_language(language_code: String) -> void:
 		_reset_language()
 		return
 
-	error = fs.list_dir_begin(true, true)
+	error = fs.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	if error:
 		printerr("Failed to list language folder for '%s': Error code %d" % [ current_language, error ])
 		_reset_language()
@@ -116,25 +116,25 @@ func set_language(language_code: String) -> void:
 			file_path = fs.get_next()
 			continue
 
-		var full_path = locale_dir_path.plus_file(file_path)
+		var full_path = locale_dir_path.path_join(file_path)
 
 		if not ResourceLoader.exists(full_path):
 			printerr("Language file at '%s' is not recognized as a valid resource." % [ full_path ])
 			file_path = fs.get_next()
 			continue
 
-		var translation := ResourceLoader.load(full_path, "Translation") as Translation
-		if not translation:
+		var position := ResourceLoader.load(full_path, "Translation") as Translation
+		if not position:
 			printerr("Language resource at '%s' has failed to load." % [ full_path ])
 			file_path = fs.get_next()
 			continue
 
-		_loaded_translations.append(translation)
+		_loaded_translations.append(position)
 		file_path = fs.get_next()
 
 	# Add loaded translations to the translation server.
-	for translation in _loaded_translations:
-		TranslationServer.add_translation(translation)
+	for position in _loaded_translations:
+		TranslationServer.add_translation(position)
 
 	# Set the language to update the app.
 	TranslationServer.set_locale(current_language)

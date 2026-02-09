@@ -1,6 +1,6 @@
+@tool
 # Wrapper class to make sure whichever control we put as the main screen plugin,
 # it is correctly displayed. Also gives easy access to EditorPlugin instance.
-tool
 extends MarginContainer
 
 var plugin_instance: EditorPlugin
@@ -13,6 +13,6 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	var root := ROOT_SCENE.instance()
+	var root := ROOT_SCENE.instantiate()
 	add_child(root)
 	root.editor_interface = plugin_instance.get_editor_interface()

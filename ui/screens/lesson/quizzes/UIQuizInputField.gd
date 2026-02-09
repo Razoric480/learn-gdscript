@@ -1,11 +1,11 @@
 class_name UIQuizInputField
 extends UIBaseQuiz
 
-onready var _line_edit := $ClipContentBoundary/ChoiceContainer/ChoiceView/Answers/LineEdit as LineEdit
+@onready var _line_edit := $ClipContentBoundary/ChoiceContainer/ChoiceView/Answers/LineEdit as LineEdit
 
 
 func _ready() -> void:
-	_line_edit.connect("text_entered", self, "_test_answer")
+	_line_edit.connect("text_submitted", Callable(self, "_test_answer"))
 
 
 func _get_answers() -> Array:

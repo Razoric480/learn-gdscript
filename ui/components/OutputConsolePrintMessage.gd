@@ -1,9 +1,9 @@
 extends PanelContainer
 
-var values := [] setget set_values
+var values := []: set = set_values
 
-onready var _label := $Label as Label
-onready var _tween := $Tween as Tween
+@onready var _label := $Label as Label
+@onready var _tween := $Tween as Tween
 
 
 func _ready() -> void:
@@ -15,6 +15,6 @@ func _ready() -> void:
 func set_values(new_values: Array) -> void:
 	values = new_values
 	if not is_inside_tree():
-		yield(self, "ready")
+		await self.ready
 
-	_label.text = PoolStringArray(new_values).join(" ")
+	_label.text = " ".join(PackedStringArray(new_values))

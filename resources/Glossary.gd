@@ -16,10 +16,10 @@ func _init() -> void:
 
 func setup() -> void:
 	_glossary = _parse_glossary_file(glossary_file)
-	var patterns := PoolStringArray()
+	var patterns := PackedStringArray()
 	for key in _glossary:
 		patterns.append(key)
-	var terms_pattern := "(?:\\[ignore\\]\\w+)(*SKIP)(*F)|(%s)" % patterns.join("|")
+	var terms_pattern := "(?:\\[ignore\\]\\w+)(*SKIP)(*F)|(%s)" % "|".join(patterns)
 
 	_glossary_regex.compile(terms_pattern)
 

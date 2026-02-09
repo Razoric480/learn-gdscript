@@ -8,7 +8,7 @@
 # var error = ScriptError.new()
 # error.from_JSON(json_error)
 class_name ScriptError
-extends Reference
+extends RefCounted
 
 var error_range := ErrorRange.new()
 var message := ""

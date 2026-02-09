@@ -11,7 +11,7 @@ var do_draw := false
 
 func _draw() -> void:
 	if do_draw:
-		draw_circle(Vector2.ZERO, 60.0, Color.aqua)
+		draw_circle(Vector2.ZERO, 60.0, Color.AQUA)
 
 
 func run() -> void:
@@ -25,18 +25,18 @@ func reset() -> void:
 "
 
 [node name="PanelContainer" type="PanelContainer"]
-margin_right = 14.0
-margin_bottom = 14.0
+offset_right = 14.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 theme = ExtResource( 2 )
 
 [node name="RunnableCodeExample" parent="." instance=ExtResource( 1 )]
-margin_right = 656.0
-margin_bottom = 260.0
+offset_right = 656.0
+offset_bottom = 260.0
 gdscript_code = "draw_circle(
 	Vector2(0, 0),
 	60,
-	Color.aqua
+	Color.AQUA
 )"
 run_button_label = "draw_circle()"
 

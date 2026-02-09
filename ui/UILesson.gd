@@ -14,7 +14,7 @@ const PracticeButtonScene := preload("screens/lesson/UIPracticeButton.tscn")
 const AUTOSCROLL_PADDING := 20
 const AUTOSCROLL_DURATION := 0.24
 
-export var test_lesson: Resource
+@export var test_lesson: Resource
 
 signal lesson_displayed
 
@@ -28,26 +28,26 @@ var _integration_test_mode := false
 
 var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").size
 
-onready var _scroll_container := $OuterMargin/ScrollContainer as ScrollContainer
-onready var _scroll_content := $OuterMargin/ScrollContainer/InnerMargin as Control
-onready var _title := $OuterMargin/ScrollContainer/InnerMargin/Content/Title as Label
-onready var _content_blocks := $OuterMargin/ScrollContainer/InnerMargin/Content/ContentBlocks as VBoxContainer
-onready var _content_container := $OuterMargin/ScrollContainer/InnerMargin/Content as VBoxContainer
-onready var _practices_visibility_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer as VBoxContainer
-onready var _practices_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer/Practices as VBoxContainer
-onready var _debounce_timer := $DebounceTimer as Timer
-onready var _tweener := $Tween as Tween
-onready var _glossary_popup := $GlossaryPopup
+@onready var _scroll_container := $OuterMargin/ScrollContainer as ScrollContainer
+@onready var _scroll_content := $OuterMargin/ScrollContainer/InnerMargin as Control
+@onready var _title := $OuterMargin/ScrollContainer/InnerMargin/Content/Title as Label
+@onready var _content_blocks := $OuterMargin/ScrollContainer/InnerMargin/Content/ContentBlocks as VBoxContainer
+@onready var _content_container := $OuterMargin/ScrollContainer/InnerMargin/Content as VBoxContainer
+@onready var _practices_visibility_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer as VBoxContainer
+@onready var _practices_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer/Practices as VBoxContainer
+@onready var _debounce_timer := $DebounceTimer as Timer
+@onready var _tweener := $Tween as Tween
+@onready var _glossary_popup := $GlossaryPopup
 
-onready var _start_content_width := _content_container.rect_size.x
+@onready var _start_content_width := _content_container.size.x
 
 
 func _ready() -> void:
-	Events.connect("font_size_scale_changed", self, "_update_content_container_width")
+	Events.connect("font_size_scale_changed", Callable(self, "_update_content_container_width"))
 	_update_content_container_width(UserProfiles.get_profile().font_size_scale)
-	_scroll_container.get_v_scrollbar().connect("value_changed", self, "_on_content_scrolled")
-	_debounce_timer.connect("timeout", self, "_emit_read_content")
-	TranslationManager.connect("translation_changed", self, "_on_translation_changed")
+	_scroll_container.get_v_scroll_bar().connect("value_changed", Callable(self, "_on_content_scrolled"))
+	_debounce_timer.connect("timeout", Callable(self, "_emit_read_content"))
+	TranslationManager.connect("translation_changed", Callable(self, "_on_translation_changed"))
 
 	_glossary = load("res://course/glossary.tres")
 
@@ -67,7 +67,7 @@ func _notification(what: int) -> void:
 
 func setup(lesson: Lesson, course: Course) -> void:
 	if not is_inside_tree():
-		yield(self, "ready")
+		await self.ready
 
 	_lesson = lesson
 	_title.text = tr(_lesson.title)
@@ -103,7 +103,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 		var reading_started := user_profile.has_lesson_blocks_read(
 			course.resource_path, lesson.resource_path
 		)
-		if restore_id.empty() and not reading_done and reading_started:
+		if restore_id.is_empty() and not reading_done and reading_started:
 			for block in lesson.content_blocks:
 				var block_id := ""
 				if block is Quiz:
@@ -121,7 +121,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 
 	for block in lesson.content_blocks:
 		if block is ContentBlock:
-			var instance: UIContentBlock = ContentBlockScene.instance()
+			var instance: UIContentBlock = ContentBlockScene.instantiate()
 			instance.name = block.content_id.get_file().get_basename()
 			_content_blocks.add_child(instance)
 			instance.setup(block)
@@ -132,7 +132,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 
 		elif block is Quiz:
 			var scene = QuizInputFieldScene if block is QuizInputField else QuizChoiceScene
-			var instance = scene.instance()
+			var instance = scene.instantiate()
 			instance.name = block.quiz_id.get_file().get_basename()
 			_content_blocks.add_child(instance)
 			instance.setup(block)
@@ -147,9 +147,9 @@ func setup(lesson: Lesson, course: Course) -> void:
 					_quizzes_done += 1
 			instance.completed_before = completed_before
 
-			instance.connect("quiz_passed", Events, "emit_signal", ["quiz_completed", block])
-			instance.connect("quiz_passed", self, "_reveal_up_to_next_quiz")
-			instance.connect("quiz_skipped", self, "_reveal_up_to_next_quiz")
+			instance.connect("quiz_passed", Callable(Events, "emit_signal").bind("quiz_completed", block))
+			instance.connect("quiz_passed", Callable(self, "_reveal_up_to_next_quiz"))
+			instance.connect("quiz_skipped", Callable(self, "_reveal_up_to_next_quiz"))
 
 			if restore_id == block.quiz_id:
 				restore_node = instance
@@ -157,7 +157,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 	var highlighted_next := false
 	var practice_index := 0
 	for practice in lesson.practices:
-		var button: UIPracticeButton = PracticeButtonScene.instance()
+		var button: UIPracticeButton = PracticeButtonScene.instantiate()
 		button.setup(practice, practice_index)
 		if course:
 			button.completed_before = user_profile.is_lesson_practice_completed(
@@ -174,18 +174,18 @@ func setup(lesson: Lesson, course: Course) -> void:
 	_reveal_up_to_next_quiz()
 
 	if _integration_test_mode:
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 		emit_signal("lesson_displayed")
 		return
 
 	# Wait until the lesson is considered loaded by the system, and then update the size of
 	# the scroll container and its content.
-	yield(Events, "lesson_started")
+	await Events.lesson_started
 	if restore_node and restore_node.is_visible_in_tree():
 		var scroll_offset = abs(
-			_scroll_content.rect_global_position.y - _content_blocks.rect_global_position.y
+			_scroll_content.global_position.y - _content_blocks.global_position.y
 		)
-		var scroll_target = restore_node.rect_position.y + scroll_offset - AUTOSCROLL_PADDING
+		var scroll_target = restore_node.position.y + scroll_offset - AUTOSCROLL_PADDING
 		_tweener.stop_all()
 		_tweener.interpolate_method(
 			_scroll_container,
@@ -208,9 +208,9 @@ func _underline_glossary_entries() -> void:
 	_glossary.setup()
 	# Underline glossary entries
 	for rtl in get_tree().get_nodes_in_group("rich_text_label"):
-		rtl.bbcode_text = _glossary.replace_matching_terms(rtl.bbcode_text)
-		if not rtl.is_connected("meta_clicked", self, "_open_glossary_popup"):
-			rtl.connect("meta_clicked", self, "_open_glossary_popup")
+		rtl.text = _glossary.replace_matching_terms(rtl.text)
+		if not rtl.is_connected("meta_clicked", Callable(self, "_open_glossary_popup")):
+			rtl.connect("meta_clicked", Callable(self, "_open_glossary_popup"))
 
 
 func _update_labels() -> void:
@@ -261,7 +261,7 @@ func _on_content_scrolled(_value: float) -> void:
 
 func _emit_read_content() -> void:
 	var scroll_offset = abs(
-		_scroll_content.rect_global_position.y - _content_blocks.rect_global_position.y
+		_scroll_content.global_position.y - _content_blocks.global_position.y
 	)
 	var scroll_distance = _scroll_container.scroll_vertical - scroll_offset - AUTOSCROLL_PADDING
 
@@ -280,7 +280,7 @@ func _emit_read_content() -> void:
 		if content_index < _lesson.content_blocks.size():
 			content_blocks.append(_lesson.content_blocks[content_index])
 
-		var content_offset := control_node.rect_position.y
+		var content_offset := control_node.position.y
 		if content_offset > scroll_distance:
 			break
 		content_index += 1
@@ -295,7 +295,7 @@ func _update_content_container_width(new_font_scale: int) -> void:
 		float(_base_text_font_size + new_font_scale * 2)
 		/ _base_text_font_size
 	)
-	_content_container.rect_min_size.x = _start_content_width * font_size_multiplier
+	_content_container.custom_minimum_size.x = _start_content_width * font_size_multiplier
 
 
 func _on_translation_changed() -> void:

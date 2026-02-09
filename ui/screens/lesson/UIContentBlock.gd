@@ -16,17 +16,17 @@ var _content_block: ContentBlock
 var _visual_element: CanvasItem
 var _revealer_block: Revealer
 
-onready var _content_root := $Panel as PanelContainer
-onready var _content_margin := $Panel/MarginContainer as MarginContainer
+@onready var _content_root := $Panel as PanelContainer
+@onready var _content_margin := $Panel/MarginContainer as MarginContainer
 
-onready var _content_header := $Panel/MarginContainer/Layout/ContentHeader as Label
-onready var _content_container := $Panel/MarginContainer/Layout/ContentLayout as Control
-onready var _text_content := $Panel/MarginContainer/Layout/ContentLayout/TextContent as RichTextLabel
-onready var _content_separator := $Panel/MarginContainer/Layout/ContentSeparator as HSeparator
+@onready var _content_header := $Panel/MarginContainer/Layout/ContentHeader as Label
+@onready var _content_container := $Panel/MarginContainer/Layout/ContentLayout as Control
+@onready var _text_content := $Panel/MarginContainer/Layout/ContentLayout/TextContent as RichTextLabel
+@onready var _content_separator := $Panel/MarginContainer/Layout/ContentSeparator as HSeparator
 
 
 func _ready() -> void:
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 
 
 func _notification(what: int) -> void:
@@ -36,18 +36,18 @@ func _notification(what: int) -> void:
 
 func setup(content_block: ContentBlock) -> void:
 	if not is_inside_tree():
-		yield(self, "ready")
+		await self.ready
 
 	_content_block = content_block
 	if _content_block.type == ContentBlock.Type.PLAIN:
-		_content_header.visible = not _content_block.title.empty()
+		_content_header.visible = not _content_block.title.is_empty()
 		_content_header.text = tr(_content_block.title)
 	else:
 		_content_header.visible = false
 		_make_revealer()
 
-	_text_content.bbcode_text = TextUtils.bbcode_add_code_color(TextUtils.tr_paragraph(_content_block.text))
-	_text_content.visible = not _content_block.text.empty()
+	_text_content.text = TextUtils.bbcode_add_code_color(TextUtils.tr_paragraph(_content_block.text))
+	_text_content.visible = not _content_block.text.is_empty()
 
 	if _content_block.visual_element_path != "":
 		_make_visual_element()
@@ -59,14 +59,14 @@ func _make_revealer() -> void:
 	if _content_block.type == ContentBlock.Type.PLAIN:
 		return
 
-	var revealer := RevealerScene.instance() as Revealer
+	var revealer := RevealerScene.instantiate() as Revealer
 	revealer.title_panel = preload("res://ui/theme/revealer_notes_title.tres")
 	revealer.title_panel_expanded = preload("res://ui/theme/revealer_notes_title_expanded.tres")
 	revealer.content_panel = preload("res://ui/theme/revealer_notes_panel.tres")
 
 	if _content_block.type == ContentBlock.Type.NOTE:
 		revealer.title_font_color = COLOR_NOTE
-	revealer.title = tr("Learn More") if _content_block.title.empty() else tr(_content_block.title)
+	revealer.title = tr("Learn More") if _content_block.title.is_empty() else tr(_content_block.title)
 
 	remove_child(_content_root)
 	add_child(revealer)
@@ -75,14 +75,14 @@ func _make_revealer() -> void:
 
 
 func _make_visual_element() -> void:
-	if _content_block.visual_element_path.empty():
+	if _content_block.visual_element_path.is_empty():
 		return
 
 	# If the path isn't absolute, we try to load the file from the current directory
 	var path := _content_block.visual_element_path
 	if path.is_rel_path():
 		# TODO: Should probably avoid relying on content ID for getting paths.
-		path = _content_block.content_id.get_base_dir().plus_file(path)
+		path = _content_block.content_id.get_base_dir().path_join(path)
 	var resource := load(path)
 	if not resource:
 		printerr(
@@ -94,19 +94,19 @@ func _make_visual_element() -> void:
 		return
 
 
-	if resource is Texture:
+	if resource is Texture2D:
 		var texture_rect := TextureRect.new()
 		texture_rect.texture = resource
 		_content_container.add_child(texture_rect)
 		_visual_element = texture_rect
 	elif resource is PackedScene:
-		var instance = (resource as PackedScene).instance()
+		var instance = (resource as PackedScene).instantiate()
 		_content_container.add_child(instance)
 		_visual_element = instance
 	else:
 		printerr(
 			(
-				"ContentBlock visual element is not a Texture or a PackedScene. Loaded type: "
+				"ContentBlock visual element is not a Texture2D or a PackedScene. Loaded type: "
 				+ resource.get_class() + " From path: "
 				+ path
 			)
@@ -126,13 +126,13 @@ func _update_labels() -> void:
 	if _content_block.type == ContentBlock.Type.PLAIN:
 		_content_header.text = tr(_content_block.title)
 
-	_text_content.bbcode_text = TextUtils.bbcode_add_code_color(TextUtils.tr_paragraph(_content_block.text))
+	_text_content.text = TextUtils.bbcode_add_code_color(TextUtils.tr_paragraph(_content_block.text))
 
 	if _revealer_block:
-		_revealer_block.title = tr("Learn More") if _content_block.title.empty() else tr(_content_block.title)
+		_revealer_block.title = tr("Learn More") if _content_block.title.is_empty() else tr(_content_block.title)
 
 
 func _on_resized() -> void:
-	var width = rect_size.x
+	var width = size.x
 	if _text_content.visible and is_instance_valid(_visual_element):
 		_visual_element.visible = width >= VISUAL_VISIBLE_MIN_WIDTH

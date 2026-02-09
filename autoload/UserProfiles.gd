@@ -28,7 +28,7 @@ func get_profile(profile_name: String = current_player) -> Profile:
 	var file_path := _get_file_path(profile_name)
 	
 	if not profile_exists(profile_name):
-		var fs = Directory.new()
+		var fs = DirAccess.new()
 		var directory := file_path.get_base_dir()
 		fs.make_dir_recursive(directory)
 		
@@ -50,21 +50,21 @@ func get_profile(profile_name: String = current_player) -> Profile:
 
 
 func _get_file_path(file_name: String) -> String:
-	return ROOT_DIR.plus_file(file_name) + ".tres"
+	return ROOT_DIR.path_join(file_name) + ".tres"
 
 
-func list_profiles() -> PoolStringArray:
-	var profiles := PoolStringArray()
+func list_profiles() -> PackedStringArray:
+	var profiles := PackedStringArray()
 	
-	var fs := Directory.new()
+	var fs := DirAccess.new()
 	var error = fs.open(ROOT_DIR)
 	if error != OK:
 		profiles.push_back(current_player)
 		return profiles
 	
-	fs.list_dir_begin()
+	fs.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name := fs.get_next()
-	while not file_name.empty():
+	while not file_name.is_empty():
 		if fs.current_is_dir() or file_name.get_extension() != "tres":
 			file_name = fs.get_next()
 			continue

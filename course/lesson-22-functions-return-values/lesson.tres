@@ -257,11 +257,11 @@ func convert_to_world_coordinates(cell):
 	"
 cursor_line = 0
 cursor_column = 0
-hints = PoolStringArray( "To convert a cell coordinate to pixels, multiply the [code]cell[/code] by [code]cell_size[/code].", "Use the [code]return[/code] keyword to send the result back. For example: [code]return cell * cell_size[/code]" )
+hints = PackedStringArray( "To convert a cell coordinate to pixels, multiply the [code]cell[/code] by [code]cell_size[/code].", "Use the [code]return[/code] keyword to send the result back. For example: [code]return cell * cell_size[/code]" )
 validator_script_path = "convert-grid-coordinates/TestConvertGridCoordinates.gd"
 script_slice_path = "convert-grid-coordinates/ConvertGridCoordinates.gd"
 slice_name = "run"
-documentation_references = PoolStringArray(  )
+documentation_references = PackedStringArray(  )
 documentation_resource = ExtResource( 1 )
 description = "We need a function to convert grid coordinates to pixel positions. Complete the function to make the turtle move to the correct cells!"
 

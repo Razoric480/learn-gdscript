@@ -11,7 +11,7 @@ var _last_target: Resource
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 		_rebuild_breadcrumbs()
 
 
@@ -50,7 +50,7 @@ func _rebuild_breadcrumbs() -> void:
 	if _last_target is Practice:
 		var practice = _last_target as Practice
 		# TODO: Should probably avoid relying on content ID for getting paths.
-		var lesson_path = practice.practice_id.get_base_dir().plus_file("lesson.tres")
+		var lesson_path = practice.practice_id.get_base_dir().path_join("lesson.tres")
 
 		var lesson: Lesson
 		var lesson_index := -1
@@ -86,28 +86,28 @@ func _create_navigation_node(text: String, path: String = "", current: bool = fa
 	if get_child_count() > 0:
 		var separator := Label.new()
 		separator.text = "•"
-		separator.add_font_override("font", NODE_FONT)
-		separator.add_color_override("font_color", NODE_COLOR)
+		separator.add_theme_font_override("font", NODE_FONT)
+		separator.add_theme_color_override("font_color", NODE_COLOR)
 		add_child(separator)
 
-	if path.empty():
+	if path.is_empty():
 		var navigation_node := Label.new()
 		navigation_node.text = text
-		navigation_node.add_font_override("font", NODE_FONT_CURRENT if current else NODE_FONT)
-		navigation_node.add_color_override("font_color", NODE_COLOR)
+		navigation_node.add_theme_font_override("font", NODE_FONT_CURRENT if current else NODE_FONT)
+		navigation_node.add_theme_color_override("font_color", NODE_COLOR)
 		add_child(navigation_node)
 	else:
 		var navigation_node := Button.new()
 		navigation_node.flat = true
 		navigation_node.text = text
-		navigation_node.add_font_override("font", NODE_FONT_CURRENT if current else NODE_FONT)
+		navigation_node.add_theme_font_override("font", NODE_FONT_CURRENT if current else NODE_FONT)
 		navigation_node.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 		add_child(navigation_node)
-		navigation_node.connect("pressed", self, "_on_navigation_pressed", [ path ])
+		navigation_node.connect("pressed", Callable(self, "_on_navigation_pressed").bind(path))
 
 
 func _on_navigation_pressed(path: String) -> void:
-	if path.empty():
+	if path.is_empty():
 		return
 
 	NavigationManager.navigate_to(path)

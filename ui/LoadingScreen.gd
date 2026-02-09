@@ -9,19 +9,19 @@ const PROGRESS_DURATION := 0.75
 
 enum State { IDLE, LOADING, FADING_IN, FADING_OUT }
 
-var progress_value := 0.0 setget set_progress_value
+var progress_value := 0.0: set = set_progress_value
 
 var _state: int = State.IDLE
 
-onready var _progress_bar := $MarginContainer/Control/ProgressBar as ProgressBar
-onready var _tweener := $Tween as Tween
+@onready var _progress_bar := $MarginContainer/Control/ProgressBar as ProgressBar
+@onready var _tweener := $Tween as Tween
 
 
 func _ready() -> void:
 	_state = State.IDLE
 	_progress_bar.value = 0.0
 
-	_tweener.connect("tween_all_completed", self, "_on_tweener_finished")
+	_tweener.connect("tween_all_completed", Callable(self, "_on_tweener_finished"))
 	_animate_progress()
 
 

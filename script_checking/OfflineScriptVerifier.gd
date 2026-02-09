@@ -17,13 +17,14 @@ const PARSE_WRAPPER_CLASS := "GDScriptParserWrap"
 var errors := []
 
 
-func _init(new_script_text: String).(new_script_text) -> void:
+func _init(new_script_text: String) -> void:
+	super(new_script_text)
 	pass
 
 
 func test() -> void:
 	if ClassDB.class_exists(PARSE_WRAPPER_CLASS):
-		var wrap: Reference = ClassDB.instance(PARSE_WRAPPER_CLASS)
+		var wrap: RefCounted = ClassDB.instantiate(PARSE_WRAPPER_CLASS)
 		wrap.parse_script(_new_script_text)
 		if wrap.has_error():
 			var error_line: int = wrap.get_error_line() - 1

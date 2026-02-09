@@ -4,36 +4,36 @@ const CourseLessonList := preload("res://ui/screens/course_outliner/CourseLesson
 const LessonDetails := preload("./CourseLessonDetails.gd")
 
 
-var course: Course setget set_course
+var course: Course: set = set_course
 var _current_lesson: Lesson
 var _current_practice: Practice
 
 var _last_selected_lesson := ""
 
-onready var _title_label := $MarginContainer/Layout/TitleBox/TitleLabel as Label
-onready var _lesson_list := $MarginContainer/Layout/HBoxContainer/LeftColumn/LessonList as CourseLessonList
-onready var _lesson_details := $MarginContainer/Layout/HBoxContainer/LessonDetails as LessonDetails
+@onready var _title_label := $MarginContainer/Layout/TitleBox/TitleLabel as Label
+@onready var _lesson_list := $MarginContainer/Layout/HBoxContainer/LeftColumn/LessonList as CourseLessonList
+@onready var _lesson_details := $MarginContainer/Layout/HBoxContainer/LessonDetails as LessonDetails
 
-onready var _reset_button := (
+@onready var _reset_button := (
 	$MarginContainer/Layout/HBoxContainer/LeftColumn/PanelContainer/Buttons/ResetButton as Button
 )
-onready var _reset_confirm_popup := $ConfirmResetPopup as ConfirmPopup
+@onready var _reset_confirm_popup := $ConfirmResetPopup as ConfirmPopup
 
 
 func _ready() -> void:
 	_update_outliner_index()
 
-	Events.connect("lesson_started", self, "_on_lesson_started")
-	Events.connect("lesson_reading_block", self, "_on_lesson_reading_block")
-	Events.connect("quiz_completed", self, "_on_quiz_completed")
-	Events.connect("practice_started", self, "_on_practice_started")
-	Events.connect("practice_completed", self, "_on_practice_completed")
-	Events.connect("lesson_completed", self, "_on_lesson_completed")
-	Events.connect("course_completed", self, "_on_course_completed")
+	Events.connect("lesson_started", Callable(self, "_on_lesson_started"))
+	Events.connect("lesson_reading_block", Callable(self, "_on_lesson_reading_block"))
+	Events.connect("quiz_completed", Callable(self, "_on_quiz_completed"))
+	Events.connect("practice_started", Callable(self, "_on_practice_started"))
+	Events.connect("practice_completed", Callable(self, "_on_practice_completed"))
+	Events.connect("lesson_completed", Callable(self, "_on_lesson_completed"))
+	Events.connect("course_completed", Callable(self, "_on_course_completed"))
 
-	_lesson_list.connect("lesson_selected", self, "_on_lesson_selected")
-	_reset_button.connect("pressed", self, "_on_reset_requested")
-	_reset_confirm_popup.connect("confirmed", self, "_on_reset_confirmed")
+	_lesson_list.connect("lesson_selected", Callable(self, "_on_lesson_selected"))
+	_reset_button.connect("pressed", Callable(self, "_on_reset_requested"))
+	_reset_confirm_popup.connect("confirmed", Callable(self, "_on_reset_confirmed"))
 
 
 func set_course(value: Course) -> void:
@@ -66,7 +66,7 @@ func _update_outliner_index() -> void:
 		var completion := _calculate_lesson_completion(lesson_data, lesson_progress)
 		_lesson_list.add_item(lesson_index, lesson_data.title, completion)
 
-		if not _last_selected_lesson.empty() and lesson_data.resource_path == _last_selected_lesson:
+		if not _last_selected_lesson.is_empty() and lesson_data.resource_path == _last_selected_lesson:
 			_reselect_index = lesson_index
 
 		lesson_index += 1

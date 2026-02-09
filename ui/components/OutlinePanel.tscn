@@ -25,10 +25,10 @@ shadow_offset = Vector2( 0, 6 )
 
 [node name="OutlinePanel" type="Panel"]
 show_behind_parent = true
-margin_right = 175.0
-margin_bottom = 103.0
+offset_right = 175.0
+offset_bottom = 103.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

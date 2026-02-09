@@ -2,7 +2,7 @@
 class_name QuizInputField
 extends Quiz
 
-var valid_answer setget set_valid_answer
+var valid_answer : set = set_valid_answer
 # One of the TYPE_* constants. Set automatically by changing the valid_answer.
 var _type := -1
 
@@ -13,10 +13,10 @@ func test_answer(answer: String) -> AnswerTestResult:
 	match _type:
 		TYPE_INT:
 			assert(valid_answer is int)
-			if not answer.is_valid_integer():
+			if not answer.is_valid_int():
 				result.help_message = tr("You need to type a whole number for this answer. Example: 42")
 			result.is_correct = int(answer) == valid_answer
-		TYPE_REAL:
+		TYPE_FLOAT:
 			assert(valid_answer is float)
 			if not answer.is_valid_float():
 				result.help_message = tr('You need to type a decimal for this answer. Use a "." to separate the decimal part. Example: 3.14')
@@ -38,7 +38,7 @@ func set_valid_answer(value) -> void:
 		value = value.strip_edges()
 		if value.is_valid_float():
 			valid_answer = float(value)
-		elif value.is_valid_integer():
+		elif value.is_valid_int():
 			valid_answer = int(value)
 		else:
 			valid_answer = value

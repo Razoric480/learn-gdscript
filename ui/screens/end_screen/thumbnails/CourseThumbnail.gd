@@ -1,21 +1,21 @@
-tool
+@tool
 extends Control
 
-export var texture: StreamTexture = null setget set_texture
+@export var texture: CompressedTexture2D = null: set = set_texture
 ## Date in ISO 8601 format.
-export var release_date := "" setget set_release_date
-export var link := ""
-export var text_scale := 1.0 setget set_text_scale
+@export var release_date := "": set = set_release_date
+@export var link := ""
+@export var text_scale := 1.0: set = set_text_scale
 
-onready var _release_date_label: Label = $ReleaseDateLabel
-onready var _texture_rect: TextureRect = $TextureRect
+@onready var _release_date_label: Label = $ReleaseDateLabel
+@onready var _texture_rect: TextureRect = $TextureRect
 
 func _ready() -> void:
-	_release_date_label.rect_pivot_offset = _release_date_label.rect_size / 2
+	_release_date_label.pivot_offset = _release_date_label.size / 2
 
-func _get_configuration_warning() -> String:
+func _get_configuration_warnings() -> String:
 	if texture == null:
-		return "StreamTexture is not set."
+		return "CompressedTexture2D is not set."
 	
 	if link == "":
 		return "URL to open on click is not set"
@@ -28,28 +28,28 @@ func _get_configuration_warning() -> String:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if link != "" and event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
+	if link != "" and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		OS.shell_open(link)
 
 
-func set_texture(value: StreamTexture) -> void:
+func set_texture(value: CompressedTexture2D) -> void:
 	texture = value
 	if not _texture_rect:
-		yield(self, "ready")
+		await self.ready
 	_texture_rect.texture = texture
 
 
 func set_text_scale(value: float) -> void:
 	text_scale = value
 	if not _release_date_label:
-		yield(self, "ready")
-	_release_date_label.rect_scale = Vector2.ONE * value
+		await self.ready
+	_release_date_label.scale = Vector2.ONE * value
 
 
 func set_release_date(value: String) -> void:
 	release_date = value
 	if not _release_date_label:
-		yield(self, "ready")
+		await self.ready
 	var date := parse_date(value)
 	_release_date_label.visible = is_release_date_in_the_future(date)
 	_release_date_label.text = "Early Access release: %04d/%02d/%02d" % [
@@ -60,7 +60,7 @@ func set_release_date(value: String) -> void:
 
 
 func is_release_date_in_the_future(date: Dictionary) -> bool:
-	var today := OS.get_datetime(true)
+	var today := Time.get_datetime_dict_from_system(true)
 	return (date.year > today.year or date.month > today.month or date.day > today.day or \
 		date.hour > today.hour or date.minute > today.minute or date.second > today.second)
 

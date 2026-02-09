@@ -4,7 +4,7 @@ extends UIBaseQuiz
 const QuizAnswerButtonScene := preload("res://ui/screens/lesson/quizzes/QuizAnswerButton.tscn")
 
 
-onready var _choices := $ClipContentBoundary/ChoiceContainer/ChoiceView/Answers as VBoxContainer
+@onready var _choices := $ClipContentBoundary/ChoiceContainer/ChoiceView/Answers as VBoxContainer
 
 
 func _ready() -> void:
@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func setup(quiz: Quiz) -> void:
-	.setup(quiz)
+	super.setup(quiz)
 	var quiz_choice = (_quiz as QuizChoice)
 	if not quiz_choice:
 		return
@@ -23,10 +23,10 @@ func setup(quiz: Quiz) -> void:
 		answer_options.shuffle()
 
 	if quiz_choice.is_multiple_choice:
-		_question.bbcode_text += " [i]" + tr("(select all that apply)") + "[/i]"
+		_question.text += " [i]" + tr("(select all that apply)") + "[/i]"
 
 	for answer in answer_options:
-		var button = QuizAnswerButtonScene.instance()
+		var button = QuizAnswerButtonScene.instantiate()
 		button.setup(answer, quiz_choice.is_multiple_choice)
 		_choices.add_child(button)
 

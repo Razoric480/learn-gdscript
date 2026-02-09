@@ -7,16 +7,16 @@
 [node name="ThreeCodeExamples" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 220 )
+custom_minimum_size = Vector2( 0, 220 )
 size_flags_horizontal = 3
 script = ExtResource( 2 )
 
 [node name="GDScriptCodeExample" parent="." instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1920.0
-margin_bottom = 186.0
-rect_min_size = Vector2( 0, 186 )
+offset_right = 1920.0
+offset_bottom = 186.0
+custom_minimum_size = Vector2( 0, 186 )
 size_flags_horizontal = 3
 text = "# GDScript
 func take_damage(amount):
@@ -25,12 +25,12 @@ func take_damage(amount):
 		die()"
 
 [node name="JavascriptCodeExample" type="TextEdit" parent="."]
-margin_top = 190.0
-margin_right = 1920.0
-margin_bottom = 440.0
-rect_min_size = Vector2( 0, 250 )
+offset_top = 190.0
+offset_right = 1920.0
+offset_bottom = 440.0
+custom_minimum_size = Vector2( 0, 250 )
 size_flags_horizontal = 3
-custom_styles/read_only = ExtResource( 3 )
+theme_override_styles/read_only = ExtResource( 3 )
 text = "// JavaScript
 function take_damage(amount) {
   health -= amount
@@ -39,23 +39,23 @@ function take_damage(amount) {
   }
 }"
 readonly = true
-syntax_highlighting = true
+syntax_highlighter = true
 show_line_numbers = true
 draw_tabs = true
 
 [node name="PythonCodeExample" type="TextEdit" parent="."]
-margin_top = 444.0
-margin_right = 1920.0
-margin_bottom = 630.0
-rect_min_size = Vector2( 0, 186 )
+offset_top = 444.0
+offset_right = 1920.0
+offset_bottom = 630.0
+custom_minimum_size = Vector2( 0, 186 )
 size_flags_horizontal = 3
-custom_styles/read_only = ExtResource( 3 )
+theme_override_styles/read_only = ExtResource( 3 )
 text = "# Python
 def take_damage(amount):
     health -= amount
     if health < 0:
         die()"
 readonly = true
-syntax_highlighting = true
+syntax_highlighter = true
 show_line_numbers = true
 draw_tabs = true

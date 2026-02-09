@@ -2,20 +2,20 @@
 class_name GameView
 extends Control
 
-var paused := false setget set_paused
+var paused := false: set = set_paused
 
-var _viewport := Viewport.new()
+var _viewport := SubViewport.new()
 
-onready var _viewport_container = $ViewportContainer as ViewportContainer
-onready var _pause_rect := $PauseRect as ColorRect
-onready var _scene_tree := get_tree()
+@onready var _viewport_container = $SubViewportContainer as SubViewportContainer
+@onready var _pause_rect := $PauseRect as ColorRect
+@onready var _scene_tree := get_tree()
 
 
 func _ready() -> void:
 	_pause_rect.visible = false
-	_viewport.name = "Viewport"
+	_viewport.name = "SubViewport"
 	_viewport_container.add_child(_viewport)
-	_scene_tree.connect("screen_resized", self, "_on_screen_resized")
+	_scene_tree.connect("screen_resized", Callable(self, "_on_screen_resized"))
 	call_deferred("_on_screen_resized")
 
 
@@ -35,9 +35,9 @@ func use_scene(node: Node, viewport_size: Vector2) -> void:
 	_viewport.size = viewport_size
 
 
-func get_viewport() -> Viewport:
+func get_viewport() -> SubViewport:
 	return _viewport
 
 
 func _on_screen_resized() -> void:
-	_viewport.size = rect_size
+	_viewport.size = size

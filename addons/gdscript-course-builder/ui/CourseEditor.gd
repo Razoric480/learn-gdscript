@@ -1,4 +1,4 @@
-tool
+@tool
 extends MarginContainer
 
 const UIPracticeScene := preload("res://ui/UIPractice.tscn")
@@ -32,33 +32,33 @@ var _recent_course_index := -1
 
 var _remove_on_save := []
 
-onready var _new_course_button := $Layout/ToolBar/CreateButton as Button
-onready var _open_course_button := $Layout/ToolBar/OpenButton as Button
-onready var _recent_courses_button := $Layout/ToolBar/RecentButton as MenuButton
-onready var _play_current_button := $Layout/ToolBar/PlayCurrentButton as Button
-onready var _save_course_button := $Layout/ToolBar/SaveButton as Button
-onready var _save_as_course_button := $Layout/ToolBar/SaveAsButton as Button
-onready var _dirty_status_label := $Layout/ToolBar/DirtyStatusLabel as Label
+@onready var _new_course_button := $Layout/ToolBar/CreateButton as Button
+@onready var _open_course_button := $Layout/ToolBar/OpenButton as Button
+@onready var _recent_courses_button := $Layout/ToolBar/RecentButton as MenuButton
+@onready var _play_current_button := $Layout/ToolBar/PlayCurrentButton as Button
+@onready var _save_course_button := $Layout/ToolBar/SaveButton as Button
+@onready var _save_as_course_button := $Layout/ToolBar/SaveAsButton as Button
+@onready var _dirty_status_label := $Layout/ToolBar/DirtyStatusLabel as Label
 
-onready var _no_content_block := $Layout/NoContent as Control
-onready var _content_block := $Layout/Content as Control
+@onready var _no_content_block := $Layout/NoContent as Control
+@onready var _content_block := $Layout/Content as Control
 
-onready var _course_path_value := $Layout/Content/CoursePath/LineEdit as LineEdit
-onready var _course_title_value := $Layout/Content/CourseTitle/LineEdit as LineEdit
-onready var _lesson_list := $Layout/Content/CourseData/LessonList as Control
-onready var _lesson_details := $Layout/Content/CourseData/LessonDetails as Control
+@onready var _course_path_value := $Layout/Content/CoursePath/LineEdit as LineEdit
+@onready var _course_title_value := $Layout/Content/CourseTitle/LineEdit as LineEdit
+@onready var _lesson_list := $Layout/Content/CourseData/LessonList as Control
+@onready var _lesson_details := $Layout/Content/CourseData/LessonDetails as Control
 
 var _file_dialog: EditorFileDialog
-onready var _accept_dialog := $AcceptDialog as AcceptDialog
-onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@onready var _accept_dialog := $AcceptDialog as AcceptDialog
+@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
 
-onready var _search_bar := $Layout/ToolBar/SearcnBar as HBoxContainer
+@onready var _search_bar := $Layout/ToolBar/SearcnBar as HBoxContainer
 
 
 func _init() -> void:
 	_file_dialog = EditorFileDialog.new()
 	_file_dialog.display_mode = EditorFileDialog.DISPLAY_LIST
-	_file_dialog.rect_min_size = Vector2(700, 480)
+	_file_dialog.custom_minimum_size = Vector2(700, 480)
 	add_child(_file_dialog)
 
 
@@ -71,43 +71,43 @@ func _ready() -> void:
 	_content_block.hide()
 	_no_content_block.show()
 
-	_new_course_button.connect("pressed", self, "_on_create_course_requested")
-	_open_course_button.connect("pressed", self, "_on_open_course_requested")
-	_play_current_button.connect("pressed", self, "_on_play_current_requested")
-	_save_course_button.connect("pressed", self, "_save_course", [true])
-	_save_as_course_button.connect("pressed", self, "_save_course", [false])
-	_file_dialog.connect("file_selected", self, "_on_file_dialog_confirmed")
+	_new_course_button.connect("pressed", Callable(self, "_on_create_course_requested"))
+	_open_course_button.connect("pressed", Callable(self, "_on_open_course_requested"))
+	_play_current_button.connect("pressed", Callable(self, "_on_play_current_requested"))
+	_save_course_button.connect("pressed", Callable(self, "_save_course").bind(true))
+	_save_as_course_button.connect("pressed", Callable(self, "_save_course").bind(false))
+	_file_dialog.connect("file_selected", Callable(self, "_on_file_dialog_confirmed"))
 	var recent_courses_popup := _recent_courses_button.get_popup()
-	recent_courses_popup.connect("index_pressed", self, "_on_recent_course_requested")
+	recent_courses_popup.connect("index_pressed", Callable(self, "_on_recent_course_requested"))
 
-	_course_title_value.connect("text_changed", self, "_on_course_title_changed")
-	_lesson_list.connect("lesson_added", self, "_on_lesson_added")
-	_lesson_list.connect("lesson_removed", self, "_on_lesson_removed")
-	_lesson_list.connect("lesson_moved", self, "_on_lesson_moved")
-	_lesson_list.connect("lesson_selected", self, "_on_lesson_selected")
+	_course_title_value.connect("text_changed", Callable(self, "_on_course_title_changed"))
+	_lesson_list.connect("lesson_added", Callable(self, "_on_lesson_added"))
+	_lesson_list.connect("lesson_removed", Callable(self, "_on_lesson_removed"))
+	_lesson_list.connect("lesson_moved", Callable(self, "_on_lesson_moved"))
+	_lesson_list.connect("lesson_selected", Callable(self, "_on_lesson_selected"))
 
-	_lesson_details.connect("lesson_title_changed", self, "_on_lesson_title_changed")
-	_lesson_details.connect("lesson_slug_changed", self, "_on_lesson_slug_changed")
-	_lesson_details.connect("lesson_tab_selected", self, "_on_lesson_tab_selected")
-	_lesson_details.connect("practice_tab_selected", self, "_on_practice_tab_selected")
+	_lesson_details.connect("lesson_title_changed", Callable(self, "_on_lesson_title_changed"))
+	_lesson_details.connect("lesson_slug_changed", Callable(self, "_on_lesson_slug_changed"))
+	_lesson_details.connect("lesson_tab_selected", Callable(self, "_on_lesson_tab_selected"))
+	_lesson_details.connect("practice_tab_selected", Callable(self, "_on_practice_tab_selected"))
 
-	_lesson_details.connect("practice_got_edit_focus", self, "_on_practice_got_edit_focus")
+	_lesson_details.connect("practice_got_edit_focus", Callable(self, "_on_practice_got_edit_focus"))
 
-	_confirm_dialog.connect("confirmed", self, "_on_confirm_dialog_confirmed")
+	_confirm_dialog.connect("confirmed", Callable(self, "_on_confirm_dialog_confirmed"))
 
-	_search_bar.connect("next_match_requested", _lesson_details, "search")
+	_search_bar.connect("next_match_requested", Callable(_lesson_details, "search"))
 
 
 func _update_theme() -> void:
 	if not is_inside_tree():
 		return
 
-	_recent_courses_button.icon = get_icon("History", "EditorIcons")
-	_save_course_button.icon = get_icon("Save", "EditorIcons")
-	_course_path_value.add_color_override(
-		"font_color_uneditable", get_color("disabled_font_color", "Editor")
+	_recent_courses_button.icon = get_theme_icon("History", "EditorIcons")
+	_save_course_button.icon = get_theme_icon("Save", "EditorIcons")
+	_course_path_value.add_theme_color_override(
+		"font_color_uneditable", get_theme_color("disabled_font_color", "Editor")
 	)
-	_dirty_status_label.add_color_override("font_color", get_color("disabled_font_color", "Editor"))
+	_dirty_status_label.add_theme_color_override("font_color", get_theme_color("disabled_font_color", "Editor"))
 
 
 # Properties
@@ -115,9 +115,9 @@ func _set_edited_course(course: Course) -> void:
 	_remove_on_save = []
 
 	if _edited_course:
-		_edited_course.disconnect("changed", self, "_on_course_resource_changed")
+		_edited_course.disconnect("changed", Callable(self, "_on_course_resource_changed"))
 		for lesson_data in _edited_course.lessons:
-			lesson_data.disconnect("changed", self, "_on_course_resource_changed")
+			lesson_data.disconnect("changed", Callable(self, "_on_course_resource_changed"))
 
 	# Normalize the resource while assigning it.
 	# In case of future data changes, apply compatibility updates.
@@ -144,7 +144,7 @@ func _set_edited_course(course: Course) -> void:
 
 	_course_path_value.text = (
 		"* unsaved"
-		if _edited_course.resource_path.empty()
+		if _edited_course.resource_path.is_empty()
 		else _edited_course.resource_path
 	)
 	_course_title_value.text = _edited_course.title
@@ -158,9 +158,9 @@ func _set_edited_course(course: Course) -> void:
 	_no_content_block.hide()
 	_content_block.show()
 
-	_edited_course.connect("changed", self, "_on_course_resource_changed")
+	_edited_course.connect("changed", Callable(self, "_on_course_resource_changed"))
 	for lesson_data in _edited_course.lessons:
-		lesson_data.connect("changed", self, "_on_course_resource_changed")
+		lesson_data.connect("changed", Callable(self, "_on_course_resource_changed"))
 
 
 func _normalize_course_resource(course: Course) -> Course:
@@ -172,18 +172,18 @@ func _normalize_course_resource(course: Course) -> Course:
 	# their id properties instead of paths. And also we should remove the old files.
 	for lesson_data in course.lessons:
 		for block_data in lesson_data.content_blocks:
-			if not block_data.resource_path.empty():
-				if block_data is Quiz and block_data.quiz_id.empty():
+			if not block_data.resource_path.is_empty():
+				if block_data is Quiz and block_data.quiz_id.is_empty():
 					block_data.quiz_id = block_data.resource_path
-				elif block_data is ContentBlock and block_data.content_id.empty():
+				elif block_data is ContentBlock and block_data.content_id.is_empty():
 					block_data.content_id = block_data.resource_path
 
 				_remove_on_save.append(block_data.resource_path)
 				block_data.resource_path = ""
 
 		for practice_data in lesson_data.practices:
-			if not practice_data.resource_path.empty():
-				if practice_data.practice_id.empty():
+			if not practice_data.resource_path.is_empty():
+				if practice_data.practice_id.is_empty():
 					practice_data.practice_id = practice_data.resource_path
 
 				_remove_on_save.append(practice_data.resource_path)
@@ -196,27 +196,26 @@ func _normalize_course_resource(course: Course) -> Course:
 func _show_warning(message: String, title: String = "Warning") -> void:
 	_accept_dialog.window_title = title
 	_accept_dialog.dialog_text = message
-	_accept_dialog.popup_centered(_accept_dialog.rect_min_size)
+	_accept_dialog.popup_centered(_accept_dialog.custom_minimum_size)
 
 
 func _show_confirm(message: String, title: String = "Confirm") -> void:
 	_confirm_dialog.window_title = title
 	_confirm_dialog.dialog_text = message
-	_confirm_dialog.popup_centered(_confirm_dialog.rect_min_size)
+	_confirm_dialog.popup_centered(_confirm_dialog.custom_minimum_size)
 
 
 func _load_or_create_cache() -> void:
 	var cache_path = PluginUtils.get_cache_file(self)
-	if cache_path.empty():
+	if cache_path.is_empty():
 		printerr("Failed to get plugin cache data path, it's empty")
 		return
 
 	_cache_file = ConfigFile.new()
 	var error = _cache_file.load(cache_path)
 	if error == ERR_FILE_NOT_FOUND:
-		var fs := Directory.new()
-		if not fs.file_exists(cache_path.get_base_dir()):
-			fs.make_dir_recursive(cache_path.get_base_dir())
+		if not FileAccess.file_exists(cache_path.get_base_dir()):
+			DirAccess.make_dir_absolute(cache_path.get_base_dir())
 
 		error = _cache_file.save(cache_path)
 
@@ -248,10 +247,10 @@ func _restore_recent_courses() -> void:
 
 
 func _add_recent_course(new_path: String) -> void:
-	if not _cache_file or new_path.empty():
+	if not _cache_file or new_path.is_empty():
 		return
 	var cache_path = PluginUtils.get_cache_file(self)
-	if cache_path.empty():
+	if cache_path.is_empty():
 		return
 
 	var recent_courses = _cache_file.get_value("recent", "courses", [])
@@ -310,7 +309,7 @@ func _on_open_course_requested() -> void:
 
 func _on_open_course_proceeded() -> void:
 	_file_dialog_mode = FileDialogMode.LOAD_COURSE
-	_file_dialog.mode = EditorFileDialog.MODE_OPEN_FILE
+	_file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
 	_file_dialog.current_file = ""
 	_file_dialog.clear_filters()
 	_file_dialog.add_filter("*.tres; Resources")
@@ -319,7 +318,7 @@ func _on_open_course_proceeded() -> void:
 
 
 func _on_open_course_confirmed(file_path: String) -> void:
-	if file_path.empty():
+	if file_path.is_empty():
 		_show_warning("The path to the course is empty.", "Error")
 		return
 
@@ -353,12 +352,12 @@ func _save_course(overwrite_existing := false) -> void:
 	if not _edited_course:
 		return
 
-	if overwrite_existing and not _edited_course.resource_path.empty():
+	if overwrite_existing and not _edited_course.resource_path.is_empty():
 		_on_save_course_confirmed(_edited_course.resource_path)
 		return
 
 	_file_dialog_mode = FileDialogMode.SAVE_COURSE
-	_file_dialog.mode = EditorFileDialog.MODE_SAVE_FILE
+	_file_dialog.file_mode = EditorFileDialog.FILE_MODE_SAVE_FILE
 	_file_dialog.current_file = "course.tres"
 	_file_dialog.clear_filters()
 	_file_dialog.add_filter("*.tres; Resources")
@@ -419,7 +418,7 @@ func _on_lesson_added() -> void:
 	_lesson_list.set_selected_lesson(lesson_index)
 	_lesson_details.set_lesson(lesson_data)
 
-	lesson_data.connect("changed", self, "_on_course_resource_changed")
+	lesson_data.connect("changed", Callable(self, "_on_course_resource_changed"))
 
 
 func _on_lesson_removed(lesson_index: int) -> void:
@@ -427,7 +426,7 @@ func _on_lesson_removed(lesson_index: int) -> void:
 		return
 
 	var lesson_data = _edited_course.lessons.pop_at(lesson_index)
-	lesson_data.disconnect("changed", self, "_on_course_resource_changed")
+	lesson_data.disconnect("changed", Callable(self, "_on_course_resource_changed"))
 	_edited_course.emit_changed()
 
 	_lesson_list.set_lessons(_edited_course.lessons)
@@ -479,7 +478,7 @@ func _on_lesson_slug_changed(lesson_slug: String) -> void:
 
 	var lesson_path
 
-	if lesson_slug.empty():
+	if lesson_slug.is_empty():
 		lesson_path = FileUtils.random_lesson_path(_edited_course)
 	else:
 		lesson_path = FileUtils.slugged_lesson_path(_edited_course, lesson_slug)
@@ -516,12 +515,11 @@ func _on_play_current_requested() -> void:
 
 	# Get a temp folder for running files.
 	var temp_path = PluginUtils.get_temp_play_path(self)
-	if temp_path.empty():
+	if temp_path.is_empty():
 		printerr("Cannot play the scene because the temporary folder cannot be created.")
 		return
-	var fs := Directory.new()
-	if not fs.file_exists(temp_path):
-		fs.make_dir_recursive(temp_path)
+	if not FileAccess.file_exists(temp_path):
+		DirAccess.make_dir_absolute(temp_path)
 
 	# Like Godot, we want to save changes before playing the scene.
 	if _dirty_status_label.visible:
@@ -535,7 +533,7 @@ func _on_play_current_requested() -> void:
 	if _current_practice_index >= 0:
 		var practice_data = lesson_data.practices[_current_practice_index]
 
-		var instance: UIPractice = UIPracticeScene.instance()
+		var instance: UIPractice = UIPracticeScene.instantiate()
 		instance.test_practice = practice_data
 		var packed_instance := FileUtils.pack_playable_scene(instance, temp_path, "practice")
 		if not packed_instance:
@@ -545,7 +543,7 @@ func _on_play_current_requested() -> void:
 
 	# Otherwise, play the selected lesson itself.
 	elif _current_lesson_index >= 0:
-		var instance: UILesson = UILessonScene.instance()
+		var instance: UILesson = UILessonScene.instantiate()
 		instance.test_lesson = lesson_data
 		var packed_instance := FileUtils.pack_playable_scene(instance, temp_path, "lesson")
 		if not packed_instance:

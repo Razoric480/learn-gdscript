@@ -1,30 +1,30 @@
-tool
-extends WindowDialog
+@tool
+extends Window
 
 signal confirmed
 
-var slug_text := "" setget set_text, get_text
+var slug_text := "": get = get_text, set = set_text
 
-onready var _slug_label := $Margin/Layout/SlugText/Label as Label
-onready var _slug_value := $Margin/Layout/SlugText/LineEdit as LineEdit
-onready var _confirm_button := $Margin/Layout/Buttons/ConfirmButton as Button
-onready var _cancel_button := $Margin/Layout/Buttons/CancelButton as Button
+@onready var _slug_label := $Margin/Layout/SlugText/Label as Label
+@onready var _slug_value := $Margin/Layout/SlugText/LineEdit as LineEdit
+@onready var _confirm_button := $Margin/Layout/Buttons/ConfirmButton as Button
+@onready var _cancel_button := $Margin/Layout/Buttons/CancelButton as Button
 
 
 func _ready() -> void:
 	_update_theme()
 	_slug_value.text = slug_text
 
-	_slug_value.connect("text_changed", self, "_on_text_changed")
-	_confirm_button.connect("pressed", self, "_on_confirm_pressed")
-	_cancel_button.connect("pressed", self, "_on_cancel_pressed")
+	_slug_value.connect("text_changed", Callable(self, "_on_text_changed"))
+	_confirm_button.connect("pressed", Callable(self, "_on_confirm_pressed"))
+	_cancel_button.connect("pressed", Callable(self, "_on_cancel_pressed"))
 
 
 func _update_theme() -> void:
 	if not is_inside_tree():
 		return
 
-	_slug_label.add_color_override("font_color", get_color("disabled_font_color", "Editor"))
+	_slug_label.add_theme_color_override("font_color", get_theme_color("disabled_font_color", "Editor"))
 
 
 # Properties

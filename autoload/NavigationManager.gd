@@ -11,8 +11,8 @@ enum UNLOAD_TYPE { BACK, OUTLINER }
 
 const ERROR_WRONG_UNLOAD_TYPE := "Unsupported unload type in NavigationManager! Unload type: %s"
 
-var history := PoolStringArray()
-var current_url := "" setget set_current_url, get_current_url
+var history := PackedStringArray()
+var current_url := "": get = get_current_url, set = set_current_url
 var is_mobile_platform := OS.get_name() in ["Android", "HTML5", "iOS"]
 var arguments := {}
 
@@ -159,7 +159,7 @@ func get_navigation_resource(resource_id: String) -> Resource:
 	if is_lesson:
 		return load(resource_id) as Resource
 
-	var lesson_path := resource_id.get_base_dir().plus_file("lesson.tres")
+	var lesson_path := resource_id.get_base_dir().path_join("lesson.tres")
 	var lesson_data := load(lesson_path) as Lesson
 
 	# If it's not a lesson, it's a practice. May support some other types in future.
@@ -191,9 +191,9 @@ func _open_rich_text_node_meta(metadata: String) -> void:
 func connect_rich_text_node(rich_text_node: RichTextLabel) -> void:
 	if not rich_text_node.bbcode_enabled:
 		return
-	if rich_text_node.is_connected("meta_clicked", self, "_open_rich_text_node_meta"):
+	if rich_text_node.is_connected("meta_clicked", Callable(self, "_open_rich_text_node_meta")):
 		return
-	rich_text_node.connect("meta_clicked", self, "_open_rich_text_node_meta")
+	rich_text_node.connect("meta_clicked", Callable(self, "_open_rich_text_node_meta"))
 
 
 func set_current_url(_new_url: String) -> void:
@@ -279,7 +279,7 @@ func _disable_popstate_listener() -> void:
 
 
 func _restore_popstate_listener() -> void:
-	yield(get_tree().create_timer(0.3), "timeout")
+	await get_tree().create_timer(0.3).timeout
 	_temporary_disable_back_listener = false
 
 

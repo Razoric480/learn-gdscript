@@ -17,7 +17,7 @@ var GDQUEST: JavaScriptObject
 var _log_lines := []
 
 func _init() -> void:
-	var _err = Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	var _err = Input.connect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 	if not _js_available:
 		log_system_info_if_log_is_empty(get_info())
 	
@@ -104,10 +104,10 @@ func download() -> void:
 	if not _js_available:
 		var json_string := ""
 		for line in _log_lines:
-			json_string += JSON.print(line) + "\n"
+			json_string += JSON.stringify(line) + "\n"
 		var file := File.new()
-		var dir := Directory.new()
-		var time  := OS.get_datetime();
+		var dir := DirAccess.new()
+		var time  := Time.get_datetime_dict_from_system();
 		var dir_name := "error_logs"
 		var file_name := "%d-%02d-%02d-%02d-%02d" % [time.year, time.month, time.day, time.hour, time.minute];
 		var ok := dir.make_dir_recursive("user://%s/"%[dir_name])
@@ -116,7 +116,7 @@ func download() -> void:
 		file.open("user://%s/%s.log"%[dir_name, file_name], File.WRITE)
 		file.store_string(json_string)
 		file.close()
-		var dir_absolute_path := OS.get_user_data_dir().plus_file("error_logs")+"/"
+		var dir_absolute_path := OS.get_user_data_dir().path_join("error_logs")+"/"
 		OS.shell_open(dir_absolute_path)
 		return
 	# warning-ignore:unsafe_property_access
@@ -161,12 +161,12 @@ func godot_dict_to_js_obj(properties: Dictionary):
 func get_info():
 	var info = {
 		"OS": OS.get_name(),
-		"datetime": OS.get_datetime(),
+		"datetime": Time.get_datetime_dict_from_system(),
 		"video_driver": OS.get_video_driver_name(OS.get_current_video_driver()),
-		"video_adapter": VisualServer.get_video_adapter_name(),
-		"video_vendor": VisualServer.get_video_adapter_vendor(),
-		"screen_size": OS.get_screen_size(),
-		"screen_dpi": OS.get_screen_dpi(),
+		"video_adapter": RenderingServer.get_video_adapter_name(),
+		"video_vendor": RenderingServer.get_video_adapter_vendor(),
+		"screen_size": DisplayServer.screen_get_size(),
+		"screen_dpi": DisplayServer.screen_get_dpi(),
 		"cores": OS.get_processor_count(),
 		"locale": OS.get_locale(),
 		"joypad": Input.get_joy_name(joypad_index) if is_joypad else "" 

@@ -5,22 +5,22 @@ extends Resource
 const QueryResult := Documentation.QueryResult
 
 # Uniquely identifies the practice resource.
-export var practice_id := ""
+@export var practice_id := ""
 
-export var title := ""
-export(String, MULTILINE) var goal := ""
-export(String, MULTILINE) var starting_code := ""
-export(int, 9999) var cursor_line := 0
-export(int, 9999) var cursor_column := 0
-export var hints := PoolStringArray()
-export(String, FILE) var validator_script_path := ""
-export(String, FILE) var script_slice_path := ""
+@export var title := ""
+@export var goal := "" # (String, MULTILINE)
+@export var starting_code := "" # (String, MULTILINE)
+@export var cursor_line := 0 # (int, 9999)
+@export var cursor_column := 0 # (int, 9999)
+@export var hints := PackedStringArray()
+@export var validator_script_path := "" # (String, FILE)
+@export var script_slice_path := "" # (String, FILE)
 # Optional: Name of the EXPORT slice to use (if script has multiple EXPORT blocks)
 # If empty, will use the first EXPORT found in the script
-export var slice_name := ""
-export var documentation_references := PoolStringArray()
-export var documentation_resource: Resource = preload("res://course/Documentation.tres") setget set_documentation_resource
-export var description := ""
+@export var slice_name := ""
+@export var documentation_references := PackedStringArray()
+@export var documentation_resource: Resource = preload("res://course/Documentation.tres"): set = set_documentation_resource
+@export var description := ""
 
 
 func set_documentation_resource(new_documentation_resource: Resource) -> void:
@@ -37,7 +37,7 @@ func get_documentation_resource() -> Documentation:
 
 func get_documentation_raw() -> QueryResult:
 	if documentation_resource == null:
-		if not documentation_references.empty():
+		if not documentation_references.is_empty():
 			push_error(
 				"Documentation References were selected, but no documentation resource was set"
 			)

@@ -276,11 +276,11 @@ var whole_number: Vector2 = 4
 var decimal_number: String = 3.14"
 cursor_line = 0
 cursor_column = 0
-hints = PoolStringArray(  )
+hints = PackedStringArray(  )
 validator_script_path = "fix-hints/TestFixHints.gd"
 script_slice_path = "fix-hints/FixHints.gd"
 slice_name = "fix"
-documentation_references = PoolStringArray(  )
+documentation_references = PackedStringArray(  )
 documentation_resource = ExtResource( 3 )
 description = "Our variables have the wrong type hints, causing errors. Correct them to make the code run."
 
@@ -297,11 +297,11 @@ var vector: Vector2 = 3.14
 var decimal_number: float = Vector2(1, 1)"
 cursor_line = 0
 cursor_column = 0
-hints = PoolStringArray( "The type [code]float[/code] means decimal number, so you need to write a number with a decimal part, like [code]3.14[/code].", "The type [code]int[/code] stands for integer or whole number, so you need the value to be a whole number without a decimal part.", "The type [code]String[/code] means you need to write a text string, a value surrounded by quotes." )
+hints = PackedStringArray( "The type [code]float[/code] means decimal number, so you need to write a number with a decimal part, like [code]3.14[/code].", "The type [code]int[/code] stands for integer or whole number, so you need the value to be a whole number without a decimal part.", "The type [code]String[/code] means you need to write a text string, a value surrounded by quotes." )
 validator_script_path = "fix-values/TestFixValues.gd"
 script_slice_path = "fix-values/FixValues.gd"
 slice_name = "fix"
-documentation_references = PoolStringArray(  )
+documentation_references = PackedStringArray(  )
 documentation_resource = ExtResource( 3 )
 description = "This time, it's the other way around: variables have the correct type hints but the wrong values. Change the values to make the code run."
 

@@ -6,7 +6,7 @@ const THEME_FONTS_ROOT := "res://ui/theme/fonts/"
 const COLOR_TEXT_DEFAULT := Color(0.960784, 0.980392, 0.980392)
 const COLOR_TEXT_LOWER_CONTRAST := Color(0.736288, 0.728113, 0.839844)
 
-onready var _theme = preload("res://ui/theme/gdscript_app_theme.tres")
+@onready var _theme = preload("res://ui/theme/gdscript_app_theme.tres")
 
 var _font_defaults := {}
 
@@ -23,24 +23,24 @@ func _ready() -> void:
 func _cache_font_defaults() -> void:
 	_font_defaults.clear()
 	
-	var fs = Directory.new()
+	var fs = DirAccess.new()
 	var error = fs.change_dir(THEME_FONTS_ROOT)
 	if error != OK:
 		printerr("Failed to open theme fonts directory at '%s': Error code %d" % [THEME_FONTS_ROOT, error])
 		return
 	
-	error = fs.list_dir_begin(true, true)
+	error = fs.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	if error != OK:
 		printerr("Failed to read theme fonts directory at '%s': Error code %d" % [THEME_FONTS_ROOT, error])
 		return
 	
 	var current_file := fs.get_next() as String
-	while not current_file.empty():
+	while not current_file.is_empty():
 		if current_file.get_extension() != "tres":
 			current_file = fs.get_next()
 			continue
 		
-		var font_resource = ResourceLoader.load(THEME_FONTS_ROOT.plus_file(current_file)) as DynamicFont
+		var font_resource = ResourceLoader.load(THEME_FONTS_ROOT.path_join(current_file)) as FontFile
 		if not font_resource:
 			current_file = fs.get_next()
 			continue
@@ -51,7 +51,7 @@ func _cache_font_defaults() -> void:
 
 func scale_all_font_sizes(size_scale: int, and_save: bool = true) -> void:
 	for font_resource in _font_defaults:
-		font_resource = font_resource as DynamicFont
+		font_resource = font_resource as FontFile
 		if not font_resource:
 			continue
 		
@@ -79,7 +79,7 @@ func set_lower_contrast(lower_contrast: bool, and_save: bool = true) -> void:
 
 func set_dyslexia_font(dyslexia_font: bool, and_save: bool = true) -> void:
 	for font_resource in _font_defaults:
-		font_resource = font_resource as DynamicFont
+		font_resource = font_resource as FontFile
 		if not font_resource:
 			continue
 

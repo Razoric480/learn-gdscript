@@ -21,19 +21,20 @@ static func get_settings_directory(from_node: Node) -> String:
 	if not plugin_instance:
 		return ""
 
-	var settings_dir := plugin_instance.get_editor_interface().get_editor_settings().get_project_settings_dir()
-	return settings_dir.plus_file(SETTINGS_SUBPATH).plus_file(PLUGIN_DIR_NAME)
+	var editor_paths: EditorPaths = Engine.get_singleton("EditorPaths")
+	var settings_dir := editor_paths.get_project_settings_dir()
+	return settings_dir.path_join(SETTINGS_SUBPATH).path_join(PLUGIN_DIR_NAME)
 
 static func get_cache_file(from_node: Node) -> String:
 	var settings_dir = get_settings_directory(from_node)
-	if settings_dir.empty():
+	if settings_dir.is_empty():
 		return ""
 
-	return settings_dir.plus_file(CACHE_FILE_NAME)
+	return settings_dir.path_join(CACHE_FILE_NAME)
 
 static func get_temp_play_path(from_node: Node) -> String:
 	var settings_dir = get_settings_directory(from_node)
-	if settings_dir.empty():
+	if settings_dir.is_empty():
 		return ""
 
-	return settings_dir.plus_file(TEMP_PLAY_SUBPATH)
+	return settings_dir.path_join(TEMP_PLAY_SUBPATH)

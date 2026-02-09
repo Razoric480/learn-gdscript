@@ -6,13 +6,13 @@ extends AnimationTree
 
 signal animation_finished
 
-onready var _state_machine = self["parameters/playback"]
-onready var _animation_player = get_node(anim_player) as AnimationPlayer
+@onready var _state_machine = self["parameters/playback"]
+@onready var _animation_player = get_node(anim_player) as AnimationPlayer
 
 
 func _ready() -> void:
 	active = true
-	_animation_player.connect("animation_finished", self, "_on_animation_finished")
+	_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
 
 func travel(animation_name: String) -> void:

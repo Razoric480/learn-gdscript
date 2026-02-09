@@ -3,8 +3,8 @@
 [ext_resource path="res://addons/gdscript-course-builder/ui/QuizInputField.gd" type="Script" id=1]
 
 [node name="QuizInputField" type="MarginContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
@@ -12,17 +12,17 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 163.0
-margin_bottom = 40.0
+offset_right = 163.0
+offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_top = 13.0
-margin_right = 101.0
-margin_bottom = 27.0
+offset_top = 13.0
+offset_right = 101.0
+offset_bottom = 27.0
 text = "Correct Answer:"
 
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
-margin_left = 105.0
-margin_right = 163.0
-margin_bottom = 40.0
+offset_left = 105.0
+offset_right = 163.0
+offset_bottom = 40.0
 caret_blink = true

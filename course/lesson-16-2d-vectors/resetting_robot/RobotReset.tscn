@@ -7,7 +7,7 @@
 script/source = "extends Node2D
 
 
-onready var _scene := $Robot
+@onready var _scene := $Robot
 
 # We create a reset() method here because UIPractice checks root node for
 # reset function.

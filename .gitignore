@@ -4,6 +4,7 @@ html_export/index.html
 
 # Godot-specific ignores
 .import/
+.godot/
 export.cfg
 
 # Mono-specific ignores

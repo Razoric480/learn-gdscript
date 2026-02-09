@@ -212,11 +212,11 @@ func run():
 	"
 cursor_line = 0
 cursor_column = 0
-hints = PoolStringArray( "The [code]display_item()[/code] function needs the item name and its amount. You need to get the amount using the item name as a key in the [code]inventory[/code] dictionary.", "Inside the for loop, you can get the amount of each item using the syntax [code]inventory[item_name][/code], where [code]item_name[/code] is the loop variable you created after the [code]for[/code] keyword." )
+hints = PackedStringArray( "The [code]display_item()[/code] function needs the item name and its amount. You need to get the amount using the item name as a key in the [code]inventory[/code] dictionary.", "Inside the for loop, you can get the amount of each item using the syntax [code]inventory[item_name][/code], where [code]item_name[/code] is the loop variable you created after the [code]for[/code] keyword." )
 validator_script_path = "display-inventory/TestDisplayInventory.gd"
 script_slice_path = "display-inventory/DisplayInventory.gd"
 slice_name = "run"
-documentation_references = PoolStringArray( "display_item" )
+documentation_references = PackedStringArray( "display_item" )
 documentation_resource = ExtResource( 1 )
 description = "The player's inventory needs to appear on screen. Use a loop to display every item."
 
@@ -237,11 +237,11 @@ func run():
 	"
 cursor_line = 0
 cursor_column = 0
-hints = PoolStringArray( "The dictionary keys are cell coordinates. You can use them to access the unit type from the [code]units[/code] dictionary.", "Inside the for loop, you can get a unit's type using the syntax [code]units[cell][/code], where [code]cell[/code] is the loop variable you created after the [code]for[/code] keyword." )
+hints = PackedStringArray( "The dictionary keys are cell coordinates. You can use them to access the unit type from the [code]units[/code] dictionary.", "Inside the for loop, you can get a unit's type using the syntax [code]units[cell][/code], where [code]cell[/code] is the loop variable you created after the [code]for[/code] keyword." )
 validator_script_path = "place-units/TestPlaceUnits.gd"
 script_slice_path = "place-units/PlaceUnits.gd"
 slice_name = "run"
-documentation_references = PoolStringArray( "place_unit" )
+documentation_references = PackedStringArray( "place_unit" )
 documentation_resource = ExtResource( 1 )
 description = "At the start of each battle, units need to appear on the game board. Loop over the dictionary to place them."
 

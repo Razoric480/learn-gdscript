@@ -1,4 +1,4 @@
-tool
+@tool
 class_name CodeRefList
 extends VBoxContainer
 
@@ -6,17 +6,17 @@ const CodeRefItemScene = preload("CodeRefItem.tscn")
 
 var _practice: Practice
 
-onready var _add_button := $Header/AddButton as Button
+@onready var _add_button := $Header/AddButton as Button
 
 
 func _ready() -> void:
-	_add_button.connect("pressed", self, "_add_function")
+	_add_button.connect("pressed", Callable(self, "_add_function"))
 
 
 func setup(practice: Practice) -> void:
 	_practice = practice
 	if not is_inside_tree():
-		yield(self, "ready")
+		await self.ready
 	for function in practice.documentation_references:
 		_add_function(function)
 
@@ -30,7 +30,7 @@ func _update_list_labels() -> void:
 
 
 func _update_practice_code_ref() -> void:
-	var refs := PoolStringArray()
+	var refs := PackedStringArray()
 	for child in get_children():
 		if not child is CodeRefItem or child.is_queued_for_deletion():
 			continue
@@ -40,9 +40,9 @@ func _update_practice_code_ref() -> void:
 
 
 func _add_function(function := "") -> void:
-	var instance = CodeRefItemScene.instance()
+	var instance = CodeRefItemScene.instantiate()
 	add_child(instance)
 	instance.set_text(function)
-	instance.connect("index_changed", self, "_update_list_labels")
-	instance.connect("text_changed", self, "_update_practice_code_ref")
-	instance.connect("removed", self, "_update_practice_code_ref")
+	instance.connect("index_changed", Callable(self, "_update_list_labels"))
+	instance.connect("text_changed", Callable(self, "_update_practice_code_ref"))
+	instance.connect("removed", Callable(self, "_update_practice_code_ref"))

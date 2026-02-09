@@ -123,11 +123,11 @@ starting_code = "func this_code_is_wrong():
 	#return"
 cursor_line = 2
 cursor_column = 3
-hints = PoolStringArray( "Remove the # sign." )
+hints = PackedStringArray( "Remove the # sign." )
 validator_script_path = "first-error/TestsFixError.gd"
 script_slice_path = "first-error/ErrorScene.gd"
 slice_name = "wrong_code"
-documentation_references = PoolStringArray(  )
+documentation_references = PackedStringArray(  )
 documentation_resource = ExtResource( 1 )
 description = "There's an error in this code. We need you to fix it!"
 

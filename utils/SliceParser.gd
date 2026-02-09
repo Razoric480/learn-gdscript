@@ -40,7 +40,7 @@ static func parse_slice(script_source: String, slice_name: String = "") -> Dicti
 			continue
 		
 		if export_start_line < 0:
-			if target_slice_name.empty():
+			if target_slice_name.is_empty():
 				target_slice_name = matched_name if matched_name else ""
 				export_start_line = i
 				found_any_slice = true
@@ -49,7 +49,7 @@ static func parse_slice(script_source: String, slice_name: String = "") -> Dicti
 				found_any_slice = true
 	
 	if export_start_line < 0:
-		push_error("EXPORT slice not found: " + (target_slice_name if not target_slice_name.empty() else "(any)"))
+		push_error("EXPORT slice not found: " + (target_slice_name if not target_slice_name.is_empty() else "(any)"))
 		return {}
 	
 	if not found_closing:
@@ -142,7 +142,7 @@ static func load_from_script(script_path: String, slice_name: String = "") -> Sc
 		return null
 	
 	var file := File.new()
-	if not Engine.editor_hint and not file.file_exists(script_path):
+	if not Engine.is_editor_hint() and not file.file_exists(script_path):
 		# When exporting the game, we need to make copies of GDScript files under a different 
 		# extension because Godot compiles GDScript files to bytecode.
 		# This means in the web build, files have different extensions, which we handle here.
@@ -156,7 +156,7 @@ static func load_from_script(script_path: String, slice_name: String = "") -> Sc
 	file.close()
 	
 	var parsed_data := parse_slice(script_source, slice_name)
-	if parsed_data.empty():
+	if parsed_data.is_empty():
 		return null
 	
 	var slice := ScriptSlice.new()
