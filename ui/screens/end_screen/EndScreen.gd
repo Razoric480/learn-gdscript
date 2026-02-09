@@ -3,7 +3,7 @@ extends Control
 const COURSE_URL := "https://school.gdquest.com/products/godot-4-early-access"
 
 @onready var _outliner_button := $Layout/TopBar/MarginContainer/ToolBarLayout/OutlinerButton
-@onready var _learn_more_button := $Layout/CenterRow/Panel/Margin/Column/Control2/LearnMoreButton
+@onready var _learn_more_button: Button = $Layout/CenterRow/Panel/Margin/Column/Control2/LearnMoreButton
 
 
 func _ready() -> void:
@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if _learn_more_button.pressed and event is InputEventMouseMotion:
+	if _learn_more_button.button_pressed and event is InputEventMouseMotion:
 		if not _learn_more_button.get_global_rect().has_point(get_global_mouse_position()):
 			_learn_more_button.position.y = 0
 		else:

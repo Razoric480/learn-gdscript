@@ -23,30 +23,15 @@ func _ready() -> void:
 func _cache_font_defaults() -> void:
 	_font_defaults.clear()
 	
-	var fs = DirAccess.new()
-	var error = fs.change_dir(THEME_FONTS_ROOT)
-	if error != OK:
-		printerr("Failed to open theme fonts directory at '%s': Error code %d" % [THEME_FONTS_ROOT, error])
-		return
-	
-	error = fs.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-	if error != OK:
-		printerr("Failed to read theme fonts directory at '%s': Error code %d" % [THEME_FONTS_ROOT, error])
-		return
-	
-	var current_file := fs.get_next() as String
-	while not current_file.is_empty():
+	for current_file in DirAccess.get_files_at(THEME_FONTS_ROOT):
 		if current_file.get_extension() != "tres":
-			current_file = fs.get_next()
 			continue
 		
 		var font_resource = ResourceLoader.load(THEME_FONTS_ROOT.path_join(current_file)) as FontFile
 		if not font_resource:
-			current_file = fs.get_next()
 			continue
 		
 		_font_defaults[font_resource] = {"size": font_resource.size, "font": font_resource.font_data.font_path}
-		current_file = fs.get_next()
 
 
 func scale_all_font_sizes(size_scale: int, and_save: bool = true) -> void:

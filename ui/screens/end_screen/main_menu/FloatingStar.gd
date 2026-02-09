@@ -2,12 +2,12 @@ extends TextureRect
 
 var duration := 1.5 + randf() * 0.5
 
-@onready var _tween := $Tween as Tween
-
 func _ready() -> void:
-	_tween.playback_speed = randf_range(0.9, 1.2)
+	var tween := create_tween()
+	
+	tween.set_speed_scale(randf_range(0.9, 1.2))
 	var top_pos := position - Vector2(0, randf() * 12.0 + 4.0)
-	_tween.interpolate_property(self, "position", position, top_pos, duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-	_tween.interpolate_property(self, "position", top_pos, position, duration, Tween.TRANS_CUBIC, Tween.EASE_OUT, duration)
-	_tween.start()
-	_tween.seek(randf())
+	var seek_time := randf()
+	var seek_t := seek_time / duration
+	tween.tween_property(self, "position", top_pos, duration).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).from(position.lerp(top_pos, seek_t))
+	tween.tween_property(self, "position", position, duration).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(duration)

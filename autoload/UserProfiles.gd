@@ -12,7 +12,7 @@ var _loaded_profile: Profile
 
 func profile_exists(profile_name: String) -> bool:
 	var file_path := _get_file_path(profile_name)
-	return File.new().file_exists(file_path)
+	return FileAccess.file_exists(file_path)
 
 
 # Returns the profile designated by the provided name.
@@ -28,9 +28,8 @@ func get_profile(profile_name: String = current_player) -> Profile:
 	var file_path := _get_file_path(profile_name)
 	
 	if not profile_exists(profile_name):
-		var fs = DirAccess.new()
 		var directory := file_path.get_base_dir()
-		fs.make_dir_recursive(directory)
+		DirAccess.make_dir_absolute(directory)
 		
 		var user_profile := Profile.new()
 		user_profile.resource_path = file_path
@@ -56,23 +55,13 @@ func _get_file_path(file_name: String) -> String:
 func list_profiles() -> PackedStringArray:
 	var profiles := PackedStringArray()
 	
-	var fs := DirAccess.new()
-	var error = fs.open(ROOT_DIR)
-	if error != OK:
-		profiles.push_back(current_player)
-		return profiles
-	
-	fs.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-	var file_name := fs.get_next()
-	while not file_name.is_empty():
-		if fs.current_is_dir() or file_name.get_extension() != "tres":
-			file_name = fs.get_next()
+	for file_name in DirAccess.get_files_at(ROOT_DIR):
+		pass
+		if file_name.get_extension() != "tres":
 			continue
 		
 		var profile = ResourceLoader.load(file_name) as Profile
 		if profile:
 			profiles.push_back(profile.player_name)
-		
-		file_name = fs.get_next()
 
 	return profiles

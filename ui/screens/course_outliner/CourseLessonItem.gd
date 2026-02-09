@@ -8,7 +8,7 @@ signal selected()
 var lesson_index := -1: set = set_lesson_index
 var lesson_title := "": set = set_lesson_title
 var completion := 0: set = set_completion
-var selected := false: set = set_selected
+var is_selected := false: set = set_selected
 
 var _mouse_hovering := false
 
@@ -57,8 +57,8 @@ func set_completion(value: int) -> void:
 
 
 func set_selected(value: bool) -> void:
-	selected = value
-	update()
+	is_selected = value
+	queue_redraw()
 
 
 func _update_visuals() -> void:
@@ -78,9 +78,9 @@ func _update_visuals() -> void:
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true
-	update()
+	queue_redraw()
 
 
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
-	update()
+	queue_redraw()

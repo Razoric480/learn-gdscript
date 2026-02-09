@@ -70,7 +70,7 @@ func _make_revealer() -> void:
 
 	remove_child(_content_root)
 	add_child(revealer)
-	revealer.add_child(_content_root)
+	revealer.add_child_override(_content_root)
 	_revealer_block = revealer
 
 
@@ -80,7 +80,7 @@ func _make_visual_element() -> void:
 
 	# If the path isn't absolute, we try to load the file from the current directory
 	var path := _content_block.visual_element_path
-	if path.is_rel_path():
+	if path.is_relative_path():
 		# TODO: Should probably avoid relying on content ID for getting paths.
 		path = _content_block.content_id.get_base_dir().path_join(path)
 	var resource := load(path)

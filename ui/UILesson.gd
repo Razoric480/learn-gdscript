@@ -26,7 +26,8 @@ var _quizzes_done := -1  # Start with -1 because we will always autoincrement at
 var _quizz_count := 0
 var _integration_test_mode := false
 
-var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").size
+var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").msdf_size
+var _tweener: Tween
 
 @onready var _scroll_container := $OuterMargin/ScrollContainer as ScrollContainer
 @onready var _scroll_content := $OuterMargin/ScrollContainer/InnerMargin as Control
@@ -36,7 +37,6 @@ var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").size
 @onready var _practices_visibility_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer as VBoxContainer
 @onready var _practices_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer/Practices as VBoxContainer
 @onready var _debounce_timer := $DebounceTimer as Timer
-@onready var _tweener := $Tween as Tween
 @onready var _glossary_popup := $GlossaryPopup
 
 @onready var _start_content_width := _content_container.size.x
@@ -174,7 +174,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 	_reveal_up_to_next_quiz()
 
 	if _integration_test_mode:
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		emit_signal("lesson_displayed")
 		return
 
@@ -186,17 +186,17 @@ func setup(lesson: Lesson, course: Course) -> void:
 			_scroll_content.global_position.y - _content_blocks.global_position.y
 		)
 		var scroll_target = restore_node.position.y + scroll_offset - AUTOSCROLL_PADDING
-		_tweener.stop_all()
-		_tweener.interpolate_method(
-			_scroll_container,
-			"set_v_scroll",  # So it plays nice with our smooth scroller
+		
+		if _tweener and _tweener.is_valid():
+			_tweener.kill()
+		
+		_tweener = create_tween()
+		_tweener.tween_method(
+			_scroll_container.set_v_scroll,  # So it plays nice with our smooth scroller
 			_scroll_container.scroll_vertical,
 			scroll_target,
-			AUTOSCROLL_DURATION,
-			Tween.TRANS_QUAD,
-			Tween.EASE_IN_OUT
-		)
-		_tweener.start()
+			AUTOSCROLL_DURATION
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
 	_underline_glossary_entries()
 

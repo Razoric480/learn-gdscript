@@ -78,7 +78,7 @@ func set_tests_status(test_result: PracticeTester.TestResult, script_file_name: 
 	var check_nodes := _checks.get_contents()
 	if check_nodes.size() == 0:
 		# Ensure asynchrosity even in invalid state.
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		emit_signal("tests_updated")
 		return
 
@@ -98,7 +98,7 @@ func set_tests_status(test_result: PracticeTester.TestResult, script_file_name: 
 			checkmark.unmark(true)
 
 		if skip_animations:
-			await get_tree().idle_frame
+			await get_tree().process_frame
 		else:
 			await checkmark.marking_finished
 
@@ -169,7 +169,7 @@ func _update_documentation() -> void:
 			_docs_item_list.add_child(docs_item)
 
 	docs_container.show()
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_docs_item_list.size.y = 0
 
 

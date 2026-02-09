@@ -35,7 +35,7 @@ func _init() -> void:
 	last_started_lesson = {}
 
 	if OS.has_feature("JavaScript"):
-		var window := JavaScript.get_interface("window")
+		var window := JavaScriptBridge.get_interface("window")
 		var browser_url : String = window.location.href
 		is_sponsored_profile = browser_url.find(URL_GODOT_DOCS_REF) == -1
 
@@ -44,7 +44,7 @@ func save() -> void:
 	if resource_path.is_empty():
 		push_error("Cannot save a file without a filename, set resource_path first.")
 		return
-	ResourceSaver.save(resource_path, self)
+	ResourceSaver.save(self, resource_path)
 	take_over_path(resource_path)
 
 

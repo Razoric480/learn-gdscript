@@ -13,22 +13,23 @@ extends Control
 func _ready() -> void:
 	_release_date_label.pivot_offset = _release_date_label.size / 2
 
-func _get_configuration_warnings() -> String:
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 	if texture == null:
-		return "CompressedTexture2D is not set."
+		warnings.push_back("CompressedTexture2D is not set.")
 	
 	if link == "":
-		return "URL to open on click is not set"
+		warnings.push_back("URL to open on click is not set")
 	
 	if release_date == "":
-		return "Release date is not set."
+		warnings.push_back("Release date is not set.")
 	elif release_date.length() != 20 or release_date[10] != "T" or release_date[19] != "Z":
-		return "Release date must be in ISO 8601 format: YYYY-MM-DDThh:mm:ssZ"
-	return ""
+		warnings.push_back("Release date must be in ISO 8601 format: YYYY-MM-DDThh:mm:ssZ")
+	return warnings
 
 
 func _gui_input(event: InputEvent) -> void:
-	if link != "" and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if link != "" and event is InputEventMouseButton and (event as InputEventMouseButton).is_pressed() and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		OS.shell_open(link)
 
 

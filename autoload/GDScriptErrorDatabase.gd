@@ -34,17 +34,16 @@ func get_message(error_code: int) -> Dictionary:
 
 
 func _load_csv_file(file_path: String) -> Dictionary:
-	var database_file = File.new()
-	if file_path.is_empty() or not database_file.file_exists(file_path):
+	if file_path.is_empty() or not FileAccess.file_exists(file_path):
 		printerr(
 			"Failed to open the error database source at '%s': File does not exist." % [file_path]
 		)
 		return {}
 
-	var error = database_file.open(file_path, File.READ)
-	if error != OK:
+	var database_file = FileAccess.open(file_path, FileAccess.READ)
+	if database_file == null:
 		printerr(
-			"Failed to open the error database source at '%s': Error code %d" % [file_path, error]
+			"Failed to open the error database source at '%s': Error code %d" % [file_path, FileAccess.get_open_error()]
 		)
 		return {}
 
@@ -53,7 +52,7 @@ func _load_csv_file(file_path: String) -> Dictionary:
 	return table
 
 
-func _parse_csv_file(file: File) -> Dictionary:
+func _parse_csv_file(file: FileAccess) -> Dictionary:
 	var parsed := {}
 	if not file.is_open():
 		return parsed

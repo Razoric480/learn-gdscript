@@ -135,20 +135,20 @@ static func find_all_slice_names(script_source: String) -> Array:
 # slice_name: Name of the EXPORT slice to extract (empty = first one found)
 # returns ScriptSlice resource with parsed data
 static func load_from_script(script_path: String, slice_name: String = "") -> ScriptSlice:
-	if script_path.is_rel_path():
+	if script_path.is_relative_path():
 		script_path = "res://" + script_path
 	elif not script_path.begins_with("res://"):
 		push_error("Script path must be a resource path: " + script_path)
 		return null
 	
-	var file := File.new()
-	if not Engine.is_editor_hint() and not file.file_exists(script_path):
+	if not Engine.is_editor_hint() and not FileAccess.file_exists(script_path):
 		# When exporting the game, we need to make copies of GDScript files under a different 
 		# extension because Godot compiles GDScript files to bytecode.
 		# This means in the web build, files have different extensions, which we handle here.
 		script_path = script_path.replace(".gd", ".lgd")
 	
-	if file.open(script_path, File.READ) != OK:
+	var file := FileAccess.open(script_path, FileAccess.READ)
+	if file == null:
 		push_error("Failed to read script file: " + script_path)
 		return null
 	
@@ -170,4 +170,3 @@ static func load_from_script(script_path: String, slice_name: String = "") -> Sc
 	slice.lines_editable = parsed_data.get("lines_editable", [])
 	
 	return slice
-

@@ -26,7 +26,7 @@ func _ready() -> void:
 	_error_overlay_popup.connect("hide", Callable(_error_popup, "hide"))
 	connect("resized", Callable(self, "_on_resized"))
 
-	MessageBus.connect("print_request", Callable(self, "print_bus_message"))
+	MessageBus.connect("print_requested", Callable(self, "print_bus_message"))
 
 
 func setup(slice: ScriptSlice) -> void:
@@ -76,7 +76,7 @@ func print_output(values: Array) -> void:
 	message_node.values = values
 	_message_list.add_child(message_node)
 
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_scroll_container.ensure_control_visible(message_node)
 
 
@@ -107,7 +107,7 @@ func print_error(type: int, text: String, file_name: String, line: int, characte
 	message_node.connect("show_code_requested", Callable(self, "_on_code_requested"))
 	message_node.connect("explain_error_requested", Callable(self, "_on_explain_requested"))
 
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_scroll_container.ensure_control_visible(message_node)
 
 

@@ -9,8 +9,8 @@ func _ready() -> void:
 
 
 func update_size() -> void:
-	await tree.idle_frame
-	for control in get_children():
+	await tree.process_frame
+	for control: Control in get_children():
 		var new_position: Vector2 = control.position
 		var texture_rect: TextureRect = control.get_child(0)
 		texture_rect.position.x = - new_position.x

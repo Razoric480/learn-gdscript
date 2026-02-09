@@ -8,7 +8,7 @@ var _max_health = 100
 
 
 func _ready() -> void:
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_health_bar.set_health(health)
 
 

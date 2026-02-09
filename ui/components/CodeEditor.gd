@@ -77,7 +77,7 @@ func _ready() -> void:
 
 	slice_editor.connect("text_changed", Callable(self, "_on_text_changed"))
 	slice_editor.connect("gui_input", Callable(self, "_gui_input"))
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_initial_text = text
 
 	slice_editor.grab_focus()

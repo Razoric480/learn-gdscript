@@ -48,6 +48,8 @@ var _current_scene_reset_values := {
 	transform = null,
 }
 
+var _tween: Tween = null
+
 @onready var _layout_container := $Margin/Layout as Control
 
 @onready var _output_container := find_child("Output") as Control
@@ -70,8 +72,6 @@ var _current_scene_reset_values := {
 @onready var _practice_leave_unfinished_popup := find_child("PracticeLeaveUnfinishedPopup") as PracticeLeaveUnfinishedPopup
 
 @onready var _code_editor := find_child("CodeEditor") as CodeEditor
-
-@onready var _tween := $Tween as Tween
 
 
 func _init():
@@ -150,16 +150,16 @@ func setup(practice: Practice, lesson: Lesson, course: Course) -> void:
 	var index := 0
 	for hint in practice.hints:
 		var practice_hint: PracticeHint = PracticeHintScene.instantiate()
-		practice_hint.title = tr("Hint %s") % [String(index + 1).pad_zeros(1)]
+		practice_hint.title = tr("Hint %s") % [str(index + 1).pad_zeros(1)]
 		practice_hint.text = hint
-		_hints_container.add_child(practice_hint)
+		_hints_container.add_child_override(practice_hint)
 		index += 1
 
 	# TODO: Should probably avoid relying on content ID for getting paths.
 	var base_directory := practice.practice_id.get_base_dir()
 
 	var script_path := practice.script_slice_path
-	if script_path.is_rel_path():
+	if script_path.is_relative_path():
 		script_path = base_directory.path_join(script_path)
 	if not script_path.begins_with("res://"):
 		script_path = "res://" + script_path
@@ -175,7 +175,7 @@ func setup(practice: Practice, lesson: Lesson, course: Course) -> void:
 	_solution_editor.text = _script_slice.slice_text
 
 	var validator_path := practice.validator_script_path
-	if validator_path.is_rel_path():
+	if validator_path.is_relative_path():
 		validator_path = base_directory.path_join(validator_path)
 	_tester = (load(validator_path) as GDScript).new()
 	_tester.setup(_game_view.get_viewport(), _script_slice)
@@ -222,7 +222,7 @@ func _update_labels() -> void:
 		if not practice_hint:
 			continue
 
-		practice_hint.title = tr("Hint %s") % [String(index + 1).pad_zeros(1)]
+		practice_hint.title = tr("Hint %s") % [str(index + 1).pad_zeros(1)]
 		practice_hint.text = _practice.hints[index]
 		index += 1
 
@@ -335,7 +335,7 @@ func _validate_and_run_student_code() -> void:
 	# Run student code
 	# Generate a runnable script, check for uncaught errors.
 	_code_editor.set_locked_message(tr("Running Your Code..."))
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	script_text = MessageBus.replace_print_calls_in_script(script_file_name, script_text)
 
@@ -449,18 +449,18 @@ func _reset_practice() -> void:
 
 func _update_slidable_panels() -> void:
 	# Wait a frame to make sure the new size has been applied.
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	# We use _output_anchors for reference because it never leaves the screen, so we can rely on it
 	# to always report the target size for one third of the hbox.
 
 	# Update info panel.
 	_info_panel.custom_minimum_size = Vector2(_output_anchors.size.x, 0)
-	_info_panel.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
+	_info_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE)
 
 	# Update solution panel.
 	_solution_panel.custom_minimum_size = Vector2(_output_anchors.size.x, 0)
-	_solution_panel.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
+	_solution_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE)
 	if not _is_solution_panel_open:
 		_solution_panel.offset_left = _output_anchors.size.x
 
@@ -471,40 +471,34 @@ func _toggle_distraction_free_mode() -> void:
 	else:
 		_disable_distraction_free_mode()
 
-
 func _disable_distraction_free_mode() -> void:
 	_is_info_panel_open = true
-	_tween.remove_all()
+	if _tween and _tween.is_valid():
+		_tween.kill()
 
-	_tween.interpolate_property(
+	_tween = create_tween()
+	
+	_tween.tween_property(
 		_info_panel_anchors,
 		"size_flags_stretch_ratio",
-		_info_panel_anchors.size_flags_stretch_ratio,
 		1.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
-	_tween.interpolate_property(
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	_tween.tween_property(
 		_code_editor,
 		"size_flags_stretch_ratio",
-		_code_editor.size_flags_stretch_ratio,
 		1.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
-	_tween.interpolate_property(
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	_tween.tween_property(
 		_info_panel_anchors,
 		"modulate:a",
-		_info_panel_anchors.modulate.a,
 		1.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN
-	)
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
-	_tween.start()
 	_code_editor.set_distraction_free_state(not _is_info_panel_open)
 
 
@@ -512,38 +506,33 @@ func _enable_distraction_free_mode() -> void:
 	_update_slidable_panels()
 
 	_is_info_panel_open = false
-	_tween.remove_all()
+	
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	
+	_tween = create_tween()
 
-	_tween.interpolate_property(
+	_tween.tween_property(
 		_info_panel_anchors,
 		"size_flags_stretch_ratio",
-		_info_panel_anchors.size_flags_stretch_ratio,
 		0.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
-	_tween.interpolate_property(
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	_tween.tween_property(
 		_code_editor,
 		"size_flags_stretch_ratio",
-		_code_editor.size_flags_stretch_ratio,
 		2.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
-	_tween.interpolate_property(
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	_tween.tween_property(
 		_info_panel_anchors,
 		"modulate:a",
-		_info_panel_anchors.modulate.a,
 		0.0,
-		SLIDE_TRANSITION_DURATION - 0.25,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN,
-		0.15
-	)
+		SLIDE_TRANSITION_DURATION - 0.25
+	).set_delay(0.15).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
-	_tween.start()
 	_code_editor.set_distraction_free_state(not _is_info_panel_open)
 
 
@@ -558,59 +547,44 @@ func _show_solution_panel() -> void:
 	_update_slidable_panels()
 
 	_is_solution_panel_open = true
-	_tween.remove_all()
+	if _tween and _tween.is_valid():
+		_tween.kill()
 
-	_tween.interpolate_property(
+	_tween.tween_property(
 		_solution_panel,
 		"offset_left",
-		_solution_panel.offset_left,
 		0.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-	_tween.interpolate_property(
+	_tween.tween_property(
 		_solution_panel,
 		"modulate:a",
-		_solution_panel.modulate.a,
 		1.0,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN
-	)
-
-	_tween.start()
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
 
 func _hide_solution_panel() -> void:
 	_update_slidable_panels()
 
 	_is_solution_panel_open = false
-	_tween.remove_all()
+	if _tween and _tween.is_valid():
+		_tween.kill()
 
-	_tween.interpolate_property(
+	_tween.tween_property(
 		_solution_panel,
 		"offset_left",
-		_solution_panel.offset_left,
 		_output_anchors.size.x,
-		SLIDE_TRANSITION_DURATION,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
+		SLIDE_TRANSITION_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-	_tween.interpolate_property(
+	_tween.tween_property(
 		_solution_panel,
 		"modulate:a",
-		_solution_panel.modulate.a,
 		0.0,
-		SLIDE_TRANSITION_DURATION - 0.25,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN,
-		0.15
-	)
-
-	_tween.start()
+		SLIDE_TRANSITION_DURATION - 0.25
+	).set_delay(0.15).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
 
 func _on_use_solution_pressed() -> void:
@@ -737,7 +711,7 @@ static func try_validate_and_replace_script(node: Node, script: GDScript) -> voi
 #
 
 # JS error event listener
-var _on_js_error_feedback_ref = JavaScript.create_callback(self, "_on_js_error_feedback")
+var _on_js_error_feedback_ref = JavaScriptBridge.create_callback(_on_js_error_feedback)
 
 
 # This will be called from Javascript
@@ -750,7 +724,7 @@ func _on_js_error_feedback(args):
 # Set the event listener
 func _on_init_set_javascript() -> void:
 	if OS.has_feature("JavaScript"):
-		var GDQUEST = JavaScript.get_interface("GDQUEST")
+		var GDQUEST = JavaScriptBridge.get_interface("GDQUEST")
 		GDQUEST.events.onError.connect(_on_js_error_feedback_ref)
 
 

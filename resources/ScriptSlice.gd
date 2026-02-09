@@ -54,8 +54,8 @@ func get_scene() -> PackedScene:
 func get_script_source() -> String:
 	if script_path.is_empty():
 		return ""
-	var file := File.new()
-	if file.open(script_path, File.READ) != OK:
+	var file := FileAccess.open(script_path, FileAccess.READ)
+	if file == null:
 		push_error("Failed to read script: " + script_path)
 		return ""
 	var content := file.get_as_text()
@@ -92,7 +92,7 @@ func get_slice_text() -> String:
 # Returns the full script text with proper indentation
 func get_full_text() -> String:
 	var middle_text := _indent_lines(lines_editable, leading_spaces)
-	return PackedStringArray(lines_before + middle_text + "\n".join(lines_after))
+	return PackedStringArray(lines_before + middle_text + ["\n".join(lines_after)])[0]
 
 
 # Returns all lines (before + editable + after) as an Array with proper indentation
@@ -106,7 +106,7 @@ func get_main_lines() -> Array:
 func get_current_full_text() -> String:
 	var student_lines := current_text.split("\n")
 	var middle_text := _indent_lines(student_lines, leading_spaces)
-	return PackedStringArray(lines_before + middle_text + "\n".join(lines_after))
+	return PackedStringArray(lines_before + middle_text + ["\n".join(lines_after)])[0]
 
 
 # Returns the line offset where the editable region starts (for error positioning)

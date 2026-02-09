@@ -111,7 +111,7 @@ func _navigate_back() -> void:
 		navigate_to_outliner()
 		return
 
-	history.remove(history.size() - 1)
+	history.remove_at(history.size() - 1)
 	_js_back()
 
 	emit_signal("back_navigation_requested")
@@ -174,7 +174,7 @@ func get_navigation_resource(resource_id: String) -> Resource:
 func _notification(what: int) -> void:
 	if not is_mobile_platform:
 		return
-	if what in [MainLoop.NOTIFICATION_WM_QUIT_REQUEST, MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST]:
+	if what in [Node.NOTIFICATION_WM_CLOSE_REQUEST, Node.NOTIFICATION_WM_GO_BACK_REQUEST]:
 		navigate_back()
 
 
@@ -221,12 +221,12 @@ var _temporary_disable_back_listener := false
 func _on_init_setup_js() -> void:
 	if not _js_available:
 		return
-	_js_history = JavaScript.get_interface("history")
+	_js_history = JavaScriptBridge.get_interface("history")
 
 	# if the reference doesn't survive the method call, the callback will be dereferenced
-	_js_popstate_listener_ref = JavaScript.create_callback(self, "_on_js_popstate")
+	_js_popstate_listener_ref = JavaScriptBridge.create_callback(_on_js_popstate)
 
-	_js_window = JavaScript.get_interface("window")
+	_js_window = JavaScriptBridge.get_interface("window")
 	# warning-ignore:unsafe_method_access
 	_js_window.addEventListener("popstate", _js_popstate_listener_ref)
 

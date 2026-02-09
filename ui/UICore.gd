@@ -90,7 +90,7 @@ func _on_course_requested(force_outliner: bool = false) -> void:
 	start_loading(_course_screen)
 
 	_loading_screen.progress_value = 0.5
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	if default_course.is_empty():
 		# We completely failed, chief!

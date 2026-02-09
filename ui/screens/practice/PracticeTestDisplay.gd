@@ -17,10 +17,10 @@ const FADE_SCALE_START_AT := 2.5
 
 var status: int = Status.IDLE: set = set_status
 var title := "": set = set_title
+var _tweener: Tween
 
 @onready var _icon := $IconAnchors/Icon as TextureRect
 @onready var _label := $Label as Label
-@onready var _tweener := $Tween as Tween
 
 
 func mark_as_failed(immediate: bool = false) -> void:
@@ -96,9 +96,10 @@ func _fade_in_status() -> void:
 		Status.PENDING:
 			final_color = COLOR_PENDING
 	
-	_tweener.stop_all()
-	_tweener.interpolate_property(self, "modulate", Color.WHITE, final_color, FADE_COLOR_DURATION, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
-	_tweener.interpolate_property(_icon, "scale:x", FADE_SCALE_START_AT, 1.0, FADE_SCALE_DURATION, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
-	_tweener.interpolate_property(_icon, "scale:y", FADE_SCALE_START_AT, 1.0, FADE_SCALE_DURATION, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
-	_tweener.interpolate_callback(self, FADE_TOTAL_DURATION, "emit_signal", "marking_finished")
-	_tweener.start()
+	if _tweener and _tweener.is_valid():
+		_tweener.kill()
+	_tweener = create_tween()
+	_tweener.tween_property(self, "modulate", final_color, FADE_COLOR_DURATION).from(Color.WHITE).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	_tweener.tween_property(_icon, "scale:x", 1.0, FADE_SCALE_DURATION).from(FADE_SCALE_START_AT).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	_tweener.tween_property(_icon, "scale:y", 1.0, FADE_SCALE_DURATION).from(FADE_SCALE_START_AT).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	_tweener.tween_callback(marking_finished.emit).set_delay(FADE_TOTAL_DURATION)

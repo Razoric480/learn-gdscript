@@ -4,8 +4,6 @@ extends EditorScript
 const COURSE_RESOURCE_PATH := "res://course/course-learn-gdscript.tres"
 const VISUAL_ELEMENT_EXTENSIONS := ["tscn", "png", "jpg", "jpeg", "svg", "gif"]
 
-var _file_tester := File.new()
-
 
 func _run() -> void:
 	print("[TEST] Testing all resource paths...")
@@ -16,7 +14,7 @@ func _run() -> void:
 		)
 		return
 
-	var course = ResourceLoader.load(COURSE_RESOURCE_PATH, "", true)
+	var course = ResourceLoader.load(COURSE_RESOURCE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
 	if not course:
 		printerr(
 			"Failed to load the course resource at '%s'. Aborting test." % [COURSE_RESOURCE_PATH]
@@ -67,7 +65,7 @@ func _run() -> void:
 	var count := error_messages.size()
 	if count > 0:
 		print("%s invalid resources found." % count)
-		"\n".join(print(error_messages))
+		print("\n".join(error_messages))
 	else:
 		print("No invalid resources found!")
 	print("Done.")
@@ -81,6 +79,6 @@ func _is_valid(resource: Resource, path: String, valid_extensions := ["tres"]) -
 		return false
 
 	var test_path := path
-	if test_path.is_rel_path():
+	if test_path.is_relative_path():
 		test_path = resource.resource_path.get_base_dir().path_join(test_path)
-	return _file_tester.file_exists(test_path)
+	return FileAccess.file_exists(test_path)

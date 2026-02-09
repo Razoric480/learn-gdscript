@@ -46,10 +46,6 @@ window/stretch/aspect="keep_height"
 window/vsync/vsync_mode=false
 window/size/fullscreen=true
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/ColorPickerPresets/plugin.cfg", "res://addons/gdscript-course-builder/plugin.cfg")
-
 [input]
 
 save={

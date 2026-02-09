@@ -388,7 +388,7 @@ func _on_item_list_size_changed() -> void:
 	if not is_inside_tree():
 		return
 	
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_overlay_layer.custom_minimum_size = Vector2(0, _item_list.size.y)
 	_overlay_layer.size = _overlay_layer.custom_minimum_size
 	

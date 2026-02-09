@@ -50,8 +50,7 @@ func get_references_as_bbcode(names: PackedStringArray) -> String:
 
 static func _parse_documentation_file(path: String) -> Dictionary:
 	var all_references := {methods = {}, properties = {}}
-	var file := File.new()
-	file.open(path, file.READ)
+	var file := FileAccess.open(path, FileAccess.READ)
 	var _header := Array(file.get_csv_line())
 
 	while !file.eof_reached():

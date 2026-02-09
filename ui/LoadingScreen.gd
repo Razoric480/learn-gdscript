@@ -12,9 +12,9 @@ enum State { IDLE, LOADING, FADING_IN, FADING_OUT }
 var progress_value := 0.0: set = set_progress_value
 
 var _state: int = State.IDLE
+var _tweener: Tween
 
 @onready var _progress_bar := $MarginContainer/Control/ProgressBar as ProgressBar
-@onready var _tweener := $Tween as Tween
 
 
 func _ready() -> void:
@@ -44,17 +44,21 @@ func fade_in() -> void:
 	modulate.a = 0.0
 	visible = true
 
-	_tweener.stop_all()
-	_tweener.interpolate_property(self, "modulate:a", 0.0, 1.0, FADING_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	_tweener.start()
+	if _tweener and _tweener.is_valid():
+		_tweener.kill()
+	_tweener = create_tween()
+	
+	_tweener.tween_property(self, "modulate:a", 1.0, FADING_DURATION).from(0.0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 
 func fade_out() -> void:
 	_state = State.FADING_OUT
 
-	_tweener.stop_all()
-	_tweener.interpolate_property(self, "modulate:a", modulate.a, 0.0, FADING_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	_tweener.start()
+	if _tweener and _tweener.is_valid():
+		_tweener.kill()
+	_tweener = create_tween()
+	
+	_tweener.tween_property(self, "modulate:a", 0.0, FADING_DURATION).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 
 func _animate_progress() -> void:
@@ -62,15 +66,16 @@ func _animate_progress() -> void:
 		return
 	
 	_state = State.LOADING
-	_tweener.stop_all()
+	if _tweener and _tweener.is_valid():
+		_tweener.kill()
 
 	if _progress_bar.value == progress_value:
 		_state = State.IDLE
 		emit_signal("loading_finished")
 		return
 
-	_tweener.interpolate_property(_progress_bar, "value", _progress_bar.value, progress_value, PROGRESS_DURATION, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-	_tweener.start()
+	_tweener = create_tween()
+	_tweener.tween_property(_progress_bar, "value", progress_value, PROGRESS_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 
 func _on_tweener_finished() -> void:

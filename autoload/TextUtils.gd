@@ -31,7 +31,7 @@ const TYPE_MAP := {
 }
 
 # Caches regexes to highlight code in text.
-const _REGEXES := {}
+var _REGEXES := {}
 # Intended to be used as a constant
 var _REGEX_REPLACE_MAP := {}
 
@@ -44,12 +44,12 @@ func _init() -> void:
 	_REGEXES["symbol"] = RegEx.new()
 	_REGEXES["format"] = RegEx.new()
 
-	_REGEXES["code"].compile("\\[code\\](.+?)\\[\\/code\\]")
-	_REGEXES["func"].compile("(?<func>\\bfunc\\b)")
-	_REGEXES["number"].compile("(?<number>-?\\d+(\\.\\d+)?)")
-	_REGEXES["string"].compile("(?<string>[\"'].+[\"'])")
-	_REGEXES["symbol"].compile("(?<symbol>[a-zA-Z][a-zA-Z0-9_]+|[a-zA-Z])")
-	_REGEXES["format"].compile("[\"\\-']?\\d+(\\.\\d+)?[\"']?|[\"'].+[\"']|[a-zA-Z0-9_]+")
+	(_REGEXES["code"] as RegEx).compile("\\[code\\](.+?)\\[\\/code\\]")
+	(_REGEXES["func"] as RegEx).compile("(?<func>\\bfunc\\b)")
+	(_REGEXES["number"] as RegEx).compile("(?<number>-?\\d+(\\.\\d+)?)")
+	(_REGEXES["string"] as RegEx).compile("(?<string>[\"'].+[\"'])")
+	(_REGEXES["symbol"] as RegEx).compile("(?<symbol>[a-zA-Z][a-zA-Z0-9_]+|[a-zA-Z])")
+	(_REGEXES["format"] as RegEx).compile("[\"\\-']?\\d+(\\.\\d+)?[\"']?|[\"'].+[\"']|[a-zA-Z0-9_]+")
 
 	_REGEX_REPLACE_MAP = {
 		"func": "[color=#%s]$func[/color]" % CodeEditorEnhancer.COLOR_KEYWORD.to_html(false),

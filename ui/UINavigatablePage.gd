@@ -13,7 +13,7 @@ var _is_current_screen := false
 
 func _ready() -> void:
 	NavigationManager.connect(
-		"all_screens_unload_requested", self, "_on_all_screens_unload_requested"
+		"all_screens_unload_requested", Callable(self, "_on_all_screens_unload_requested")
 	)
 
 
@@ -25,11 +25,11 @@ func set_is_current_screen(value: bool) -> void:
 
 	if _is_current_screen:
 		NavigationManager.connect(
-			"last_screen_unload_requested", self, "_on_current_screen_unload_requested"
+			"last_screen_unload_requested", Callable(self, "_on_current_screen_unload_requested")
 		)
 	else:
 		NavigationManager.disconnect(
-			"last_screen_unload_requested", self, "_on_current_screen_unload_requested"
+			"last_screen_unload_requested", Callable(self, "_on_current_screen_unload_requested")
 		)
 
 

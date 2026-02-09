@@ -37,8 +37,8 @@ var completed_before := false: set = set_completed_before
 @onready var _result_label := $ClipContentBoundary/ResultContainer/ResultView/Label as Label
 @onready var _correct_answer_label := $ClipContentBoundary/ResultContainer/ResultView/CorrectAnswer as Label
 
-@onready var _error_tween := $ErrorTween as Tween
-@onready var _size_tween := $SizeTween as Tween
+var _error_tween: Tween
+var _size_tween: Tween
 @onready var _help_message := $ClipContentBoundary/ChoiceContainer/ChoiceView/HelpMessage as Label
 
 var _quiz: Quiz
@@ -60,9 +60,6 @@ func _ready() -> void:
 	_help_message.connect("visibility_changed", Callable(self, "_on_help_message_visibility_changed"))
 	_choice_container.connect("minimum_size_changed", Callable(self, "_on_choice_container_minimum_size_changed"))
 	_result_container.connect("minimum_size_changed", Callable(self, "_on_result_container_minimum_size_changed"))
-
-	_size_tween.connect("tween_step", Callable(self, "_on_size_tween_step"))
-	_size_tween.connect("tween_completed", Callable(self, "_on_size_tween_completed"))
 
 
 func _notification(what: int) -> void:
@@ -117,38 +114,34 @@ func _test_answer() -> void:
 		result = _quiz.test_answer(_get_answers().back())
 	_help_message.text = result.help_message
 	_help_message.visible = not result.help_message.is_empty()
-	_error_tween.stop_all()
+	
+	if _error_tween and _error_tween.is_valid():
+		_error_tween.kill()
 	if not result.is_correct:
 		_outline.modulate.a = 1.0
 		_outline.add_theme_stylebox_override("panel", ERROR_OUTLINE)
 
+		_error_tween = create_tween()
 		position.y = _shake_pos
-		_error_tween.interpolate_property(
+		_error_tween.tween_property(
 			self,
 			"position:y",
-			_shake_pos + ERROR_SHAKE_SIZE,
 			_shake_pos,
-			ERROR_SHAKE_TIME,
-			Tween.TRANS_ELASTIC,
-			Tween.EASE_OUT
-		)
-		_error_tween.interpolate_property(
+			ERROR_SHAKE_TIME
+		).from(_shake_pos + ERROR_SHAKE_SIZE).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		_error_tween.tween_property(
 			_outline,
 			"modulate:a",
-			_outline.modulate.a,
 			0.0,
-			OUTLINE_FLASH_DURATION,
-			Tween.TRANS_LINEAR,
-			Tween.EASE_IN,
-			OUTLINE_FLASH_DELAY
-		)
-		_error_tween.start()
+			OUTLINE_FLASH_DURATION
+		).set_delay(OUTLINE_FLASH_DELAY).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 	else:
 		_show_answer()
 
 
 func _show_answer(gave_correct_answer := true) -> void:
-	_error_tween.stop_all()
+	if _error_tween and _error_tween.is_valid():
+		_error_tween.kill()
 	_outline.add_theme_stylebox_override("panel", PASSED_OUTLINE if gave_correct_answer else NEUTRAL_OUTLINE)
 	_outline.modulate.a = 1.0
 
@@ -157,26 +150,22 @@ func _show_answer(gave_correct_answer := true) -> void:
 	_change_rect_size_to(_result_container.size)
 
 	#Hiding choice view upon completion of the following tween
-	_size_tween.interpolate_property(
+	if _size_tween and _size_tween.is_valid():
+		_size_tween = create_tween()
+		_size_tween.connect("finished", Callable(self, "_on_percent_size_tween_completed"))
+	_size_tween.tween_property(
 		_choice_container,
 		"modulate:a",
-		1,
 		0,
 		FADE_OUT_TIME
-	)
+	).from(1)
 
-	_size_tween.interpolate_property(
+	_size_tween.tween_property(
 		_result_container,
 		"modulate:a",
-		0,
 		1,
-		FADE_IN_TIME,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN_OUT,
-		FADE_OUT_TIME
-	)
-
-	_size_tween.start()
+		FADE_IN_TIME
+	).from(0).set_delay(FADE_OUT_TIME).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 	if gave_correct_answer:
 		emit_signal("quiz_passed")
@@ -190,7 +179,8 @@ func _show_answer(gave_correct_answer := true) -> void:
 		emit_signal("quiz_skipped")
 
 func _change_rect_size_to(size: Vector2, instant := false) -> void:
-	_size_tween.stop_all()
+	if _size_tween and _size_tween.is_valid():
+		_size_tween.kill()
 
 	if instant:
 		custom_minimum_size = size
@@ -200,20 +190,19 @@ func _change_rect_size_to(size: Vector2, instant := false) -> void:
 	_next_rect_size = size
 	_percent_transformed = 0.0
 
-	_size_tween.interpolate_property(
+	_size_tween = create_tween()
+	_size_tween.connect("step_finished", Callable(self, "_on_size_tween_step"))
+	_size_tween.connect("finished", Callable(self, "_on_size_tween_completed"))
+	_size_tween.tween_property(
 		self,
 		"_percent_transformed",
-		0.0,
 		1.0,
 		SIZE_CHANGE_TIME,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT
-	)
+	).from(0.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-	_size_tween.start()
 
 func _on_item_rect_changed() -> void:
-	if not _error_tween.is_active() or _error_tween.tell() > ERROR_SHAKE_TIME:
+	if not _error_tween or not _error_tween.is_running() or _error_tween.get_total_elapsed_time() > ERROR_SHAKE_TIME:
 		_shake_pos = position.y
 
 	if _choice_container.size.x < size.x:
@@ -239,18 +228,19 @@ func _on_result_container_minimum_size_changed() -> void:
 	if _result_container.visible:
 		_change_rect_size_to(_result_container.size)
 
-func _on_size_tween_step(object: Object, key: NodePath, _elapsed: float, _value: Object) -> void:
-	if object == self and key == ":_percent_transformed" and _next_rect_size != Vector2.ZERO:
+func _on_size_tween_step(_step: int) -> void:
+	if _next_rect_size != Vector2.ZERO:
 		var new_size := _previous_rect_size
 		var difference := _next_rect_size - _previous_rect_size
 		new_size += difference * _percent_transformed
 		custom_minimum_size = new_size
 
-func _on_size_tween_completed(object: Object, key: NodePath) -> void:
-	if object == self and key == ":_percent_transformed":
-		_next_rect_size = Vector2.ZERO
-		_animating_hint = false
 
+func _on_percent_size_tween_completed() -> void:
+	_next_rect_size = Vector2.ZERO
+	_animating_hint = false
+
+
+func _on_fade_tween_completed() -> void:
 	# To avoid the buttons being clickable after choice view is gone.
-	if object == _choice_container and key == ":modulate:a":
-		_choice_container.hide()
+	_choice_container.hide()

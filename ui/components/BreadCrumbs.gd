@@ -11,7 +11,7 @@ var _last_target: Resource
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		_rebuild_breadcrumbs()
 
 

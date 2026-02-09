@@ -43,8 +43,7 @@ func get_match(keyword: String) -> Entry:
 # glossary entries.
 func _parse_glossary_file(path: String) -> Dictionary:
 	var glossary := {}
-	var file := File.new()
-	file.open(path, file.READ)
+	var file := FileAccess.open(path, FileAccess.READ)
 	var _header := Array(file.get_csv_line())
 
 	while !file.eof_reached():

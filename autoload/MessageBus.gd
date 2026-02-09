@@ -12,7 +12,7 @@ extends Node
 
 enum MESSAGE_TYPE { PRINT, PRINTS, ERROR, WARNING, ASSERT }
 
-signal print_request(type, thing_to_print, file_name, line_nb, character, message_code)
+signal print_requested(type, thing_to_print, file_name, line_nb, character, message_code)
 
 var script_replacements := RegExpGroup.collection(
 	{
@@ -129,4 +129,4 @@ func print_assert(
 func print_request(
 	message_type: int, message: String, file_name: String, line_nb: int, character: int, message_code: int = -1
 ) -> void:
-	emit_signal("print_request", message_type, message, file_name, line_nb, character, message_code)
+	emit_signal("print_requested", message_type, message, file_name, line_nb, character, message_code)

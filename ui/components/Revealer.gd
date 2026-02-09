@@ -1,5 +1,6 @@
 @tool
-class_name Revealer, "./Revealer.svg"
+@icon("./Revealer.svg")
+class_name Revealer
 extends Container
 
 const ANIMATION_ICON_DURATION := 0.1
@@ -22,7 +23,6 @@ signal expanded
 @export var content_panel: StyleBox: set = set_content_panel
 @export var content_separation: int = 2: set = set_content_separation
 
-@onready var _tweener := $Tween as Tween
 @onready var _toggle_bar := $ToggleBar as PanelContainer
 @onready var _toggle_button := $ToggleBar/ToggleCapturer as Button
 @onready var _toggle_label := $ToggleBar/BarLayout/Label as Label
@@ -32,6 +32,7 @@ signal expanded
 var _content_children := []
 var _percent_revealed := 0.0
 var _title_style: StyleBox
+var _tweener: Tween
 
 
 func _ready() -> void:
@@ -47,8 +48,6 @@ func _ready() -> void:
 	_toggle_button.connect("mouse_entered", Callable(self, "_on_toggle_entered"))
 	_toggle_button.connect("mouse_exited", Callable(self, "_on_toggle_exited"))
 	_toggle_button.connect("toggled", Callable(self, "_on_toggle_pressed"))
-	_tweener.connect("tween_step", Callable(self, "_on_tweener_step"))
-	_tweener.connect("tween_all_completed", Callable(self, "_on_tweener_completed"))
 
 	_toggle_content(is_expanded, true)
 	_title_style = get_title_panel_style()
@@ -108,8 +107,8 @@ func _update_theme() -> void:
 	_toggle_icon.modulate = title_icon_color
 
 
-func add_child(child_node: Node, legible_unique_name: bool = false) -> void:
-	super.add_child(child_node, legible_unique_name)
+func add_child_override(child_node: Node, legible_unique_name: bool = false) -> void:
+	add_child(child_node, legible_unique_name)
 
 	var control_node := child_node as Control
 	if not control_node or control_node == _toggle_bar:
@@ -118,11 +117,11 @@ func add_child(child_node: Node, legible_unique_name: bool = false) -> void:
 	_content_children.append(control_node)
 
 
-func remove_child(child_node: Node) -> void:
+func remove_child_override(child_node: Node) -> void:
 	if _content_children.has(child_node):
 		_content_children.erase(child_node)
 
-	super.remove_child(child_node)
+	remove_child(child_node)
 
 
 func _get_minimum_size() -> Vector2:
@@ -179,16 +178,16 @@ func _resort() -> void:
 		bar_size.x = base_width
 
 		if _title_style:
-			bar_position.x += _title_style.get_margin(MARGIN_LEFT)
+			bar_position.x += _title_style.get_margin(SIDE_LEFT)
 			bar_position.y += _title_style.get_margin(SIDE_TOP)
-			bar_size.x -= _title_style.get_margin(MARGIN_LEFT) + _title_style.get_margin(MARGIN_RIGHT)
+			bar_size.x -= _title_style.get_margin(SIDE_LEFT) + _title_style.get_margin(SIDE_RIGHT)
 
 		fit_child_in_rect(_toggle_bar, Rect2(bar_position, bar_size))
 		_update_icon_anchor()
 
 		content_offset = int(_toggle_bar.size.y)
 		if _title_style:
-			content_offset += int(_title_style.get_margin(SIDE_TOP) + _title_style.get_margin(MARGIN_BOTTOM))
+			content_offset += int(_title_style.get_margin(SIDE_TOP) + _title_style.get_margin(SIDE_BOTTOM))
 
 	var first := true
 	for child_node in get_children():
@@ -203,8 +202,8 @@ func _resort() -> void:
 		size.x = base_width
 
 		if content_panel:
-			position.x += content_panel.get_margin(MARGIN_LEFT)
-			size.x -= content_panel.get_margin(MARGIN_LEFT) + content_panel.get_margin(MARGIN_RIGHT)
+			position.x += content_panel.get_margin(SIDE_LEFT)
+			size.x -= content_panel.get_margin(SIDE_LEFT) + content_panel.get_margin(SIDE_RIGHT)
 
 		if first:
 			first = false
@@ -250,7 +249,7 @@ func set_title_icon_color(value: Color) -> void:
 func set_title_font(value: Font) -> void:
 	title_font = value
 	_update_theme()
-	minimum_size_changed()
+	minimum_size_changed.emit()
 	notification(NOTIFICATION_THEME_CHANGED)
 
 
@@ -269,7 +268,7 @@ func set_title_panel(value: StyleBox) -> void:
 		title_panel.connect("changed", Callable(self, "queue_sort"))
 		title_panel.connect("changed", Callable(self, "update"))
 
-	minimum_size_changed()
+	minimum_size_changed.emit()
 	notification(NOTIFICATION_THEME_CHANGED)
 
 
@@ -288,7 +287,7 @@ func set_title_panel_expanded(value: StyleBox) -> void:
 		title_panel_expanded.connect("changed", Callable(self, "queue_sort"))
 		title_panel_expanded.connect("changed", Callable(self, "update"))
 
-	minimum_size_changed()
+	minimum_size_changed.emit()
 	notification(NOTIFICATION_THEME_CHANGED)
 
 
@@ -313,13 +312,13 @@ func set_content_panel(value: StyleBox) -> void:
 		content_panel.connect("changed", Callable(self, "queue_sort"))
 		content_panel.connect("changed", Callable(self, "update"))
 
-	minimum_size_changed()
+	minimum_size_changed.emit()
 	notification(NOTIFICATION_THEME_CHANGED)
 
 
 func set_content_separation(value: int) -> void:
 	content_separation = value
-	minimum_size_changed()
+	minimum_size_changed.emit()
 	notification(NOTIFICATION_THEME_CHANGED)
 
 
@@ -342,7 +341,8 @@ func _toggle_content(expanded: bool, immediate: bool = false) -> void:
 		return
 
 	# Animate the change smoothly.
-	_tweener.stop_all()
+	if _tweener and _tweener.is_valid():
+		_tweener.kill()
 
 	for child_node in get_children():
 		var control_node := child_node as Control
@@ -352,19 +352,22 @@ func _toggle_content(expanded: bool, immediate: bool = false) -> void:
 		if expanded:
 			control_node.visible = true
 
-	_tweener.interpolate_property(
+	_tweener = create_tween()
+	_tweener.connect("step_finished", Callable(self, "_on_tweener_step"))
+	_tweener.connect("finished", Callable(self, "_on_tweener_completed"))
+	
+	_tweener.tween_property(
 		_toggle_icon, "rotation",
-		_toggle_icon.rotation, 90.0 * int(expanded),
-		ANIMATION_ICON_DURATION, Tween.TRANS_QUAD, Tween.EASE_IN_OUT
-	)
+		90.0 * int(expanded),
+		ANIMATION_ICON_DURATION
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
 	var final_value := 1.0 * int(expanded)
-	_tweener.interpolate_property(
+	_tweener.tween_property(
 		self, "_percent_revealed",
-		1.0 - final_value, final_value,
-		ANIMATION_REVEAL_DURATION, Tween.TRANS_QUAD, Tween.EASE_IN_OUT
-	)
-	_tweener.start()
+		final_value,
+		ANIMATION_REVEAL_DURATION
+	).from(1.0 - final_value).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
 
 func _on_toggle_entered() -> void:
@@ -379,14 +382,14 @@ func _on_toggle_pressed(pressed: bool) -> void:
 	set_is_expanded(pressed)
 
 
-func _on_tweener_step(_object: Object, _key: NodePath, _elapsed: float, _value: Object) -> void:
+func _on_tweener_step(step: int) -> void:
 	_title_style = get_title_panel_style()
-	minimum_size_changed()
+	minimum_size_changed.emit()
 
 
 func _on_tweener_completed() -> void:
 	_title_style = get_title_panel_style()
-	update()
+	queue_redraw()
 
 	if not is_expanded:
 		for child_node in get_children():

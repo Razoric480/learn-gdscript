@@ -62,8 +62,7 @@ func _run_integration_test() -> void:
 		print("[Lesson %d/%d] Testing: %s" % [lesson_index + 1, total_lessons, lesson.title])
 		
 		# Functions yield which in Godot 3 returns function state objects
-		var awaited_lesson_test: GDScriptFunctionState = _test_lesson(lesson)
-		var is_lesson_test_passed: bool = await awaited_lesson_test.completed
+		var is_lesson_test_passed: bool = await _test_lesson(lesson)
 		if not is_lesson_test_passed:
 			_fail_messages.append("Lesson %d: %s - Failed to load/display" % [lesson_index + 1, lesson.title])
 			print("  FAIL - Lesson failed\n")
@@ -77,8 +76,7 @@ func _run_integration_test() -> void:
 			_tests_run_count += 1
 			print("  [Practice %d/%d] Testing: %s" % [practice_index, lesson.practices.size(), practice.title])
 			
-			var awaited_practice_test: GDScriptFunctionState = _test_practice(practice, lesson)
-			var is_practice_test_passed: bool = await awaited_practice_test.completed
+			var is_practice_test_passed: bool = await _test_practice(practice, lesson)
 			if not is_practice_test_passed:
 				_fail_messages.append("Practice: %s (Lesson %d)" % [practice.title, lesson_index + 1])
 				print("    FAIL - Practice failed")
@@ -97,8 +95,7 @@ func _test_lesson(lesson: Lesson) -> bool:
 	
 	ui_lesson.enable_integration_test_mode()
 	
-	var setup_result: GDScriptFunctionState = ui_lesson.setup(lesson, _course_resource)
-	await setup_result.completed
+	await ui_lesson.setup(lesson, _course_resource)
 	
 	var displayed := false
 	var timed_out := false
@@ -120,7 +117,7 @@ func _test_lesson(lesson: Lesson) -> bool:
 		if state.displayed or ui_lesson._practices_visibility_container.visible:
 			displayed = true
 			break
-		await get_tree().idle_frame
+		await get_tree().process_frame
 	
 	timer.queue_free()
 	
@@ -157,13 +154,11 @@ func _test_practice(practice: Practice, lesson: Lesson) -> bool:
 	
 	ui_practice.turn_on_test_mode()
 	
-	var setup_result = ui_practice.setup(practice, lesson, _course_resource)
-	if setup_result != null and setup_result is GDScriptFunctionState:
-		await setup_result.completed
+	await ui_practice.setup(practice, lesson, _course_resource)
 	
 	var frames_waited := 0
 	while frames_waited < 5:
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		frames_waited += 1
 	
 	if not ui_practice._practice or ui_practice._practice != practice:
@@ -172,7 +167,7 @@ func _test_practice(practice: Practice, lesson: Lesson) -> bool:
 	
 	ui_practice._on_use_solution_pressed()
 	
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	
 	ui_practice._validate_and_run_student_code()
 	
@@ -197,7 +192,7 @@ func _test_practice(practice: Practice, lesson: Lesson) -> bool:
 		if state.complete or execution_timer.is_stopped():
 			execution_complete = true
 			break
-		await get_tree().idle_frame
+		await get_tree().process_frame
 	
 	execution_timer.queue_free()
 	
@@ -259,4 +254,3 @@ func _print_summary() -> void:
 	else:
 		print("\nFAIL - Tests failed")
 		get_tree().quit(1)
-

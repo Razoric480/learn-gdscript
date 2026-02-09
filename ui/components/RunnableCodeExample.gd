@@ -258,7 +258,7 @@ func _set_scene_instance(new_scene_instance: CanvasItem) -> void:
 
 	# Skip a frame to allow all nodes to be ready.
 	# Avoids overwriting text via yield(node, "ready").
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	if _scene_instance.has_method("get_code"):
 		gdscript_code = _scene_instance.get_code(gdscript_code)
@@ -292,7 +292,7 @@ func _reset_monitored_variable_highlights():
 		return
 
 	# After changing font size, must wait a frame to create monitored variables
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	for monitored_variable in _monitored_variable_highlights:
 		monitored_variable.queue_free()
@@ -372,7 +372,7 @@ func _on_HScrollBar_scrolling() -> void:
 
 func _on_highlight_line(line_number: int) -> void:
 	# wait to see if script was interrupted
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	if not _script_function_state:
 		return
@@ -383,7 +383,7 @@ func _on_highlight_line(line_number: int) -> void:
 
 func _on_arrow_animation(chars1: Array, chars2: Array) -> void:
 	# wait to see if script was interrupted
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	if not _script_function_state:
 		return
