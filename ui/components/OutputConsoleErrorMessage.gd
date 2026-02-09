@@ -12,6 +12,7 @@ var external_error := false: set = set_external_error
 var origin_file := "": set = set_origin_file
 var origin_line := -1: set = set_origin_line
 var origin_char := -1: set = set_origin_char
+var _tweener: Tween
 
 @onready var _severity_label := $Layout/Content/MessageRow/MessageSeverity as Label
 @onready var _message_label := $Layout/Content/MessageRow/MessageValue as Label
@@ -21,7 +22,6 @@ var origin_char := -1: set = set_origin_char
 @onready var _external_label := $Layout/Content/ExternalError as Label
 @onready var _message_explain_button := $Layout/ExplainButton as Button
 
-@onready var _tweener := $Tween as Tween
 
 
 func _ready() -> void:
@@ -31,9 +31,8 @@ func _ready() -> void:
 	_location_row.connect("gui_input", Callable(self, "_location_row_gui_input"))
 	_external_label.connect("gui_input", Callable(self, "_external_label_gui_input"))
 
-	_tweener.stop_all()
-	_tweener.interpolate_property(self, "self_modulate:a", 1.0, 0.25, 1.5)
-	_tweener.start()
+	_tweener = create_tween()
+	_tweener.tween_property(self, "self_modulate:a", 0.25, 1.5).from(1.0)
 
 
 func _update_visuals() -> void:

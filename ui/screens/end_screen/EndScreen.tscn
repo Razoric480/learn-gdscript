@@ -318,10 +318,9 @@ script/source = "extends Label
 
 
 func _ready() -> void:
-	var date = OS.get_date(true)
+	var date = Time.get_datetime_dict_from_system(true)
 	if (date.year == 2024 and date.month > 1) or date.year > 2025:
 		text = \"To order\"
-
 "
 
 [sub_resource type="FontFile" id="35"]

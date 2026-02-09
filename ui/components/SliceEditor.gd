@@ -58,7 +58,7 @@ func _ready() -> void:
 		if child is VScrollBar:
 			var vscrollbar: VScrollBar = child
 			vscrollbar.connect(
-				"value_changed", self, "_on_scrollbar_value_changed", [SCROLL_DIR.VERTICAL]
+				"value_changed", Callable(self, "_on_scrollbar_value_changed").bind(SCROLL_DIR.VERTICAL)
 			)
 			scroll_offsets.x = vscrollbar.get_minimum_size().x
 
@@ -66,14 +66,14 @@ func _ready() -> void:
 		elif child is HScrollBar:
 			var hscrollbar: HScrollBar = child
 			hscrollbar.connect(
-				"value_changed", self, "_on_scrollbar_value_changed", [SCROLL_DIR.HORIZONTAL]
+				"value_changed", Callable(self, "_on_scrollbar_value_changed").bind(SCROLL_DIR.HORIZONTAL)
 			)
 			scroll_offsets.y = hscrollbar.get_minimum_size().y
 
 			found += 1
 
 	errors_overlay.name = "ErrorsOverlay"
-	errors_overlay.set_anchors_and_offsets_preset(Control.PRESET_WIDE)
+	errors_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	errors_overlay.offset_right = -scroll_offsets.x
 	errors_overlay.offset_bottom = -scroll_offsets.y
 	add_child(errors_overlay)
@@ -99,8 +99,8 @@ func _gui_input(event: InputEvent) -> void:
 		if event.is_pressed():
 			_last_typed_character = char(event.unicode)
 
-			_last_selected_text = get_selection_text()
-			if get_selection_text():
+			_last_selected_text = get_selected_text()
+			if get_selected_text():
 				_last_selection_start = Vector2(get_selection_from_line(), get_selection_from_column())
 				_last_selection_end = Vector2(get_selection_to_line(), get_selection_to_column())
 
@@ -170,12 +170,12 @@ func _on_text_changed() -> void:
 			set_caret_line(_last_selection_start.x)
 			set_caret_column(_last_selection_start.y)
 
-			insert_text_at_cursor(_last_typed_character)
+			insert_text_at_caret(_last_typed_character)
 
 			set_caret_line(_last_selection_end.x)
 			set_caret_column(_last_selection_end.y + 1)
 
-		insert_text_at_cursor(closing_bracket)
+		insert_text_at_caret(closing_bracket)
 
 		if not _last_selected_text:
 			set_caret_column(get_caret_column() - 1)
@@ -188,7 +188,7 @@ func _on_text_changed() -> void:
 		var line := get_caret_line()
 		var column := get_caret_column()
 		select(line, column, line, column + 1)
-		var character := get_selection_text()
+		var character := get_selected_text()
 		deselect()
 		if character == _last_typed_character:
 			# We simulate pressing backspace to remove the last typed character.
@@ -237,9 +237,9 @@ func _reset_overlays() -> void:
 
 		error_node.connect(
 			"region_entered",
-			errors_overlay_message,
-			"show_message",
-			[error.code, error.message, error_node]
+			Callable(errors_overlay_message,
+			"show_message").bind(
+			error.code).bind(error.message).bind(error_node)
 		)
 		error_node.connect("region_exited", Callable(errors_overlay_message, "hide_message").bind(error_node))
 

@@ -150,23 +150,23 @@ const KEYWORDS := [
 
 # Enhances a TextEdit to better highlight GDScript code.
 static func enhance(text_edit: TextEdit) -> void:
-	text_edit.syntax_highlighter = true
-	text_edit.show_line_numbers = true
+	text_edit.syntax_highlighter = CodeHighlighter.new()
+	#TODO text_edit.show_line_numbers = true
 	text_edit.draw_tabs = true
 	text_edit.draw_spaces = true
-	text_edit.smooth_scrolling = true
+	text_edit.scroll_smooth = true
 	text_edit.caret_blink = true
-	text_edit.wrap_enabled = false
+	text_edit.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
 
-	text_edit.add_color_region('"', '"', COLOR_QUOTES)
-	text_edit.add_color_region("'", "'", COLOR_QUOTES)
-	text_edit.add_color_region("#", "\n", COLOR_COMMENTS, true)
+	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region('"', '"', COLOR_QUOTES)
+	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region("'", "'", COLOR_QUOTES)
+	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region("#", "\n", COLOR_COMMENTS, true)
 
 	for classname in ClassDB.get_class_list():
-		text_edit.add_keyword_color(classname, COLOR_CLASS)
+		(text_edit.syntax_highlighter as CodeHighlighter).add_keyword_color(classname, COLOR_CLASS)
 		for member in ClassDB.class_get_property_list(classname):
-			for key in member:
-				text_edit.add_keyword_color(key, COLOR_MEMBER)
+			for key: String in member:
+				(text_edit.syntax_highlighter as CodeHighlighter).add_keyword_color(key, COLOR_MEMBER)
 
-	for keyword in KEYWORDS:
-		text_edit.add_keyword_color(keyword, COLOR_KEYWORD)
+	for keyword: String in KEYWORDS:
+		(text_edit.syntax_highlighter as CodeHighlighter).add_keyword_color(keyword, COLOR_KEYWORD)

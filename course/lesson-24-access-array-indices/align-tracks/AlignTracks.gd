@@ -27,20 +27,27 @@ func remove_cells():
 
 
 func copy_cells():
-	for cell_pos in tilemap.get_used_cells():
+	for cell_pos in tilemap.get_used_cells(0):
 		var x := int(cell_pos.x)
 		var y := int(cell_pos.y)
-		var cell := tilemap.get_cell(x, y)
-		var is_transposed := tilemap.is_cell_transposed(x, y)
-		var is_x_flipped := tilemap.is_cell_x_flipped(x, y)
-		var is_y_flipped := tilemap.is_cell_y_flipped(x, y)
+		var cell := tilemap.get_cell_source_id(0, Vector2i(x, y))
+		var is_transposed := tilemap.is_cell_transposed(0, Vector2i(x, y))
+		var is_x_flipped := tilemap.is_cell_flipped_h(0, Vector2i(x, y))
+		var is_y_flipped := tilemap.is_cell_flipped_v(0, Vector2i(x, y))
 		var sub_tilemap = TileMap.new()
 		var is_not_in_position := false
 		if cell == 4:
 			cell = 2
 			is_not_in_position = true
 		sub_tilemap.tile_set = tilemap.tile_set
-		sub_tilemap.set_cell(0, 0, cell, is_x_flipped, is_y_flipped, is_transposed)
+		sub_tilemap.set_cell(0, Vector2i(0, 0), cell)
+		
+		var data := TileData.new()
+		data.transpose = is_transposed
+		data.flip_h = is_x_flipped
+		data.flip_v = is_y_flipped
+		sub_tilemap._tile_data_runtime_update(0, Vector2i(0, 0), data)
+		
 		var sprite := Sprite2D.new()
 		sprite.position = tilemap.map_to_local(cell_pos)
 		if is_not_in_position:
@@ -63,14 +70,12 @@ func _realign_selected_sprites() -> void:
 		push_error(item)
 	elif item:
 		var track := item as Sprite2D
-		var tween := Tween.new()
-		track.add_child(tween)
+		var tween := create_tween()
 		var initial := track.position
 		var target := initial - shift
-		tween.connect("tween_all_completed", Callable(self, "_realign_selected_sprites"))
-		tween.connect("tween_all_completed", Callable(tween, "queue_free"))
-		tween.interpolate_property(track, "position", initial, target, 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-		tween.start()
+		tween.connect("finished", Callable(self, "_realign_selected_sprites"))
+		tween.connect("finished", Callable(tween, "queue_free"))
+		tween.tween_property(track, "position", target, 1).from(initial).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 	else:
 		_complete_run()
 

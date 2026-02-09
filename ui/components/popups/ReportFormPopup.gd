@@ -15,23 +15,23 @@ func _ready():
 	hide()
 	_confirm_button.connect("pressed", Callable(self, "hide"))
 	_summary_label.connect("meta_clicked", Callable(self, "_on_meta_clicked"))
+	visibility_changed.connect(_visibility_toggled)
 	_update_translations()
 
-func show() -> void:
-	_color_rect.show()
-	_panel.show()
-
-
-func hide() -> void:
-	_confirm_button.grab_focus()
-	_color_rect.hide()
-	_panel.hide()
+func _visibility_toggled() -> void:
+	if visible:
+		_color_rect.show()
+		_panel.show()
+	else:
+		_confirm_button.grab_focus()
+		_color_rect.hide()
+		_panel.hide()
 
 
 func _on_meta_clicked(data) -> void:
 	if typeof(data) == TYPE_STRING:
-		if data.begins_with("https://"):
-			OS.shell_open(data)
+		if (data as String).begins_with("https://"):
+			OS.shell_open(data as String)
 		elif data == "download":
 			Log.download()
 

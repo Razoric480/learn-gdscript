@@ -85,7 +85,7 @@ class Meal extends VBoxContainer:
 	
 	var label := Label.new()
 	var progress := ProgressBar.new()
-	var tween := Tween.new()
+	var tween: Tween
 	var texture := TextureRect.new()	
 	var time := 0.0
 	var _meal_is_ready := false
@@ -98,21 +98,20 @@ class Meal extends VBoxContainer:
 		container.add_child(label)
 		add_child(container)
 		add_child(progress)
-		add_child(tween)
 		time = init_time
 		label.text = init_text
 
 	func _ready() -> void:
 		modulate.a = 0
-		tween.interpolate_property(self, "modulate:a", 0, 1, 1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		tween = create_tween()
+		tween.tween_property(self, "modulate:a", 1, 1).from(0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 		if time > 0:
 			texture.texture = TEXTURE_UNCHECKED
-			tween.connect("tween_all_completed", Callable(self, "_on_tween_completed"))
-			tween.interpolate_property(progress, "value", 0, 100.0, time)
+			tween.connect("finished", Callable(self, "_on_tween_completed"))
+			tween.tween_property(progress, "value", 100.0, time).from(0)
 		else:
 			texture.texture = TEXTURE_CHECKED
 			progress.value = 100
-		tween.start()
 
 	func _on_tween_completed():
 		if _meal_is_ready:
@@ -121,8 +120,7 @@ class Meal extends VBoxContainer:
 		_meal_is_ready = true
 		texture.texture = TEXTURE_CHECKED
 		emit_signal("meal_ready")
-		tween.interpolate_property(self, "modulate:a", modulate.a, 0, 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-		tween.start()
+		tween.tween_property(self, "modulate:a", modulate.a, 1).from(0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
 	func get_text() -> String:
 		return label.text

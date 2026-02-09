@@ -20,7 +20,7 @@ var _draw_offset := Vector2(-graph_size.x / 2, graph_size.y/2)
 
 
 func _ready() -> void:
-	update()
+	queue_redraw()
 
 	if Engine.is_editor_hint():
 		return
@@ -90,7 +90,7 @@ class Polygon:
 	var points := PackedVector2Array(): get = get_points
 	var draw_speed := 400.0
 	var line_2d := Line2D.new()
-	var _tween := Tween.new()
+	var _tween: Tween
 	var _current_points := PackedVector2Array()
 	var _current_point_index := 0
 	var _total_distance := 0.0
@@ -99,9 +99,9 @@ class Polygon:
 	signal line_end_moved(new_coordinates)
 
 	func _init(line_draw_speed := 400.0) -> void:
-		add_child(_tween)
 		add_child(line_2d)
-		_tween.connect("tween_all_completed", Callable(self, "next"))
+		_tween = create_tween()
+		_tween.connect("finished", Callable(self, "next"))
 		draw_speed = line_draw_speed
 
 	func reset() -> void:
@@ -118,7 +118,7 @@ class Polygon:
 			var distance = previous_point.distance_to(p)
 			previous_point = p
 			_total_distance += distance
-		_tween.stop_all()
+		_tween.stop()
 		next()
 
 	func next() -> void:
@@ -135,16 +135,16 @@ class Polygon:
 
 		_current_points.append(starting_point)
 		line_2d.points = _current_points
-		_tween.interpolate_method(
-			self, "_animate_point_position", starting_point, destination, animation_duration
+		_tween.tween_method(
+			_animate_point_position, starting_point, destination, animation_duration
 		)
-		_tween.start()
 
 	func stop_animation() -> void:
-		_tween.remove_all()
+		_tween.kill()
+		_tween = create_tween()
 
 	func is_drawing() -> bool:
-		return _tween.is_active()
+		return _tween.is_running()
 
 	func _animate_point_position(point: Vector2) -> void:
 		var new_points := _current_points

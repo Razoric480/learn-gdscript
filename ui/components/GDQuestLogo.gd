@@ -28,4 +28,4 @@ func _toggle_shade(is_down: bool) -> void:
 	if is_down:
 		modulate = COLOR_PRESSED
 	else:
-		modulate = COLOR_HOVER if is_hovered() else COLOR_IDLE
+		modulate = COLOR_HOVER if is_hovered else COLOR_IDLE

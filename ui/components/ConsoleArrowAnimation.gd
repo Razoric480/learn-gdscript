@@ -5,21 +5,20 @@ const LINE_COLOR := Color(1, 0.96, 0.25)
 const LINE_WIDTH := 3.0
 const TWEEN_DURATION := 0.2
 
+var _tween: Tween
+
 @export var initial_point := Vector2.ZERO
 @export var end_point := Vector2.ZERO
 
 @onready var highlight_rects : Array = []: set = set_highlight_rects
 
 @onready var _arrow := $Arrow as Sprite2D
-@onready var _tween := $Tween as Tween
 @onready var _line_slice_limit := 0
 @onready var _baked_line_points := []
 
 
 func _ready():
 	set_process(false)
-	_tween.connect("tween_completed", Callable(self, "_on_tween_completed"))
-	_tween.connect("tween_step", Callable(self, "_on_tween_step"))
 
 
 func _draw() -> void:
@@ -41,27 +40,33 @@ func draw_curve():
 
 	_baked_line_points = curve.get_baked_points() as Array
 
-	_tween.interpolate_property(self, "_line_slice_limit", 0, _baked_line_points.size(), TWEEN_DURATION)
-	_tween.start()
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_tween = create_tween()
+	_tween.connect("finished", Callable(self, "_on_tween_completed"))
+	_tween.connect("step_finished", Callable(self, "_on_tween_step"))
+	_tween.tween_property(self, "_line_slice_limit", _baked_line_points.size(), TWEEN_DURATION).from(0)
 
 
 func reset_curve():
-	_tween.stop_all()
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	
 	_line_slice_limit = 0
 	_baked_line_points = []
 	_arrow.hide()
-	update()
+	queue_redraw()
 
 
 func set_highlight_rects(value) -> void:
 	highlight_rects = value
-	update()
+	queue_redraw()
 
 
-func _on_tween_completed(_object : Object, _key : NodePath):
+func _on_tween_completed():
 	_arrow.position = _baked_line_points[-1]
 	_arrow.show()
 
 
-func _on_tween_step(_object : Object, _key : NodePath, _elapsed : float, _value : Object):
-	update()
+func _on_tween_step(step: int):
+	queue_redraw()

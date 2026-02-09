@@ -6,6 +6,7 @@ const FADE_IN_DURATION := 0.25
 const FADE_IN_START_SCALE := 0.5
 
 var _raw_summary := ""
+var _tween: Tween
 
 @onready var _popup_container := $PanelContainer as Control
 @onready var _incomplete_summary := $PanelContainer/Layout/Margin/Column/IncompleteSummary as Label
@@ -16,7 +17,6 @@ var _raw_summary := ""
 
 @onready var _particles := $Particles as CPUParticles2D
 @onready var _thick_particles := $ThickParticles as CPUParticles2D
-@onready var _tween := $Tween as Tween
 
 
 func _ready() -> void:
@@ -51,16 +51,15 @@ func popup_centered() -> void:
 	_popup_container.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_KEEP_SIZE)
 	_popup_container.pivot_offset = _popup_container.size / 2
 	
-	_tween.stop_all()
-	_tween.interpolate_property(
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	
+	_tween.tween_property(
 		_popup_container,
 		"scale",
-		_popup_container.scale,
 		Vector2(1.0, 1.0),
-		FADE_IN_DURATION,
-		Tween.TRANS_CUBIC
-	)
-	_tween.start()
+		FADE_IN_DURATION
+	).set_trans(Tween.TRANS_CUBIC)
 	
 	_move_on_button.grab_focus()
 

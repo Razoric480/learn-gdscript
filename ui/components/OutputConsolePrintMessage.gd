@@ -1,15 +1,14 @@
 extends PanelContainer
 
 var values := []: set = set_values
+var _tween: Tween
 
 @onready var _label := $Label as Label
-@onready var _tween := $Tween as Tween
 
 
 func _ready() -> void:
-	_tween.stop_all()
-	_tween.interpolate_property(self, "self_modulate:a", 1.0, 0.25, 1.5)
-	_tween.start()
+	_tween = create_tween()
+	_tween.tween_property(self, "self_modulate:a", 0.25, 1.5).from(1.0)
 
 
 func set_values(new_values: Array) -> void:

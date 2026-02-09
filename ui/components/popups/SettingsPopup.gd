@@ -28,7 +28,7 @@ var _sample_default_font: FontFile
 
 func _init() -> void:
 	# Store the initial state as is, so that we can preview it without being affected.
-	_sample_default_font = ResourceLoader.load("res://ui/theme/fonts/font_text.tres", "", true).duplicate()
+	_sample_default_font = ResourceLoader.load("res://ui/theme/fonts/font_text.tres", "", ResourceLoader.CACHE_MODE_IGNORE).duplicate()
 
 
 func _ready() -> void:
@@ -88,8 +88,8 @@ func _on_apply_settings() -> void:
 	var size_scale := int(_font_size_value.value)
 	ThemeManager.scale_all_font_sizes(size_scale)
 	
-	ThemeManager.set_lower_contrast(_lower_contrast.pressed)
-	ThemeManager.set_dyslexia_font(_dyslexia_font.pressed)
+	ThemeManager.set_lower_contrast(_lower_contrast.button_pressed)
+	ThemeManager.set_dyslexia_font(_dyslexia_font.button_pressed)
 
 	current_profile.set_scroll_sensitivity(_scroll_sensitivity_slider.value)
 	current_profile.set_framerate_limit(FRAMERATE_MAP[_framerate_option.selected])

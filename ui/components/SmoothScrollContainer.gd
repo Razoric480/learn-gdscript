@@ -1,7 +1,8 @@
 # Adds smooth scrolling support to vertical ScrollContainer nodes.
 #
 # This works by moving a direct child of the container. See `_content`.
-class_name SmoothScrollContainer, "smooth_scroll_container_icon.svg"
+@icon("smooth_scroll_container_icon.svg")
+class_name SmoothScrollContainer
 extends ScrollContainer
 
 # Amount of pixels to offset the scroll target when scrolling with the mouse
@@ -54,7 +55,7 @@ func _ready() -> void:
 	var user_profile := UserProfiles.get_profile()
 	_scroll_sensitivity = user_profile.scroll_sensitivity
 	user_profile.connect(
-		"scroll_sensitivity_changed", self, "_on_UserProfile_scroll_sensitivity_changed"
+		"scroll_sensitivity_changed", Callable(self, "_on_UserProfile_scroll_sensitivity_changed")
 	)
 
 
@@ -64,7 +65,7 @@ func _process(delta: float) -> void:
 		set_process(false)
 		return
 
-	var speed_multiplier := max((distance_to_target - ACCELERATE_DISTANCE_THRESHOLD) / SPEED_DISTANCE_DIVISOR, 1.0)
+	var speed_multiplier := maxf((distance_to_target - ACCELERATE_DISTANCE_THRESHOLD) / SPEED_DISTANCE_DIVISOR, 1.0)
 	scroll_speed = SPEED_BASE * speed_multiplier
 	arrive_distance = ARRIVE_DISTANCE_BASE * speed_multiplier
 
@@ -132,8 +133,8 @@ func scroll_to_bottom() -> void:
 
 
 # Override default implementation to keep local properties in sync.
-func set_v_scroll(value: int) -> void:
-	super.set_v_scroll(value)
+func set_v_scroll_override(value: int) -> void:
+	set_v_scroll(value)
 
 	if is_processing():
 		set_process(false)

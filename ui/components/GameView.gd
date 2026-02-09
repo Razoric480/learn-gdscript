@@ -35,7 +35,7 @@ func use_scene(node: Node, viewport_size: Vector2) -> void:
 	_viewport.size = viewport_size
 
 
-func get_viewport() -> SubViewport:
+func get_viewport_override() -> SubViewport:
 	return _viewport
 
 

@@ -71,7 +71,7 @@ func _ready() -> void:
 	_solution_button.connect("pressed", Callable(self, "emit_signal").bind("action_taken", ACTIONS.SOLUTION))
 	_continue_button.connect("pressed", Callable(self, "emit_signal").bind("action_taken", ACTIONS.CONTINUE))
 	_distraction_free_mode_button.connect(
-		"pressed", self, "emit_signal", ["action_taken", ACTIONS.DFMODE]
+		"pressed", Callable(self, "emit_signal").bind("action_taken").bind(ACTIONS.DFMODE)
 	)
 	_console_button.connect("pressed", Callable(self, "emit_signal").bind("console_toggled"))
 
@@ -131,7 +131,7 @@ func set_distraction_free_state(enabled: bool) -> void:
 
 
 func is_pause_button_pressed() -> bool:
-	return _pause_button.pressed
+	return _pause_button.button_pressed
 
 
 func set_pause_button_pressed(is_pressed: bool) -> void:
@@ -139,7 +139,7 @@ func set_pause_button_pressed(is_pressed: bool) -> void:
 
 
 func is_solution_button_pressed() -> bool:
-	return _solution_button.pressed
+	return _solution_button.button_pressed
 
 
 func set_solution_button_pressed(is_pressed: bool) -> void:

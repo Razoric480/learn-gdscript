@@ -186,7 +186,7 @@ class ErrorOverlay:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	func _ready() -> void:
-		set_anchors_and_offsets_preset(Control.PRESET_WIDE)
+		set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	func try_consume_mouse(point: Vector2) -> bool:
 		var region_has_point := -1
@@ -327,16 +327,16 @@ class ErrorUnderline:
 	func set_line_length(value: float) -> void:
 		line_length = value
 		update_points()
-		update()
+		queue_redraw()
 
 	func set_line_type(value: int) -> void:
 		line_type = value
 		update_points()
-		update()
+		queue_redraw()
 
 	func set_line_color(value: Color) -> void:
 		line_color = value
-		update()
+		queue_redraw()
 
 
 class HighlightOverlay:
@@ -357,16 +357,15 @@ class HighlightOverlay:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
 		_current_alpha = DEFAULT_ALPHA
-		_tweener = Tween.new()
-		add_child(_tweener)
-
+		
+		
 	func _ready() -> void:
-		set_anchors_and_offsets_preset(Control.PRESET_WIDE)
+		set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		
-		_tweener.connect("tween_all_completed", Callable(self, "queue_free"))
+		_tweener = create_tween()
+		_tweener.connect("finished", Callable(self, "queue_free"))
 		
-		_tweener.interpolate_method(self, "_dissolve_step", DEFAULT_ALPHA, 0.0, DISSOLVE_DURATION)
-		_tweener.start()
+		_tweener.tween_method(_dissolve_step, DEFAULT_ALPHA, 0.0, DISSOLVE_DURATION)
 	
 	
 	func _draw() -> void:
@@ -376,9 +375,9 @@ class HighlightOverlay:
 	
 	func _dissolve_step(value: float) -> void:
 		_current_alpha = value
-		update()
+		queue_redraw()
 	
 	
 	func set_regions(hl_regions: Array) -> void:
 		regions = hl_regions
-		update()
+		queue_redraw()
