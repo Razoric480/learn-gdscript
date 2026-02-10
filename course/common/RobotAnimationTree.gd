@@ -4,8 +4,6 @@
 # became problematic when using a method track to go back to the idle animation.
 extends AnimationTree
 
-signal animation_finished
-
 @onready var _state_machine = self["parameters/playback"]
 @onready var _animation_player = get_node(anim_player) as AnimationPlayer
 
@@ -27,5 +25,5 @@ func get_current_animation() -> String:
 	return _state_machine.get_current_node()
 
 
-func has_animation(animation_name: String) -> bool:
-	return _animation_player.has_animation(animation_name)
+#func has_animation(animation_name: String) -> bool:
+#	return _animation_player.has_animation(animation_name)

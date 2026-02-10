@@ -1,181 +1,138 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene format=3 uid="uid://dpq5xmear4w5d"]
 
-[ext_resource path="res://ui/theme/gdscript_app_theme.tres" type="Theme" id=1]
-[ext_resource path="res://ui/screens/practice/PracticeInfoPanel.gd" type="Script" id=2]
-[ext_resource path="res://ui/theme/fonts/font_title.tres" type="FontFile" id=3]
-[ext_resource path="res://ui/components/ScrollableTextBox.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ui/components/Revealer.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ui/theme/panel_normal.tres" type="StyleBox" id=6]
-[ext_resource path="res://ui/theme/revealer_hints_panel.tres" type="StyleBox" id=7]
-[ext_resource path="res://ui/theme/fonts/font_practice_progress.tres" type="FontFile" id=8]
-[ext_resource path="res://ui/components/SmoothScrollContainer.gd" type="Script" id=9]
-[ext_resource path="res://ui/theme/practice_list_button.tres" type="StyleBox" id=10]
-[ext_resource path="res://ui/icons/practice_list.png" type="Texture2D" id=11]
-[ext_resource path="res://ui/theme/practice_info_separator.tres" type="StyleBox" id=12]
+[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="1"]
+[ext_resource type="Script" uid="uid://isw5sjt67wn8" path="res://ui/screens/practice/PracticeInfoPanel.gd" id="2"]
+[ext_resource type="FontFile" path="res://ui/theme/fonts/font_title.tres" id="3"]
+[ext_resource type="PackedScene" path="res://ui/components/ScrollableTextBox.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://ui/components/Revealer.tscn" id="5"]
+[ext_resource type="StyleBox" path="res://ui/theme/panel_normal.tres" id="6"]
+[ext_resource type="StyleBox" path="res://ui/theme/revealer_hints_panel.tres" id="7"]
+[ext_resource type="FontFile" path="res://ui/theme/fonts/font_practice_progress.tres" id="8"]
+[ext_resource type="Script" uid="uid://dmptnpr0crwmq" path="res://ui/components/SmoothScrollContainer.gd" id="9"]
+[ext_resource type="StyleBox" path="res://ui/theme/practice_list_button.tres" id="10"]
+[ext_resource type="Texture2D" uid="uid://ckvual55dmiwg" path="res://ui/icons/practice_list.png" id="11"]
+[ext_resource type="StyleBox" path="res://ui/theme/practice_info_separator.tres" id="12"]
 
-[node name="PracticeInfoPanel" type="PanelContainer"]
+[node name="PracticeInfoPanel" type="PanelContainer" unique_id=1958886134 node_paths=PackedStringArray("_docs_item_list")]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("1")
+script = ExtResource("2")
+_docs_item_list = NodePath("LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Documentation/DocumentationItems")
 
-[node name="Panel" type="Panel" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
-theme_override_styles/panel = ExtResource( 6 )
+[node name="Panel" type="Panel" parent="." unique_id=1595266243]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("6")
 
-[node name="LessonRequirements" type="VBoxContainer" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
+[node name="LessonRequirements" type="VBoxContainer" parent="." unique_id=887592278]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="Margin" type="MarginContainer" parent="LessonRequirements"]
-offset_right = 1920.0
-offset_bottom = 1013.0
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Column" type="VBoxContainer" parent="LessonRequirements/Margin"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 1900.0
-offset_bottom = 993.0
+[node name="Margin" type="MarginContainer" parent="LessonRequirements" unique_id=1783675102]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TitleBox" type="HBoxContainer" parent="LessonRequirements/Margin/Column"]
-offset_right = 1880.0
-offset_bottom = 32.0
+[node name="Column" type="VBoxContainer" parent="LessonRequirements/Margin" unique_id=1435456762]
+layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="LessonRequirements/Margin/Column/TitleBox"]
-offset_right = 1832.0
-offset_bottom = 31.0
+[node name="TitleBox" type="HBoxContainer" parent="LessonRequirements/Margin/Column" unique_id=54321918]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="LessonRequirements/Margin/Column/TitleBox" unique_id=1547542232]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Summary - Lesson Name"
-autowrap = true
 
-[node name="StatusIcon" type="TextureRect" parent="LessonRequirements/Margin/Column/TitleBox"]
-modulate = Color( 0.572549, 0.560784, 0.721569, 1 )
-offset_left = 1848.0
-offset_right = 1880.0
-offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
-expand = true
+[node name="StatusIcon" type="TextureRect" parent="LessonRequirements/Margin/Column/TitleBox" unique_id=2004834980]
+modulate = Color(0.572549, 0.560784, 0.721569, 1)
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
 stretch_mode = 6
 
-[node name="HSeparator" type="HSeparator" parent="LessonRequirements/Margin/Column"]
-offset_top = 48.0
-offset_right = 1880.0
-offset_bottom = 64.0
+[node name="HSeparator" type="HSeparator" parent="LessonRequirements/Margin/Column" unique_id=1078363464]
+layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Scroll" type="ScrollContainer" parent="LessonRequirements/Margin/Column"]
-offset_top = 80.0
-offset_right = 1880.0
-offset_bottom = 973.0
+[node name="Scroll" type="ScrollContainer" parent="LessonRequirements/Margin/Column" unique_id=237940078]
+layout_mode = 2
 size_flags_vertical = 3
-scroll_horizontal_enabled = false
-script = ExtResource( 9 )
+script = ExtResource("9")
 
-[node name="MarginContainer" type="MarginContainer" parent="LessonRequirements/Margin/Column/Scroll"]
-offset_right = 1880.0
-offset_bottom = 504.0
+[node name="MarginContainer" type="MarginContainer" parent="LessonRequirements/Margin/Column/Scroll" unique_id=1618975059]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 0
 
-[node name="Column" type="VBoxContainer" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer"]
-offset_right = 1868.0
-offset_bottom = 504.0
+[node name="Column" type="VBoxContainer" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer" unique_id=1583349296]
+layout_mode = 2
 
-[node name="Goals" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" instance=ExtResource( 5 )]
-offset_right = 1868.0
-offset_bottom = 270.0
+[node name="Goals" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=688170191 instance=ExtResource("5")]
+layout_mode = 2
 size_flags_horizontal = 3
 title = "Goals"
 is_expanded = true
 
-[node name="Goal" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Goals" instance=ExtResource( 4 )]
-offset_left = 8.0
-offset_top = 58.0
-offset_right = 1860.0
-offset_bottom = 258.0
+[node name="Goal" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Goals" unique_id=477873706 instance=ExtResource("4")]
+layout_mode = 2
 
-[node name="Hints" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" instance=ExtResource( 5 )]
-offset_top = 286.0
-offset_right = 1868.0
-offset_bottom = 332.0
+[node name="Hints" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=163375710 instance=ExtResource("5")]
+layout_mode = 2
 size_flags_horizontal = 3
 title = "Hints"
-content_panel = ExtResource( 7 )
+content_panel = ExtResource("7")
 
-[node name="Checks" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" instance=ExtResource( 5 )]
-offset_top = 348.0
-offset_right = 1868.0
-offset_bottom = 418.0
+[node name="Checks" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=89551840 instance=ExtResource("5")]
+layout_mode = 2
 size_flags_horizontal = 3
 title = "Checks"
 is_expanded = true
 
-[node name="Documentation" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" instance=ExtResource( 5 )]
-offset_top = 434.0
-offset_right = 1868.0
-offset_bottom = 504.0
+[node name="Documentation" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=373290168 instance=ExtResource("5")]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 title = "Documentation"
 is_expanded = true
 
-[node name="DocumentationItems" type="VBoxContainer" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Documentation"]
-offset_left = 8.0
-offset_top = 58.0
-offset_right = 1860.0
-offset_bottom = 58.0
+[node name="DocumentationItems" type="VBoxContainer" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Documentation" unique_id=1651652785]
+layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HSeparator" type="HSeparator" parent="LessonRequirements"]
-offset_top = 1013.0
-offset_right = 1920.0
-offset_bottom = 1021.0
-theme_override_styles/separator = ExtResource( 12 )
+[node name="HSeparator" type="HSeparator" parent="LessonRequirements" unique_id=314133392]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("12")
 
-[node name="Footer" type="MarginContainer" parent="LessonRequirements"]
-offset_top = 1021.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-theme = ExtResource( 1 )
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_top = 8
+[node name="Footer" type="MarginContainer" parent="LessonRequirements" unique_id=1026381199]
+layout_mode = 2
+theme = ExtResource("1")
 theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ListButton" type="Button" parent="LessonRequirements/Footer"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 1912.0
-offset_bottom = 51.0
+[node name="ListButton" type="Button" parent="LessonRequirements/Footer" unique_id=1424397161]
+layout_mode = 2
+size_flags_horizontal = 3
 tooltip_text = "Open the list of practices for this lesson."
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-theme_override_colors/font_disabled_color = Color( 0.188235, 0.188235, 0.286275, 1 )
-theme_override_fonts/font = ExtResource( 8 )
-theme_override_styles/hover = ExtResource( 10 )
-theme_override_styles/pressed = ExtResource( 10 )
-theme_override_styles/focus = ExtResource( 10 )
-theme_override_styles/disabled = ExtResource( 10 )
-theme_override_styles/normal = ExtResource( 10 )
+theme_override_colors/font_disabled_color = Color(0.188235, 0.188235, 0.286275, 1)
+theme_override_fonts/font = ExtResource("8")
+theme_override_styles/normal = ExtResource("10")
+theme_override_styles/pressed = ExtResource("10")
+theme_override_styles/hover = ExtResource("10")
+theme_override_styles/disabled = ExtResource("10")
+theme_override_styles/focus = ExtResource("10")
 text = "Open Practice List"
-icon = ExtResource( 11 )
+icon = ExtResource("11")
 flat = true
-align = 0

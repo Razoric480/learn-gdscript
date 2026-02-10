@@ -9,7 +9,7 @@ extends Resource
 # like quizzes.
 @export var content_blocks: Array
 # Array[Practice]
-@export var practices: Array
+@export var practices: Array[Practice]
 
 
 func _init() -> void:

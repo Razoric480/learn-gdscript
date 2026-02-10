@@ -7,9 +7,9 @@ var navigation_disabled := false: set = set_navigation_disabled
 
 var _practice: Practice
 
-@onready var _title_label := $Margin/Row/Column/Row/Title as Label
+@export var _title_label: Label
 @onready var _next_pill_label := $Margin/Row/Column/Row/NextPill as Label
-@onready var _description_label := $Margin/Row/Column/Description as RichTextLabel
+@export var _description_label: RichTextLabel
 @onready var _completed_before_icon := $Margin/Row/Column/Row/CompletedBeforeIcon as TextureRect
 @onready var _navigate_button := $Margin/Row/NavigateButton as Button
 @onready var _no_navigation_label := $Margin/Row/NoNavigationLabel as Label

@@ -19,8 +19,9 @@ const HSLIDER_GRABBER_HIGHLIGHT: StyleBoxFlat = preload("res://ui/theme/hslider_
 @export var run_button_label := "": set = set_run_button_label
 
 var _scene_instance: CanvasItem: set = _set_scene_instance
+var _lock := false
 
-var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").size
+var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").msdf_size
 
 @onready var _gdscript_text_edit := $GDScriptCode as TextEdit
 @onready var _run_button := $Frame/HBoxContainer/RunButton as Button
@@ -33,9 +34,7 @@ var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").size
 @onready var _debugger: RunnableCodeExampleDebugger
 @onready var _console_arrow_animation: ConsoleArrowAnimation
 @onready var _monitored_variable_highlights := []
-# Used to keep track of the code example's run() function in case it has
-# calls to yield() and we want the user to step through the code.
-@onready var _script_function_state: GDScriptFunctionState
+
 
 @onready var _start_code_example_height := _gdscript_text_edit.size.y
 
@@ -52,7 +51,7 @@ func _ready() -> void:
 	_frame_container.connect("resized", Callable(self, "_center_scene_instance"))
 
 	CodeEditorEnhancer.enhance(_gdscript_text_edit)
-	_gdscript_text_edit.add_color_region("[=", "]", CodeEditorEnhancer.COLOR_COMMENTS)
+	(_gdscript_text_edit.syntax_highlighter as CodeHighlighter).add_color_region("[=", "]", CodeEditorEnhancer.COLOR_COMMENTS)
 
 	_gdscript_text_edit.visible = not gdscript_code.is_empty()
 
@@ -72,53 +71,52 @@ func _ready() -> void:
 	RenderingServer.canvas_item_set_z_index(canvas_item, 10)
 
 
-func _get_configuration_warnings() -> String:
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 	if not scene:
-		return "This node needs a scene to display."
+		warnings.push_back("This node needs a scene to display.")
 	elif _scene_instance and not _scene_instance.has_method("run"):
-		return ERROR_NO_RUN_FUNCTION % [_scene_instance.filename]
-	return ""
+		warnings.push_back(ERROR_NO_RUN_FUNCTION % [_scene_instance.filename])
+	return warnings
 
 
 # Called when pressing the Run button. Calls the run() function of the example.
 func run() -> void:
-	if not _script_function_state:
+	if not _lock:
 		assert(
 			_scene_instance.has_method("run"), "Node %s does not have a run method" % [get_path()]
 		)
 
-		# Some examples expect to be able to play them from the previous state,
-		# while others don't. In general, we only need to reset a demo
-		# to its initial state if it has a Debugger node.
+			# Some examples expect to be able to play them from the previous state,
+			# while others don't. In general, we only need to reset a demo
+			# to its initial state if it has a Debugger node.
 		if _scene_instance.has_method("reset") and _debugger:
 			_scene_instance.reset()
 
-		# warning-ignore:unsafe_method_access
-		# We use yield() in some code examples to allow the user to step through
-		# instructions. When pressing the Run button, we skip all yields and run
-		# all instructions.
-		var state: GDScriptFunctionState = _scene_instance.run()
-		while state:
-			state = state.resume()
-		if _scene_instance.has_method("wrap_inside_frame"):
 			# warning-ignore:unsafe_method_access
+			# We use yield() in some code examples to allow the user to step through
+			# instructions. When pressing the Run button, we skip all yields and run
+			# all instructions.
+		_lock = true
+		await _scene_instance.run()
+		if _scene_instance.has_method("wrap_inside_frame"):
+				# warning-ignore:unsafe_method_access
 			_scene_instance.wrap_inside_frame(_frame_container.get_rect())
 
 	else:
-		_script_function_state = _script_function_state.resume()
-		while _script_function_state:
-			_script_function_state = _script_function_state.resume()
+		return
 
+	_lock = false
 	_gdscript_text_edit.highlight_current_line = false
 
-	emit_signal("code_updated")
+	code_updated.emit()
 	_clear_animated_arrows()
 
 
 # Called when pressing the Step button. Available only on examples that contain
 # calls to yield().
 func step() -> void:
-	if not _script_function_state:
+	if not _lock:
 		assert(
 			_scene_instance.has_method("run"), "Node %s does not have a run method" % [get_path()]
 		)
@@ -127,27 +125,21 @@ func step() -> void:
 			_scene_instance.reset()
 
 		# warning-ignore:unsafe_method_access
-		var state = _scene_instance.run()
+		_scene_instance.run()
 		if _scene_instance.has_method("wrap_inside_frame"):
 			# warning-ignore:unsafe_method_access
 			_scene_instance.wrap_inside_frame(_frame_container.get_rect())
-		if state is GDScriptFunctionState:
-			_script_function_state = state
 	else:
 		if _console_arrow_animation:
 			_console_arrow_animation.highlight_rects = []
 			_console_arrow_animation.reset_curve()
 
-		_script_function_state = _script_function_state.resume()
-		if not _script_function_state:
-			_gdscript_text_edit.highlight_current_line = false
+		_gdscript_text_edit.highlight_current_line = false
 	emit_signal("code_updated")
 
 
 func reset() -> void:
 	# Finish running script if it's yielded
-	if _script_function_state:
-		run()
 	if _scene_instance.has_method("reset"):
 		_scene_instance.call("reset")
 	_center_scene_instance()
@@ -233,7 +225,7 @@ func create_slider_for(
 # will always be the first argument.
 func _set_instance_value(value: float, property_name: String, value_label: Label) -> void:
 	_scene_instance.set(property_name, value)
-	value_label.text = String(value)
+	value_label.text = str(value)
 
 
 func _center_scene_instance() -> void:
@@ -273,7 +265,7 @@ func _set_scene_instance(new_scene_instance: CanvasItem) -> void:
 		_step_button.visible = _scene_instance.get_script().source_code.find("yield()") >= 0
 
 	if not _run_button.visible:
-		printerr(ERROR_NO_RUN_FUNCTION % [_scene_instance.filename])
+		printerr(ERROR_NO_RUN_FUNCTION % [_scene_instance.scene_file_path.get_file()])
 
 	# Setting up our fake debugger when it's there to allow executing the code line-by-line
 	var debugger: RunnableCodeExampleDebugger = null
@@ -324,20 +316,20 @@ func _reset_monitored_variable_highlights():
 			var is_result_in_line_before := false
 			var is_result_in_column_before := false
 
-			if result.size() != 0:
-				is_result_in_line_before = result[TextEdit.SEARCH_RESULT_LINE] < last_line
+			if result != Vector2i(-1, -1):
+				is_result_in_line_before = result.y < last_line
 				is_result_in_column_before = (
-					result[TextEdit.SEARCH_RESULT_COLUMN] < last_column
-					and result[TextEdit.SEARCH_RESULT_LINE] <= last_line
+					result.x < last_column
+					and result.y <= last_line
 				)
 
-			if result.size() == 0:
+			if result == Vector2i(-1, -1):
 				last_line = -1
 			elif is_result_in_line_before or is_result_in_column_before:
 				last_line = -1
 			else:
-				last_line = result[TextEdit.SEARCH_RESULT_LINE]
-				last_column = result[TextEdit.SEARCH_RESULT_COLUMN]
+				last_line = result.y
+				last_column = result.x
 
 				var rect = _gdscript_text_edit.get_rect_at_line_column(last_line, last_column)
 				rect.position += offset
@@ -374,9 +366,6 @@ func _on_highlight_line(line_number: int) -> void:
 	# wait to see if script was interrupted
 	await get_tree().process_frame
 
-	if not _script_function_state:
-		return
-
 	_gdscript_text_edit.highlight_current_line = true
 	_gdscript_text_edit.set_caret_line(line_number)
 
@@ -385,16 +374,13 @@ func _on_arrow_animation(chars1: Array, chars2: Array) -> void:
 	# wait to see if script was interrupted
 	await get_tree().process_frame
 
-	if not _script_function_state:
-		return
-
 	if not _console_arrow_animation:
 		_console_arrow_animation = ConsoleArrowAnimationScene.instantiate()
 		add_child(_console_arrow_animation)
 
 	var current_line := _gdscript_text_edit.get_caret_line()
 
-	var offset := Vector2.ZERO
+	var offset := Vector2i.ZERO
 	offset.x = _gdscript_text_edit.position.x + 2
 
 	var rect1 := _gdscript_text_edit.get_rect_at_line_column(current_line, chars1[0])
@@ -409,8 +395,8 @@ func _on_arrow_animation(chars1: Array, chars2: Array) -> void:
 	var rects := [rect1, rect2]
 
 	_console_arrow_animation.highlight_rects = rects
-	_console_arrow_animation.initial_point = rect1.position + Vector2(rect1.size.x / 2, -5)
-	_console_arrow_animation.end_point = rect2.position + Vector2(rect2.size.x / 2, -5)
+	_console_arrow_animation.initial_point = rect1.position + Vector2i(rect1.size.x / 2, -5)
+	_console_arrow_animation.end_point = rect2.position + Vector2i(rect2.size.x / 2, -5)
 	_console_arrow_animation.draw_curve()
 
 

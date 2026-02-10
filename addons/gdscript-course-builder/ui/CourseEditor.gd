@@ -6,6 +6,9 @@ const UILessonScene := preload("res://ui/UILesson.tscn")
 const ResourceUtils := preload("../utils/ResourceUtils.gd")
 const FileUtils := preload("../utils/FileUtils.gd")
 const PluginUtils := preload("../utils/PluginUtils.gd")
+const LessonList := preload("LessonList.gd")
+const LessonDetails := preload("LessonDetails.gd")
+const SearchBar := preload("SearchBar.gd")
 
 # Private properties
 var _current_lesson_index := -1
@@ -45,20 +48,20 @@ var _remove_on_save := []
 
 @onready var _course_path_value := $Layout/Content/CoursePath/LineEdit as LineEdit
 @onready var _course_title_value := $Layout/Content/CourseTitle/LineEdit as LineEdit
-@onready var _lesson_list := $Layout/Content/CourseData/LessonList as Control
-@onready var _lesson_details := $Layout/Content/CourseData/LessonDetails as Control
+@onready var _lesson_list := $Layout/Content/CourseData/LessonList as LessonList
+@onready var _lesson_details := $Layout/Content/CourseData/LessonDetails as LessonDetails
 
 var _file_dialog: EditorFileDialog
 @onready var _accept_dialog := $AcceptDialog as AcceptDialog
 @onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
 
-@onready var _search_bar := $Layout/ToolBar/SearcnBar as HBoxContainer
+@onready var _search_bar := $Layout/ToolBar/SearcnBar as SearchBar
 
 
 func _init() -> void:
 	_file_dialog = EditorFileDialog.new()
 	_file_dialog.display_mode = EditorFileDialog.DISPLAY_LIST
-	_file_dialog.custom_minimum_size = Vector2(700, 480)
+	_file_dialog.size = Vector2i(700, 480)
 	add_child(_file_dialog)
 
 
@@ -71,31 +74,31 @@ func _ready() -> void:
 	_content_block.hide()
 	_no_content_block.show()
 
-	_new_course_button.connect("pressed", Callable(self, "_on_create_course_requested"))
-	_open_course_button.connect("pressed", Callable(self, "_on_open_course_requested"))
-	_play_current_button.connect("pressed", Callable(self, "_on_play_current_requested"))
-	_save_course_button.connect("pressed", Callable(self, "_save_course").bind(true))
-	_save_as_course_button.connect("pressed", Callable(self, "_save_course").bind(false))
-	_file_dialog.connect("file_selected", Callable(self, "_on_file_dialog_confirmed"))
+	_new_course_button.pressed.connect(_on_create_course_requested)
+	_open_course_button.pressed.connect(_on_open_course_requested)
+	_play_current_button.pressed.connect(_on_play_current_requested)
+	_save_course_button.pressed.connect(_save_course.bind(true))
+	_save_as_course_button.pressed.connect(_save_course.bind(false))
+	_file_dialog.file_selected.connect(_on_file_dialog_confirmed)
 	var recent_courses_popup := _recent_courses_button.get_popup()
-	recent_courses_popup.connect("index_pressed", Callable(self, "_on_recent_course_requested"))
+	recent_courses_popup.index_pressed.connect(_on_recent_course_requested)
 
-	_course_title_value.connect("text_changed", Callable(self, "_on_course_title_changed"))
-	_lesson_list.connect("lesson_added", Callable(self, "_on_lesson_added"))
-	_lesson_list.connect("lesson_removed", Callable(self, "_on_lesson_removed"))
-	_lesson_list.connect("lesson_moved", Callable(self, "_on_lesson_moved"))
-	_lesson_list.connect("lesson_selected", Callable(self, "_on_lesson_selected"))
+	_course_title_value.text_changed.connect(_on_course_title_changed)
+	_lesson_list.lesson_added.connect(_on_lesson_added)
+	_lesson_list.lesson_removed.connect(_on_lesson_removed)
+	_lesson_list.lesson_moved.connect(_on_lesson_moved)
+	_lesson_list.lesson_selected.connect(_on_lesson_selected)
 
-	_lesson_details.connect("lesson_title_changed", Callable(self, "_on_lesson_title_changed"))
-	_lesson_details.connect("lesson_slug_changed", Callable(self, "_on_lesson_slug_changed"))
-	_lesson_details.connect("lesson_tab_selected", Callable(self, "_on_lesson_tab_selected"))
-	_lesson_details.connect("practice_tab_selected", Callable(self, "_on_practice_tab_selected"))
+	_lesson_details.lesson_title_changed.connect(_on_lesson_title_changed)
+	_lesson_details.lesson_slug_changed.connect(_on_lesson_slug_changed)
+	_lesson_details.lesson_tab_selected.connect(_on_lesson_tab_selected)
+	_lesson_details.practice_tab_selected.connect(_on_practice_tab_selected)
 
-	_lesson_details.connect("practice_got_edit_focus", Callable(self, "_on_practice_got_edit_focus"))
+	_lesson_details.practice_got_edit_focus.connect(_on_practice_got_edit_focus)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_on_confirm_dialog_confirmed"))
+	_confirm_dialog.confirmed.connect(_on_confirm_dialog_confirmed)
 
-	_search_bar.connect("next_match_requested", Callable(_lesson_details, "search"))
+	_search_bar.next_match_requested.connect(_lesson_details.search)
 
 
 func _update_theme() -> void:
@@ -115,9 +118,9 @@ func _set_edited_course(course: Course) -> void:
 	_remove_on_save = []
 
 	if _edited_course:
-		_edited_course.disconnect("changed", Callable(self, "_on_course_resource_changed"))
+		_edited_course.changed.disconnect(_on_course_resource_changed)
 		for lesson_data in _edited_course.lessons:
-			lesson_data.disconnect("changed", Callable(self, "_on_course_resource_changed"))
+			lesson_data.changed.disconnect(_on_course_resource_changed)
 
 	# Normalize the resource while assigning it.
 	# In case of future data changes, apply compatibility updates.
@@ -158,9 +161,9 @@ func _set_edited_course(course: Course) -> void:
 	_no_content_block.hide()
 	_content_block.show()
 
-	_edited_course.connect("changed", Callable(self, "_on_course_resource_changed"))
+	_edited_course.changed.connect(_on_course_resource_changed)
 	for lesson_data in _edited_course.lessons:
-		lesson_data.connect("changed", Callable(self, "_on_course_resource_changed"))
+		lesson_data.changed.connect(_on_course_resource_changed)
 
 
 func _normalize_course_resource(course: Course) -> Course:
@@ -418,7 +421,7 @@ func _on_lesson_added() -> void:
 	_lesson_list.set_selected_lesson(lesson_index)
 	_lesson_details.set_lesson(lesson_data)
 
-	lesson_data.connect("changed", Callable(self, "_on_course_resource_changed"))
+	lesson_data.changed.connect(_on_course_resource_changed)
 
 
 func _on_lesson_removed(lesson_index: int) -> void:
@@ -426,7 +429,7 @@ func _on_lesson_removed(lesson_index: int) -> void:
 		return
 
 	var lesson_data = _edited_course.lessons.pop_at(lesson_index)
-	lesson_data.disconnect("changed", Callable(self, "_on_course_resource_changed"))
+	lesson_data.changed.disconnect(_on_course_resource_changed)
 	_edited_course.emit_changed()
 
 	_lesson_list.set_lessons(_edited_course.lessons)

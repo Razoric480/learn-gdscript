@@ -393,4 +393,4 @@ func _on_item_list_size_changed() -> void:
 	_overlay_layer.size = _overlay_layer.custom_minimum_size
 	
 	_update_hot_areas()
-	_overlay_layer.update()
+	_overlay_layer.queue_redraw()

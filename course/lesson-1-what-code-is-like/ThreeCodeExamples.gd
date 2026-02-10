@@ -9,10 +9,10 @@ const COLOR_COMMENTS := Color(0.290196, 0.294118, 0.388235)
 
 
 func _ready() -> void:
-	_python_code.add_color_region("#", "\n", COLOR_COMMENTS, true)
-	_js_code.add_color_region("//", "\n", COLOR_COMMENTS, true)
+	_python_code.syntax_highlighter.add_color_region("#", "\n", COLOR_COMMENTS, true)
+	_js_code.syntax_highlighter.add_color_region("//", "\n", COLOR_COMMENTS, true)
 
 	for key in ["if", "function"]:
-		_js_code.add_keyword_color(key, COLOR_KEYWORD)
+		_js_code.syntax_highlighter.add_keyword_color(key, COLOR_KEYWORD)
 	for key in ["if", "def"]:
-		_python_code.add_keyword_color(key, COLOR_KEYWORD)
+		_python_code.syntax_highlighter.add_keyword_color(key, COLOR_KEYWORD)

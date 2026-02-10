@@ -27,11 +27,11 @@ func _cache_font_defaults() -> void:
 		if current_file.get_extension() != "tres":
 			continue
 		
-		var font_resource = ResourceLoader.load(THEME_FONTS_ROOT.path_join(current_file)) as FontFile
+		var font_resource: FontFile = ResourceLoader.load(THEME_FONTS_ROOT.path_join(current_file)) as FontFile
 		if not font_resource:
 			continue
 		
-		_font_defaults[font_resource] = {"size": font_resource.size, "font": font_resource.font_data.font_path}
+		_font_defaults[font_resource] = {"size": font_resource.msdf_size, "font": font_resource.resource_path}
 
 
 func scale_all_font_sizes(size_scale: int, and_save: bool = true) -> void:
@@ -42,7 +42,7 @@ func scale_all_font_sizes(size_scale: int, and_save: bool = true) -> void:
 		
 		var default_size = int(_font_defaults[font_resource]["size"])
 		# Each scale unit equals 2 points of font size.
-		font_resource.size = default_size + size_scale * 2
+		font_resource.msdf_size = default_size + size_scale * 2
 	
 	if and_save:
 		var current_profile := UserProfiles.get_profile()

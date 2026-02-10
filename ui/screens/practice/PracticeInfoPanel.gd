@@ -26,8 +26,8 @@ var _documentation_results: QueryResult
 @onready var goal_rich_text_label := find_child("Goal").find_child("TextBox") as RichTextLabel
 @onready var hints_container := find_child("Hints") as Revealer
 @onready var _checks := find_child("Checks") as Revealer
-@onready var docs_container := find_child("Documentation") as Revealer
-@onready var _docs_item_list := docs_container.find_child("DocumentationItems") as Control
+@export var docs_container: Revealer
+@export var _docs_item_list: Control
 
 @onready var _list_button := find_child("ListButton") as Button
 

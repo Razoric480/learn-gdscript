@@ -12,18 +12,18 @@ var insert_at_index := -1
 
 
 func _ready() -> void:
-	_add_block_button.connect("pressed", Callable(self, "_on_add_block_pressed"))
-	_add_quiz_button.connect("pressed", Callable(self, "_on_add_quiz_pressed"))
-	_cancel_button.connect("pressed", Callable(self, "_on_cancelled"))
+	_add_block_button.pressed.connect(_on_add_block_pressed)
+	_add_quiz_button.pressed.connect(_on_add_quiz_pressed)
+	_cancel_button.pressed.connect(_on_cancelled)
 
 
 func _on_add_block_pressed() -> void:
-	emit_signal("block_selected", insert_at_index)
+	block_selected.emit(insert_at_index)
 	hide()
 
 
 func _on_add_quiz_pressed() -> void:
-	emit_signal("quiz_selected", insert_at_index)
+	quiz_selected.emit(insert_at_index)
 	hide()
 
 

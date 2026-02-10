@@ -61,7 +61,7 @@ func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	
-	update()
+	queue_redraw()
 
 
 func _change_sprite_position(new_position: Vector2) -> void:

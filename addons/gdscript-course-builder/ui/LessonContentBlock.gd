@@ -6,6 +6,7 @@ signal block_removed
 enum ConfirmMode { REMOVE_BLOCK, CLEAR_FILE }
 
 const VISUAL_ELEMENT_EXTENSIONS := ["png", "jpg", "svg", "gif", "tscn", "scn", "res"]
+const TextEditDialog := preload("TextEditDialog.gd")
 
 var _edited_content_block: ContentBlock
 var _list_index := -1
@@ -27,7 +28,7 @@ var _file_dialog: EditorFileDialog
 
 @onready var _text_content_value := $BackgroundPanel/Layout/TextContent/Editor/TextEdit as TextEdit
 @onready var _text_content_expand_button := $BackgroundPanel/Layout/TextContent/Editor/ExpandButton as Button
-@onready var _text_edit_dialog := $TextEditDialog as Window
+@onready var _text_edit_dialog := $TextEditDialog as TextEditDialog
 @onready var _text_placeholder := $BackgroundPanel/Layout/TextContent/Editor/TextEdit/Label as Label
 
 @onready var _visual_element_value := $BackgroundPanel/Layout/VisualElement/LineEdit as LineEdit
@@ -44,26 +45,26 @@ func _ready() -> void:
 	_update_theme()
 	_drag_icon.set_drag_forwarding(get_drag_preview, Callable(), Callable())
 
-	_text_edit_dialog.size = _text_edit_dialog.custom_minimum_size
+	_text_edit_dialog.size = _text_edit_dialog.get_contents_minimum_size()
 
-	_remove_button.connect("pressed", Callable(self, "_on_remove_block_requested"))
-	_title.connect("text_changed", Callable(self, "_on_title_text_changed"))
+	_remove_button.pressed.connect(_on_remove_block_requested)
+	_title.text_changed.connect(_on_title_text_changed)
 
-	_options_block_type.connect("item_selected", Callable(self, "_on_options_block_type_item_selected"))
+	_options_block_type.item_selected.connect(_on_options_block_type_item_selected)
 
-	_select_file_button.connect("pressed", Callable(self, "_on_select_file_requested"))
-	_clear_file_button.connect("pressed", Callable(self, "_on_clear_file_requested"))
-	_visual_element_value.connect("text_changed", Callable(self, "_update_visual_element_file"))
-	_visuals_on_left_checkbox.connect("toggled", Callable(self, "_on_visuals_on_left_toggled"))
+	_select_file_button.pressed.connect(_on_select_file_requested)
+	_clear_file_button.pressed.connect(_on_clear_file_requested)
+	_visual_element_value.text_changed.connect(_update_visual_element_file)
+	_visuals_on_left_checkbox.toggled.connect(_on_visuals_on_left_toggled)
 
-	_text_content_value.connect("text_changed", Callable(self, "_on_text_content_changed"))
-	_text_content_value.connect("gui_input", Callable(self, "_on_text_content_value_gui_input"))
-	_text_content_expand_button.connect("pressed", Callable(self, "_open_expanded_text_box"))
-	_text_edit_dialog.connect("confirmed", Callable(self, "_on_text_content_confirmed"))
+	_text_content_value.text_changed.connect(_on_text_content_changed)
+	_text_content_value.gui_input.connect(_on_text_content_value_gui_input)
+	_text_content_expand_button.pressed.connect(_open_expanded_text_box)
+	_text_edit_dialog.confirmed.connect(_on_text_content_confirmed)
 
-	_content_separator_checkbox.connect("toggled", Callable(self, "_on_content_separator_toggled"))
+	_content_separator_checkbox.toggled.connect(_on_content_separator_toggled)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_on_confirm_dialog_confirmed"))
+	_confirm_dialog.confirmed.connect(_on_confirm_dialog_confirmed)
 
 
 func _update_theme() -> void:

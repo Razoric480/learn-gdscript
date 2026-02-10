@@ -55,7 +55,7 @@ static func save_course(course: Course, file_path: String) -> bool:
 		if not DirAccess.dir_exists_absolute(lesson_dir):
 			DirAccess.make_dir_absolute(lesson_dir)
 
-		error = ResourceSaver.save(lesson_data.resource_path, lesson_data)
+		error = ResourceSaver.save(lesson_data, lesson_data.resource_path)
 		if not error == OK:
 			printerr(
 				(

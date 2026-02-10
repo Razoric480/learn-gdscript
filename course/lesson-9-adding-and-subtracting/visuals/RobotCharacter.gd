@@ -4,11 +4,11 @@ extends Node2D
 @export var max_health := 100
 
 var _start_health := 0
+var _tween: Tween
 
 @onready var _empty_health_bar := $HealthBar/HealthBarEmpty as ColorRect
 @onready var _health_bar := $HealthBar/HealthBarCurrent as ColorRect
 @onready var _label := $HealthBar/Label as Label
-@onready var _tween := $Tween as Tween
 @onready var _animation_player := $AnimationPlayer as AnimationPlayer
 
 
@@ -19,7 +19,7 @@ func _ready() -> void:
 
 
 func run() -> void:
-	if _tween.is_active():
+	if _tween and _tween.is_running():
 		return
 	
 	_run()
@@ -37,8 +37,10 @@ func _update_health_bar() -> void:
 	
 	_label.text = "health = %s" % [health]
 	
-	_tween.interpolate_property(_health_bar, "size:x", size_current, size_to, 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)
-	_tween.start()
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(_health_bar, "size:x", size_to, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
 
 # Virtual method

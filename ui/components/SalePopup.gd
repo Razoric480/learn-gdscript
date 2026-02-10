@@ -47,14 +47,15 @@ func _input(event: InputEvent) -> void:
 		hide()
 
 
-func _get_configuration_warnings() -> String:
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 	if not (sale_url.begins_with("http") or sale_url.begins_with("//")):
-		return "Missing sale URL. Clicking the button will not open any page."
+		warnings.push_back("Missing sale URL. Clicking the button will not open any page.")
 	if not title:
-		return "Missing title! The popup will look off."
+		warnings.push_back("Missing title! The popup will look off.")
 	if not only_until_string:
-		return "Missing end date! The popup will look off."
-	return ""
+		warnings.push_back("Missing end date! The popup will look off.")
+	return warnings
 
 
 func set_title(new_title: String) -> void:

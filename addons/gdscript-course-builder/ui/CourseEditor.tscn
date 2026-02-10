@@ -1,210 +1,135 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene format=3 uid="uid://dhsel2t72i5lw"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/CourseEditor.gd" type="Script" id=1]
-[ext_resource path="res://addons/gdscript-course-builder/ui/LessonDetails.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/gdscript-course-builder/ui/SearchBar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/gdscript-course-builder/ui/LessonList.tscn" type="PackedScene" id=4]
+[ext_resource type="Script" uid="uid://b0d15ydf1mlfu" path="res://addons/gdscript-course-builder/ui/CourseEditor.gd" id="1"]
+[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/LessonDetails.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/SearchBar.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/LessonList.tscn" id="4"]
 
-[sub_resource type="Image" id=1]
-data = {
-"data": PackedByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
-"format": "LumAlpha8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
+[sub_resource type="DPITexture" id="DPITexture_8461t"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
 
-[sub_resource type="ImageTexture" id=2]
-flags = 4
-flags = 4
-image = SubResource( 1 )
-size = Vector2( 16, 16 )
-
-[node name="CourseEditor" type="MarginContainer"]
+[node name="CourseEditor" type="MarginContainer" unique_id=1737859482]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_top = 0
 theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
-[node name="Layout" type="VBoxContainer" parent="."]
-offset_left = 4.0
-offset_right = 1916.0
-offset_bottom = 1076.0
+[node name="Layout" type="VBoxContainer" parent="." unique_id=543383641]
+layout_mode = 2
 
-[node name="ToolBar" type="HBoxContainer" parent="Layout"]
-offset_right = 1912.0
-offset_bottom = 24.0
+[node name="ToolBar" type="HBoxContainer" parent="Layout" unique_id=1015436549]
+layout_mode = 2
 
-[node name="CreateButton" type="Button" parent="Layout/ToolBar"]
-offset_right = 40.0
-offset_bottom = 24.0
+[node name="CreateButton" type="Button" parent="Layout/ToolBar" unique_id=161508234]
+layout_mode = 2
 tooltip_text = "Create a new course."
 text = "New"
 flat = true
 
-[node name="OpenButton" type="Button" parent="Layout/ToolBar"]
-offset_left = 44.0
-offset_right = 103.0
-offset_bottom = 24.0
+[node name="OpenButton" type="Button" parent="Layout/ToolBar" unique_id=1915923046]
+layout_mode = 2
 tooltip_text = "Open a course resource to edit."
 text = "Open..."
 flat = true
 
-[node name="RecentButton" type="MenuButton" parent="Layout/ToolBar"]
-offset_left = 107.0
-offset_right = 135.0
-offset_bottom = 24.0
+[node name="RecentButton" type="MenuButton" parent="Layout/ToolBar" unique_id=111651653]
+layout_mode = 2
 tooltip_text = "Open a recently edited course."
 disabled = true
-icon = SubResource( 2 )
+icon = SubResource("DPITexture_8461t")
 
-[node name="SaveButton" type="Button" parent="Layout/ToolBar"]
-offset_left = 139.0
-offset_right = 167.0
-offset_bottom = 24.0
+[node name="SaveButton" type="Button" parent="Layout/ToolBar" unique_id=716690629]
+layout_mode = 2
 tooltip_text = "Save the currently edited course."
 disabled = true
-icon = SubResource( 2 )
+icon = SubResource("DPITexture_8461t")
 flat = true
 
-[node name="SaveAsButton" type="Button" parent="Layout/ToolBar"]
-offset_left = 171.0
-offset_right = 244.0
-offset_bottom = 24.0
+[node name="SaveAsButton" type="Button" parent="Layout/ToolBar" unique_id=1983967036]
+layout_mode = 2
 tooltip_text = "Save the currently edited course."
 disabled = true
 text = "Save As..."
 flat = true
 
-[node name="VSeparator" type="VSeparator" parent="Layout/ToolBar"]
-offset_left = 248.0
-offset_right = 252.0
-offset_bottom = 24.0
+[node name="VSeparator" type="VSeparator" parent="Layout/ToolBar" unique_id=1235763719]
+layout_mode = 2
 
-[node name="PlayCurrentButton" type="Button" parent="Layout/ToolBar"]
-offset_left = 256.0
-offset_right = 345.0
-offset_bottom = 24.0
+[node name="PlayCurrentButton" type="Button" parent="Layout/ToolBar" unique_id=491394722]
+layout_mode = 2
 tooltip_text = "Play the currently selected lesson or practice with the app."
 disabled = true
 text = "Play Current"
 flat = true
 
-[node name="VSeparator2" type="VSeparator" parent="Layout/ToolBar"]
-offset_left = 349.0
-offset_right = 353.0
-offset_bottom = 24.0
+[node name="VSeparator2" type="VSeparator" parent="Layout/ToolBar" unique_id=571387335]
+layout_mode = 2
 
-[node name="SearcnBar" parent="Layout/ToolBar" instance=ExtResource( 3 )]
-offset_left = 357.0
-offset_right = 1912.0
+[node name="SearcnBar" parent="Layout/ToolBar" unique_id=260852454 instance=ExtResource("3")]
+layout_mode = 2
 
-[node name="DirtyStatusLabel" type="Label" parent="Layout/ToolBar"]
+[node name="DirtyStatusLabel" type="Label" parent="Layout/ToolBar" unique_id=35119123]
 visible = false
-offset_left = 1739.0
-offset_top = 5.0
-offset_right = 1912.0
-offset_bottom = 19.0
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "There are unsaved changes"
 
-[node name="HSeparator" type="HSeparator" parent="Layout"]
-offset_top = 28.0
-offset_right = 1912.0
-offset_bottom = 32.0
+[node name="HSeparator" type="HSeparator" parent="Layout" unique_id=756632995]
+layout_mode = 2
 
-[node name="Content" type="VBoxContainer" parent="Layout"]
+[node name="Content" type="VBoxContainer" parent="Layout" unique_id=665076626]
 visible = false
-offset_top = 34.0
-offset_right = 1912.0
-offset_bottom = 1058.0
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="CoursePath" type="HBoxContainer" parent="Layout/Content"]
-offset_right = 1912.0
-offset_bottom = 24.0
+[node name="CoursePath" type="HBoxContainer" parent="Layout/Content" unique_id=955128260]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/Content/CoursePath"]
-offset_top = 5.0
-offset_right = 79.0
-offset_bottom = 19.0
+[node name="Label" type="Label" parent="Layout/Content/CoursePath" unique_id=636667684]
+layout_mode = 2
 text = "Course File: "
 
-[node name="LineEdit" type="LineEdit" parent="Layout/Content/CoursePath"]
-offset_left = 83.0
-offset_right = 1912.0
-offset_bottom = 24.0
+[node name="LineEdit" type="LineEdit" parent="Layout/Content/CoursePath" unique_id=1941413184]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 editable = false
 
-[node name="CourseTitle" type="HBoxContainer" parent="Layout/Content"]
-offset_top = 28.0
-offset_right = 1912.0
-offset_bottom = 52.0
+[node name="CourseTitle" type="HBoxContainer" parent="Layout/Content" unique_id=856991275]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="Layout/Content/CourseTitle"]
-offset_top = 5.0
-offset_right = 80.0
-offset_bottom = 19.0
+[node name="Label" type="Label" parent="Layout/Content/CourseTitle" unique_id=962123122]
+layout_mode = 2
 text = "Course Title:"
 
-[node name="LineEdit" type="LineEdit" parent="Layout/Content/CourseTitle"]
-offset_left = 84.0
-offset_right = 1912.0
-offset_bottom = 24.0
+[node name="LineEdit" type="LineEdit" parent="Layout/Content/CourseTitle" unique_id=400890733]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CourseData" type="HSplitContainer" parent="Layout/Content"]
-offset_top = 56.0
-offset_right = 1912.0
-offset_bottom = 1024.0
+[node name="CourseData" type="HSplitContainer" parent="Layout/Content" unique_id=234290852]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LessonList" parent="Layout/Content/CourseData" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 280.0
-offset_bottom = 968.0
+[node name="LessonList" parent="Layout/Content/CourseData" unique_id=1561540347 instance=ExtResource("4")]
+layout_mode = 2
 
-[node name="LessonDetails" parent="Layout/Content/CourseData" instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 292.0
-offset_right = 1912.0
-offset_bottom = 968.0
+[node name="LessonDetails" parent="Layout/Content/CourseData" unique_id=379139446 instance=ExtResource("2")]
+layout_mode = 2
 
-[node name="NoContent" type="CenterContainer" parent="Layout"]
-offset_top = 36.0
-offset_right = 1912.0
-offset_bottom = 1076.0
+[node name="NoContent" type="CenterContainer" parent="Layout" unique_id=496258109]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Layout/NoContent"]
-offset_left = 789.0
-offset_top = 513.0
-offset_right = 1122.0
-offset_bottom = 527.0
+[node name="Label" type="Label" parent="Layout/NoContent" unique_id=2121346167]
+layout_mode = 2
 text = "Create a new course or open an existing one to edit."
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
-offset_left = 4.0
-offset_right = 1916.0
-offset_bottom = 1076.0
-custom_minimum_size = Vector2( 380, 80 )
-window_title = ""
+[node name="AcceptDialog" type="AcceptDialog" parent="." unique_id=1073849799]
 dialog_autowrap = true
 
-[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
-offset_left = 4.0
-offset_right = 1916.0
-offset_bottom = 1076.0
-custom_minimum_size = Vector2( 380, 80 )
-window_title = ""
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="." unique_id=254280672]
 dialog_autowrap = true

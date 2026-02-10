@@ -8,6 +8,8 @@ signal practice_tab_selected
 signal practice_got_edit_focus(index)
 
 const LessonPractice := preload("LessonPractice.gd")
+const SlugDialog := preload("SlugDialog.gd")
+const InsertContentBlockDialog := preload("InsertContentBlockDialog.gd")
 
 const ContentBlockScene := preload("LessonContentBlock.tscn")
 const LessonContentBlock := preload("LessonContentBlock.gd")
@@ -27,14 +29,14 @@ var _last_search_result: SearchResult
 @onready var _lesson_path_value := $Content/LessonPath/LineEdit as LineEdit
 @onready var _lesson_title_value := $Content/LessonTitle/LineEdit as LineEdit
 @onready var _edit_slug_button := $Content/LessonPath/SlugButton as Button
-@onready var _edit_slug_dialog := $SlugDialog as Window
+@onready var _edit_slug_dialog := $SlugDialog as SlugDialog
 
 @onready var _lesson_tabs := $Content/LessonContent as TabContainer
 @onready var _lesson_content_blocks := $Content/LessonContent/ContentBlocks/ItemList as SortableList
 @onready var _add_content_block_button := $Content/LessonContent/ContentBlocks/ToolBar/AddBlockButton as Button
 @onready var _add_quiz_button := $Content/LessonContent/ContentBlocks/ToolBar/AddQuizButton as Button
-@onready var _insert_content_block_dialog := $InsertContentBlockDialog as Window
-@onready var _lesson_practices := $Content/LessonContent/Practices/ItemList as Control
+@onready var _insert_content_block_dialog := $InsertContentBlockDialog as InsertContentBlockDialog
+@onready var _lesson_practices := $Content/LessonContent/Practices/ItemList as SortableList
 @onready var _add_practice_button := $Content/LessonContent/Practices/ToolBar/AddPracticeButton as Button
 
 
@@ -45,22 +47,22 @@ func _ready() -> void:
 	_content_block.hide()
 	_no_content_block.show()
 
-	_lesson_tabs.connect("tab_changed", Callable(self, "_on_LessonContent_tab_changed"))
+	_lesson_tabs.tab_changed.connect(_on_LessonContent_tab_changed)
 
-	_lesson_title_value.connect("text_changed", Callable(self, "_on_title_text_changed"))
-	_add_content_block_button.connect("pressed", Callable(self, "_on_content_block_added"))
-	_add_quiz_button.connect("pressed", Callable(self, "_on_quiz_added"))
-	_lesson_content_blocks.connect("item_moved", Callable(self, "_on_content_block_moved"))
-	_lesson_content_blocks.connect("item_requested_at_index", Callable(self, "_on_content_block_requested"))
-	_add_practice_button.connect("pressed", Callable(self, "_on_practice_added"))
-	_lesson_practices.connect("item_moved", Callable(self, "_on_practice_moved"))
-	_lesson_practices.connect("item_requested_at_index", Callable(self, "_on_practice_added"))
+	_lesson_title_value.text_changed.connect(_on_title_text_changed)
+	_add_content_block_button.pressed.connect(_on_content_block_added)
+	_add_quiz_button.pressed.connect(_on_quiz_added)
+	_lesson_content_blocks.item_moved.connect(_on_content_block_moved)
+	_lesson_content_blocks.item_requested_at_index.connect(_on_content_block_requested)
+	_add_practice_button.pressed.connect(_on_practice_added)
+	_lesson_practices.item_moved.connect(_on_practice_moved)
+	_lesson_practices.item_requested_at_index.connect(_on_practice_added)
 
-	_edit_slug_button.connect("pressed", Callable(self, "_on_edit_slug_pressed"))
-	_edit_slug_dialog.connect("confirmed", Callable(self, "_on_edit_slug_confirmed"))
+	_edit_slug_button.pressed.connect(_on_edit_slug_pressed)
+	_edit_slug_dialog.confirmed.connect(_on_edit_slug_confirmed)
 
-	_insert_content_block_dialog.connect("block_selected", Callable(self, "_on_content_block_added"))
-	_insert_content_block_dialog.connect("quiz_selected", Callable(self, "_on_quiz_added"))
+	_insert_content_block_dialog.block_selected.connect(_on_content_block_added)
+	_insert_content_block_dialog.quiz_selected.connect(_on_quiz_added)
 
 
 func _update_theme() -> void:
@@ -85,9 +87,9 @@ func _update_theme() -> void:
 func set_lesson(lesson: Lesson) -> void:
 	if _edited_lesson:
 		for block_data in _edited_lesson.content_blocks:
-			block_data.disconnect("changed", Callable(self, "_on_lesson_resource_changed"))
+			block_data.disconnect("changed", _on_lesson_resource_changed)
 		for practice_data in _edited_lesson.practices:
-			practice_data.disconnect("changed", Callable(self, "_on_lesson_resource_changed"))
+			practice_data.changed.disconnect(_on_lesson_resource_changed)
 
 	_edited_lesson = lesson
 
@@ -115,9 +117,9 @@ func set_lesson(lesson: Lesson) -> void:
 	_content_block.show()
 
 	for block_data in _edited_lesson.content_blocks:
-		block_data.connect("changed", Callable(self, "_on_lesson_resource_changed"))
+		block_data.connect("changed", _on_lesson_resource_changed)
 	for practice_data in _edited_lesson.practices:
-		practice_data.connect("changed", Callable(self, "_on_lesson_resource_changed"))
+		practice_data.changed.connect(_on_lesson_resource_changed)
 
 
 # Searches the lesson's content blocks for a matching string and scrolls to a matching UI element.
@@ -152,10 +154,10 @@ func _recreate_content_blocks() -> void:
 		var scene_type := QuizContentBlockScene if content_block is Quiz else ContentBlockScene
 		var scene_instance = scene_type.instance()
 		_lesson_content_blocks.add_item(scene_instance)
-		scene_instance.connect("block_removed", Callable(self, "_on_content_block_removed").bind(index))
+		scene_instance.connect("block_removed", _on_content_block_removed.bind(index))
 
 		if scene_type == QuizContentBlockScene:
-			scene_instance.connect("quiz_resource_changed", Callable(self, "_on_quiz_resource_changed"))
+			scene_instance.connect("quiz_resource_changed", _on_quiz_resource_changed)
 
 		scene_instance.set_list_index(index)
 		scene_instance.setup(content_block)
@@ -176,8 +178,8 @@ func _recreate_practices() -> void:
 func _create_practice_item(practice: Practice, i: int) -> void:
 	var instance: LessonPractice = PracticeScene.instantiate()
 	_lesson_practices.add_item(instance)
-	instance.connect("practice_removed", Callable(self, "_on_practice_removed").bind(i))
-	instance.connect("got_edit_focus", Callable(self, "_on_practice_got_edit_focus").bind(instance))
+	instance.practice_removed.connect(_on_practice_removed.bind(i))
+	instance.got_edit_focus.connect(_on_practice_got_edit_focus.bind(instance))
 
 	instance.set_list_index(i)
 	instance.set_practice(practice)
@@ -213,7 +215,7 @@ func _on_edit_slug_confirmed() -> void:
 	if not _edited_lesson:
 		return
 
-	emit_signal("lesson_slug_changed", _edit_slug_dialog.slug_text)
+	lesson_slug_changed.emit(_edit_slug_dialog.slug_text)
 
 
 ## Content blocks
@@ -231,7 +233,7 @@ func _on_content_block_added(at_index: int = -1) -> void:
 	_edited_lesson.emit_changed()
 
 	_recreate_content_blocks()
-	block_data.connect("changed", Callable(self, "_on_lesson_resource_changed"))
+	block_data.changed.connect(_on_lesson_resource_changed)
 
 
 func _on_quiz_added(at_index: int = -1) -> void:
@@ -248,7 +250,7 @@ func _on_quiz_added(at_index: int = -1) -> void:
 	_edited_lesson.emit_changed()
 
 	_recreate_content_blocks()
-	block_data.connect("changed", Callable(self, "_on_lesson_resource_changed"))
+	block_data.changed.connect(_on_lesson_resource_changed)
 
 
 func _on_content_block_moved(item_index: int, new_index: int) -> void:
@@ -282,7 +284,7 @@ func _on_content_block_removed(item_index: int) -> void:
 		return
 
 	var block_data = _edited_lesson.content_blocks.pop_at(item_index)
-	block_data.disconnect("changed", Callable(self, "_on_lesson_resource_changed"))
+	block_data.disconnect("changed", _on_lesson_resource_changed)
 	_edited_lesson.emit_changed()
 
 	_recreate_content_blocks()
@@ -305,7 +307,7 @@ func _on_practice_added(at_index: int = -1) -> void:
 	_edited_lesson.emit_changed()
 
 	_recreate_practices()
-	practice_data.connect("changed", Callable(self, "_on_lesson_resource_changed"))
+	practice_data.changed.connect(_on_lesson_resource_changed)
 
 
 func _on_practice_moved(item_index: int, new_index: int) -> void:
@@ -331,7 +333,7 @@ func _on_practice_removed(item_index: int) -> void:
 		return
 
 	var practice_data = _edited_lesson.practices.pop_at(item_index)
-	practice_data.disconnect("changed", Callable(self, "_on_lesson_resource_changed"))
+	practice_data.changed.disconnect(_on_lesson_resource_changed)
 	_edited_lesson.emit_changed()
 
 	_recreate_practices()
@@ -339,9 +341,9 @@ func _on_practice_removed(item_index: int) -> void:
 
 func _on_LessonContent_tab_changed(index: int) -> void:
 	if index == INDEX_PRACTICE_TAB:
-		emit_signal("practice_tab_selected")
+		practice_tab_selected.emit()
 	elif index == INDEX_LESSON_TAB:
-		emit_signal("lesson_tab_selected")
+		lesson_tab_selected.emit()
 
 
 func _on_quiz_resource_changed(previous_quiz: Quiz, new_quiz: Quiz) -> void:
@@ -351,7 +353,7 @@ func _on_quiz_resource_changed(previous_quiz: Quiz, new_quiz: Quiz) -> void:
 
 
 func _on_practice_got_edit_focus(lesson_practice: LessonPractice) -> void:
-	emit_signal("practice_got_edit_focus", lesson_practice.list_index)
+	practice_got_edit_focus.emit(lesson_practice.list_index)
 
 
 class SearchResult:

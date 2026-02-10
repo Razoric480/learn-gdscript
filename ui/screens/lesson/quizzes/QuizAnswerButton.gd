@@ -5,13 +5,12 @@ signal toggled(is_pressed)
 const OPTION_FONT := preload("res://ui/theme/fonts/font_text.tres")
 const OPTION_SELECTED_FONT := preload("res://ui/theme/fonts/font_text_bold.tres")
 
+@export var _label: Label
+@export var _button: CheckBox
 
 var _button_text := ""
 
-@onready var _margin_container := $MarginContainer as MarginContainer
-@onready var _label := $MarginContainer/Label as Label
 @onready var _group: ButtonGroup = preload("QuizAnswerButtonGroup.tres")
-@onready var _button := $CheckBox as CheckBox
 
 
 func _notification(what: int) -> void:
@@ -30,7 +29,7 @@ func setup(text: String, is_multiple_choice: bool) -> void:
 	_button.toggle_mode = true
 	_button.connect("toggled", Callable(self, "_on_toggled"))
 	if not is_multiple_choice:
-		_button.group = _group
+		_button.button_group = _group
 
 
 func get_answer() -> String:

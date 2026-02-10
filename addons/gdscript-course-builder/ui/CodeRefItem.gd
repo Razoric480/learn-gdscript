@@ -26,13 +26,13 @@ var list_index := -1: set = set_list_index
 
 
 func _ready() -> void:
-	_sort_up_button.connect("pressed", Callable(self, "_change_position_in_parent").bind(-1))
-	_sort_down_button.connect("pressed", Callable(self, "_change_position_in_parent").bind(1))
+	_sort_up_button.pressed.connect(_change_position_in_parent.bind(-1))
+	_sort_down_button.pressed.connect(_change_position_in_parent.bind(1))
 
-	_remove_button.connect("pressed", Callable(self, "_on_remove_requested"))
-	_line_edit.connect("text_changed", Callable(self, "_on_text_changed"))
+	_remove_button.pressed.connect(_on_remove_requested)
+	_line_edit.text_changed.connect(_on_text_changed)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_remove"))
+	_confirm_dialog.confirmed.connect(_remove)
 
 	_index_label.text = "%d." % [get_index()]
 
@@ -70,7 +70,7 @@ func _on_remove_requested() -> void:
 
 
 func _on_text_changed(new_text: String) -> void:
-	emit_signal("text_changed")
+	text_changed.emit()
 
 
 func _change_position_in_parent(offset: int) -> void:
@@ -79,9 +79,9 @@ func _change_position_in_parent(offset: int) -> void:
 	if new_index < 1 or new_index >= _parent.get_child_count():
 		return
 	_parent.move_child(self, new_index)
-	emit_signal("index_changed")
+	index_changed.emit()
 
 
 func _remove() -> void:
 	queue_free()
-	emit_signal("removed")
+	removed.emit()

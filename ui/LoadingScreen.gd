@@ -21,7 +21,6 @@ func _ready() -> void:
 	_state = State.IDLE
 	_progress_bar.value = 0.0
 
-	_tweener.connect("tween_all_completed", Callable(self, "_on_tweener_finished"))
 	_animate_progress()
 
 
@@ -47,6 +46,7 @@ func fade_in() -> void:
 	if _tweener and _tweener.is_valid():
 		_tweener.kill()
 	_tweener = create_tween()
+	_tweener.connect("finished", Callable(self, "_on_tweener_finished"))
 	
 	_tweener.tween_property(self, "modulate:a", 1.0, FADING_DURATION).from(0.0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
@@ -57,6 +57,7 @@ func fade_out() -> void:
 	if _tweener and _tweener.is_valid():
 		_tweener.kill()
 	_tweener = create_tween()
+	_tweener.connect("finished", Callable(self, "_on_tweener_finished"))
 	
 	_tweener.tween_property(self, "modulate:a", 0.0, FADING_DURATION).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
@@ -75,6 +76,7 @@ func _animate_progress() -> void:
 		return
 
 	_tweener = create_tween()
+	_tweener.connect("finished", Callable(self, "_on_tweener_finished"))
 	_tweener.tween_property(_progress_bar, "value", progress_value, PROGRESS_DURATION).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 

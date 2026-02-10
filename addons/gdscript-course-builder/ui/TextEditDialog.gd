@@ -76,12 +76,12 @@ func _update_editor_properties() -> void:
 		return
 
 	if content_type == ContentType.CODE:
-		_text_value.show_line_numbers = true
+		#TODO: _text_value.show_line_numbers = true
 		_text_value.draw_tabs = true
 		_text_value.draw_spaces = true
 		_text_value.add_theme_font_override("font", get_theme_font("source", "EditorFonts"))
 	else:
-		_text_value.show_line_numbers = false
+		#TODO: _text_value.show_line_numbers = false
 		_text_value.draw_tabs = false
 		_text_value.draw_spaces = false
 		_text_value.add_theme_font_override("font", get_theme_font("font", "TextEdit"))

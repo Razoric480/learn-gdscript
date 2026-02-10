@@ -39,7 +39,7 @@ func select(lesson_index: int) -> void:
 		if not item_node:
 			continue
 
-		item_node.selected = item_node.lesson_index == lesson_index
+		item_node.is_selected = item_node.lesson_index == lesson_index
 
 
 func _on_item_selected(lesson_index: int) -> void:

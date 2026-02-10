@@ -2,7 +2,7 @@
 class_name CodeRefList
 extends VBoxContainer
 
-const CodeRefItemScene = preload("CodeRefItem.tscn")
+const CodeRefItemScene := preload("CodeRefItem.tscn")
 
 var _practice: Practice
 
@@ -10,7 +10,7 @@ var _practice: Practice
 
 
 func _ready() -> void:
-	_add_button.connect("pressed", Callable(self, "_add_function"))
+	_add_button.pressed.connect(_add_function)
 
 
 func setup(practice: Practice) -> void:
@@ -40,9 +40,9 @@ func _update_practice_code_ref() -> void:
 
 
 func _add_function(function := "") -> void:
-	var instance = CodeRefItemScene.instantiate()
+	var instance: CodeRefItem = CodeRefItemScene.instantiate()
 	add_child(instance)
 	instance.set_text(function)
-	instance.connect("index_changed", Callable(self, "_update_list_labels"))
-	instance.connect("text_changed", Callable(self, "_update_practice_code_ref"))
-	instance.connect("removed", Callable(self, "_update_practice_code_ref"))
+	instance.index_changed.connect(_update_list_labels)
+	instance.text_changed.connect(_update_practice_code_ref)
+	instance.removed.connect(_update_practice_code_ref)

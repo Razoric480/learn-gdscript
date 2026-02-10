@@ -14,52 +14,51 @@ const ANIMATION_DURATION := 0.6
 @export var max_border_width := 8.0: set = set_max_border_width
 @export var border_width := 0.0: set = set_border_width
 
+var _tween: Tween
 @onready var _border_style: StyleBoxFlat = get("theme_override_styles/panel")
 
-@onready var _tween := $Tween as Tween
 
 
 func _ready() -> void:
 	set_border_width(0.0)
 	hide()
-	_tween.connect("tween_completed", Callable(self, "_on_tween_completed"))
 
 
 func appear() -> void:
-	_tween.stop_all()
-	_tween.interpolate_method(
-		self,
-		"set_border_width",
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.connect("finished", Callable(self, "_on_tween_completed"))
+	_tween.tween_method(
+		set_border_width,
 		0.0,
 		max_border_width,
-		ANIMATION_DURATION,
-		Tween.TRANS_CIRC,
+		ANIMATION_DURATION).set_trans(
+		Tween.TRANS_CIRC).set_ease(
 		Tween.EASE_OUT
 	)
-	_tween.interpolate_property(
-		self, "self_modulate", COLOR_TRANSPARENT, Color.WHITE, ANIMATION_DURATION / 2
-	)
-	_tween.start()
-	_tween.seek(0.0)
+	_tween.tween_property(
+		self, "self_modulate", Color.WHITE, ANIMATION_DURATION / 2
+	).from(COLOR_TRANSPARENT)
 	show()
 
 
 func disappear() -> void:
-	_tween.stop_all()
-	_tween.interpolate_property(
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.connect("finished", Callable(self, "_on_tween_completed"))
+	_tween.tween_property(
 		self,
 		"border_width",
-		max_border_width,
 		0.0,
-		ANIMATION_DURATION,
-		Tween.TRANS_CIRC,
+		ANIMATION_DURATION).set_trans(
+		Tween.TRANS_CIRC).set_ease(
 		Tween.EASE_OUT
-	)
-	_tween.interpolate_property(
-		self, "self_modulate", Color.WHITE, COLOR_TRANSPARENT, ANIMATION_DURATION / 2
-	)
-	_tween.start()
-	_tween.seek(0.0)
+	).from(max_border_width)
+	_tween.tween_property(
+		self, "self_modulate", COLOR_TRANSPARENT, ANIMATION_DURATION / 2
+	).from(Color.WHITE)
 
 
 func set_max_border_width(new_width: float) -> void:
@@ -73,7 +72,7 @@ func set_max_border_width(new_width: float) -> void:
 func set_border_width(new_width: float) -> void:
 	border_width = new_width
 	_border_style.expand_margin_left = new_width
-	_border_style.expand_SIDE_TOP = new_width
+	_border_style.expand_margin_top = new_width
 	_border_style.expand_margin_right = new_width
 	_border_style.expand_margin_bottom = new_width
 

@@ -9,14 +9,14 @@ func _ready() -> void:
 	Events.connect("font_size_scale_changed", Callable(self, "_update_size"))
 	context_menu_enabled = false
 	shortcut_keys_enabled = false
-	readonly = true
-	wrap_enabled = false
+	editable = false
+	wrap_mode = TextEdit.LINE_WRAPPING_NONE
 	CodeEditorEnhancer.enhance(self)
 
 
-func set_min_size(size: Vector2) -> void:
-	min_size = size
-	custom_minimum_size = size
+func set_min_size(new_size: Vector2) -> void:
+	min_size = new_size
+	custom_minimum_size = new_size
 
 
 func _update_size(_new_font_scale: int) -> void:
