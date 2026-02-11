@@ -3,21 +3,22 @@ extends Window
 
 signal confirmed
 
-var slug_text := "": get = get_text, set = set_text
+var slug_text := "":
+	get = get_text, set = set_text
 
-@onready var _slug_label := $Margin/Layout/SlugText/Label as Label
-@onready var _slug_value := $Margin/Layout/SlugText/LineEdit as LineEdit
-@onready var _confirm_button := $Margin/Layout/Buttons/ConfirmButton as Button
-@onready var _cancel_button := $Margin/Layout/Buttons/CancelButton as Button
+@export var _slug_label: Label
+@export var _slug_value: LineEdit
+@export var _confirm_button: Button
+@export var _cancel_button: Button
 
 
 func _ready() -> void:
 	_update_theme()
 	_slug_value.text = slug_text
 
-	_slug_value.connect("text_changed", Callable(self, "_on_text_changed"))
-	_confirm_button.connect("pressed", Callable(self, "_on_confirm_pressed"))
-	_cancel_button.connect("pressed", Callable(self, "_on_cancel_pressed"))
+	_slug_value.text_changed.connect(_on_text_changed)
+	_confirm_button.pressed.connect(_on_confirm_pressed)
+	_cancel_button.pressed.connect(_on_cancel_pressed)
 
 
 func _update_theme() -> void:
@@ -48,7 +49,7 @@ func _on_text_changed(value: String) -> void:
 
 
 func _on_confirm_pressed() -> void:
-	emit_signal("confirmed")
+	confirmed.emit()
 	hide()
 
 

@@ -35,27 +35,27 @@ var _recent_course_index := -1
 
 var _remove_on_save := []
 
-@onready var _new_course_button := $Layout/ToolBar/CreateButton as Button
-@onready var _open_course_button := $Layout/ToolBar/OpenButton as Button
-@onready var _recent_courses_button := $Layout/ToolBar/RecentButton as MenuButton
-@onready var _play_current_button := $Layout/ToolBar/PlayCurrentButton as Button
-@onready var _save_course_button := $Layout/ToolBar/SaveButton as Button
-@onready var _save_as_course_button := $Layout/ToolBar/SaveAsButton as Button
-@onready var _dirty_status_label := $Layout/ToolBar/DirtyStatusLabel as Label
+@export var _new_course_button: Button
+@export var _open_course_button: Button
+@export var _recent_courses_button: MenuButton
+@export var _play_current_button: Button
+@export var _save_course_button: Button
+@export var _save_as_course_button: Button
+@export var _dirty_status_label: Label
 
-@onready var _no_content_block := $Layout/NoContent as Control
-@onready var _content_block := $Layout/Content as Control
+@export var _no_content_block: Control
+@export var _content_block: Control
 
-@onready var _course_path_value := $Layout/Content/CoursePath/LineEdit as LineEdit
-@onready var _course_title_value := $Layout/Content/CourseTitle/LineEdit as LineEdit
-@onready var _lesson_list := $Layout/Content/CourseData/LessonList as LessonList
-@onready var _lesson_details := $Layout/Content/CourseData/LessonDetails as LessonDetails
+@export var _course_path_value: LineEdit
+@export var _course_title_value: LineEdit
+@export var _lesson_list: LessonList
+@export var _lesson_details: LessonDetails
 
 var _file_dialog: EditorFileDialog
-@onready var _accept_dialog := $AcceptDialog as AcceptDialog
-@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@export var _accept_dialog: AcceptDialog
+@export var _confirm_dialog: ConfirmationDialog
 
-@onready var _search_bar := $Layout/ToolBar/SearcnBar as SearchBar
+@export var _search_bar: SearchBar
 
 
 func _init() -> void:
@@ -108,7 +108,8 @@ func _update_theme() -> void:
 	_recent_courses_button.icon = get_theme_icon("History", "EditorIcons")
 	_save_course_button.icon = get_theme_icon("Save", "EditorIcons")
 	_course_path_value.add_theme_color_override(
-		"font_color_uneditable", get_theme_color("disabled_font_color", "Editor")
+		"font_color_uneditable",
+		get_theme_color("disabled_font_color", "Editor"),
 	)
 	_dirty_status_label.add_theme_color_override("font_color", get_theme_color("disabled_font_color", "Editor"))
 
@@ -224,7 +225,7 @@ func _load_or_create_cache() -> void:
 
 	if error != OK:
 		printerr(
-			"Failed to load plugin cache data at path '%s', error code: %d" % [cache_path, error]
+			"Failed to load plugin cache data at path '%s', error code: %d" % [cache_path, error],
 		)
 		_cache_file = null
 		return

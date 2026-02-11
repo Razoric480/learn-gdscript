@@ -4,9 +4,9 @@ extends VBoxContainer
 
 const CodeRefItemScene := preload("CodeRefItem.tscn")
 
-var _practice: Practice
+@export var _add_button: Button
 
-@onready var _add_button := $Header/AddButton as Button
+var _practice: Practice
 
 
 func _ready() -> void:

@@ -5,23 +5,25 @@ signal confirmed
 
 enum ContentType { TEXT, CODE }
 
-var text := "": get = get_text, set = set_text
-var content_type: int = ContentType.TEXT: set = set_content_type
+var text := "":
+	get = get_text, set = set_text
+var content_type: int = ContentType.TEXT:
+	set = set_content_type
 
-@onready var _text_value := $Margin/Layout/TextEdit as TextEdit
-@onready var _confirm_button := $Margin/Layout/Buttons/ConfirmButton as Button
-@onready var _cancel_button := $Margin/Layout/Buttons/CancelButton as Button
+@export var _text_value: TextEdit
+@export var _confirm_button: Button
+@export var _cancel_button: Button
 
 
 func _ready() -> void:
 	_text_value.text = text
 	_update_editor_properties()
 
-	_text_value.connect("text_changed", Callable(self, "_on_text_changed"))
-	_confirm_button.connect("pressed", Callable(self, "_confirm"))
-	_cancel_button.connect("pressed", Callable(self, "_on_cancel_pressed"))
+	_text_value.text_changed.connect(_on_text_changed)
+	_confirm_button.pressed.connect(_confirm)
+	_cancel_button.pressed.connect(_on_cancel_pressed)
 
-	_text_value.connect("gui_input", Callable(self, "_gui_input"))
+	_text_value.gui_input.connect(_gui_input)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -93,12 +95,11 @@ func _on_text_changed() -> void:
 
 
 func _confirm() -> void:
-	emit_signal("confirmed")
+	confirmed.emit()
 	hide()
 
 
 func _on_cancel_pressed() -> void:
 	text = ""
 	_text_value.text = ""
-	emit_signal("canceled")
 	hide()

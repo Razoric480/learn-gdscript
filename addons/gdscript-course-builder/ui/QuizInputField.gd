@@ -5,11 +5,11 @@ enum TypeOptions { STRING, FLOAT, INT }
 
 var _quiz: QuizInputField
 
-@onready var _correct_answer := $HBoxContainer/LineEdit as LineEdit
+@export var _correct_answer: LineEdit
 
 
 func _ready() -> void:
-	_correct_answer.connect("text_changed", Callable(self, "_on_correct_answer_text_changed"))
+	_correct_answer.text_changed.connect(_on_correct_answer_text_changed)
 
 
 func setup(quiz: QuizInputField) -> void:

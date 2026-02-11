@@ -1,28 +1,21 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://c3l76m4jyjy8m"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/QuizInputField.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://dfm1eh7wchwrw" path="res://addons/gdscript-course-builder/ui/QuizInputField.gd" id="1"]
 
-[node name="QuizInputField" type="MarginContainer"]
+[node name="QuizInputField" type="MarginContainer" unique_id=1411411737 node_paths=PackedStringArray("_correct_answer")]
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
+_correct_answer = NodePath("HBoxContainer/LineEdit")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_right = 163.0
-offset_bottom = 40.0
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1342865790]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-offset_top = 13.0
-offset_right = 101.0
-offset_bottom = 27.0
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=2117133797]
+layout_mode = 2
 text = "Correct Answer:"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
-offset_left = 105.0
-offset_right = 163.0
-offset_bottom = 40.0
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer" unique_id=1848429866]
+layout_mode = 2
 caret_blink = true

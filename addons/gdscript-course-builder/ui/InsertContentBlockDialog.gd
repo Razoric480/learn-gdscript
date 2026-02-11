@@ -6,9 +6,9 @@ signal quiz_selected(at_index)
 
 var insert_at_index := -1
 
-@onready var _add_block_button := $MarginContainer/Layout/Options/AddBlockButton as Button
-@onready var _add_quiz_button := $MarginContainer/Layout/Options/AddQuizButton as Button
-@onready var _cancel_button := $MarginContainer/Layout/Buttons/CancelButton as Button
+@export var _add_block_button: Button
+@export var _add_quiz_button: Button
+@export var _cancel_button: Button
 
 
 func _ready() -> void:

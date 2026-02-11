@@ -12,6 +12,7 @@ enum ConfirmMode { REMOVE_BLOCK, CHANGE_QUIZ_TYPE }
 
 const QuizChoiceListScene := preload("QuizChoiceList.tscn")
 const QuizInputFieldScene := preload("QuizInputField.tscn")
+const TextEditDialog := preload("res://addons/gdscript-course-builder/ui/TextEditDialog.gd")
 
 # Edited quiz resource. Can change between a QuizChoice or a QuizInputField.
 var _quiz: Quiz
@@ -21,30 +22,30 @@ var _confirm_dialog_mode := -1
 var _change_quiz_type_target := -1
 var _drag_preview_style: StyleBox
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-@onready var _header_bar := $BackgroundPanel/Layout/HeaderBar as Control
-@onready var _drag_icon := $BackgroundPanel/Layout/HeaderBar/DragIcon as TextureRect
-@onready var _drop_target := $DropTarget as Control
+@export var _background_panel: PanelContainer
+@export var _header_bar: Control
+@export var _drag_icon: TextureRect
+@export var _drop_target: Control
 
-@onready var _title_label := $BackgroundPanel/Layout/HeaderBar/ContentTitle as Label
-@onready var _remove_button := $BackgroundPanel/Layout/HeaderBar/RemoveButton as Button
+@export var _title_label: Label
+@export var _remove_button: Button
 
-@onready var _question_line_edit := $BackgroundPanel/Layout/Question/LineEdit as LineEdit
-@onready var _quiz_type_options := $BackgroundPanel/Layout/Settings/QuizTypeOption as OptionButton
+@export var _question_line_edit: LineEdit
+@export var _quiz_type_options: OptionButton
 
-@onready var _body_text_edit := $BackgroundPanel/Layout/Body/Editor/TextEdit as TextEdit
-@onready var _body_expand_button := $BackgroundPanel/Layout/Body/Editor/ExpandButton as Button
-@onready var _body_info_label := $BackgroundPanel/Layout/Body/Editor/TextEdit/Label as Label
+@export var _body_text_edit: TextEdit
+@export var _body_expand_button: Button
+@export var _body_info_label: Label
 
-@onready var _explanation_text_edit := $BackgroundPanel/Layout/Explanation/Editor/TextEdit as TextEdit
-@onready var _explanation_expand_button := $BackgroundPanel/Layout/Explanation/Editor/ExpandButton as Button
-@onready var _explanation_info_label := $BackgroundPanel/Layout/Explanation/Editor/TextEdit/Label as Label
+@export var _explanation_text_edit: TextEdit
+@export var _explanation_expand_button: Button
+@export var _explanation_info_label: Label
 
-@onready var _answers_container := $BackgroundPanel/Layout/Answers as PanelContainer
+@export var _answers_container: PanelContainer
 
-@onready var _text_edit_dialog := $TextEditDialog as Window
+@export var _text_edit_dialog: TextEditDialog
 # Poup dialog used to confirm deleting items.
-@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@export var _confirm_dialog: ConfirmationDialog
 
 
 func _ready() -> void:
@@ -52,34 +53,35 @@ func _ready() -> void:
 
 	_text_edit_dialog.size = _text_edit_dialog.custom_minimum_size
 
-	_remove_button.connect("pressed", Callable(self, "_on_remove_block_requested"))
+	_remove_button.pressed.connect(_on_remove_block_requested)
 
-	_body_text_edit.connect("text_changed", Callable(self, "_on_body_text_edit_text_changed"))
-	_body_expand_button.connect("pressed", Callable(self, "_open_text_edit_dialog").bind(_body_text_edit))
+	_body_text_edit.text_changed.connect(_on_body_text_edit_text_changed)
+	_body_expand_button.pressed.connect(_open_text_edit_dialog.bind(_body_text_edit))
 
-	_explanation_text_edit.connect("text_changed", Callable(self, "_on_explanation_text_edit_text_changed"))
-	_explanation_expand_button.connect(
-		"pressed", Callable(self, "_open_text_edit_dialog").bind(_explanation_text_edit)
+	_explanation_text_edit.text_changed.connect(_on_explanation_text_edit_text_changed)
+	_explanation_expand_button.pressed.connect(
+		_open_text_edit_dialog.bind(_explanation_text_edit),
 	)
 
-	_body_text_edit.connect("gui_input", Callable(self, "_text_edit_gui_input").bind(_body_text_edit))
-	_explanation_text_edit.connect(
-		"gui_input", Callable(self, "_text_edit_gui_input").bind(_explanation_text_edit)
+	_body_text_edit.gui_input.connect(_text_edit_gui_input.bind(_body_text_edit))
+	_explanation_text_edit.gui_input.connect(
+		_text_edit_gui_input.bind(_explanation_text_edit),
 	)
 
-	_question_line_edit.connect("text_changed", Callable(self, "_on_question_line_edit_text_changed"))
+	_question_line_edit.text_changed.connect(_on_question_line_edit_text_changed)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_on_confirm_dialog_confirmed"))
-	_confirm_dialog.get_cancel_button().connect("pressed", Callable(self, "_on_confirm_dialog_cancelled"))
+	_confirm_dialog.confirmed.connect(_on_confirm_dialog_confirmed)
+	_confirm_dialog.get_cancel_button().pressed.connect(_on_confirm_dialog_cancelled)
 
-	_quiz_type_options.connect("item_selected", Callable(self, "_on_quiz_type_options_item_selected"))
+	_quiz_type_options.item_selected.connect(_on_quiz_type_options_item_selected)
 
 	# Update theme items
 	var panel_style = get_theme_stylebox("panel", "Panel").duplicate()
 	if panel_style is StyleBoxFlat:
 		panel_style.bg_color = get_theme_color("base_color", "Editor")
 		panel_style.border_color = get_theme_color("prop_section", "Editor").lerp(
-			get_theme_color("accent_color", "Editor"), 0.1
+			get_theme_color("accent_color", "Editor"),
+			0.1,
 		)
 		panel_style.border_width_bottom = 2
 		panel_style.border_width_top = (
@@ -96,7 +98,8 @@ func _ready() -> void:
 	_drag_preview_style = get_theme_stylebox("panel", "Panel").duplicate()
 	if _drag_preview_style is StyleBoxFlat:
 		_drag_preview_style.bg_color = get_theme_color("prop_section", "Editor").lerp(
-			get_theme_color("accent_color", "Editor"), 0.3
+			get_theme_color("accent_color", "Editor"),
+			0.3,
 		)
 		_drag_preview_style.corner_detail = 4
 		_drag_preview_style.set_corner_radius_all(2)
@@ -191,7 +194,7 @@ func _show_confirm(message: String, title: String = "Confirm") -> void:
 func _on_confirm_dialog_confirmed() -> void:
 	match _confirm_dialog_mode:
 		ConfirmMode.REMOVE_BLOCK:
-			emit_signal("block_removed")
+			block_removed.emit()
 		ConfirmMode.CHANGE_QUIZ_TYPE:
 			_change_quiz_type(_change_quiz_type_target)
 
@@ -262,7 +265,7 @@ func _create_new_quiz_resource(new_type, from: Quiz) -> void:
 	_quiz.question = from.question
 	_quiz.hint = from.hint
 	_quiz.explanation_bbcode = from.explanation_bbcode
-	emit_signal("quiz_resource_changed", previous_quiz, _quiz)
+	quiz_resource_changed.emit(previous_quiz, _quiz)
 	_rebuild_answers()
 
 
@@ -276,21 +279,22 @@ func _text_edit_gui_input(event: InputEvent, source: TextEdit) -> void:
 
 
 func _open_text_edit_dialog(source: TextEdit) -> void:
-	if _text_edit_dialog.is_connected("confirmed", Callable(self, "_transfer_text_edit_dialog_text")):
-		_text_edit_dialog.disconnect("confirmed", Callable(self, "_transfer_text_edit_dialog_text"))
+	if _text_edit_dialog.confirmed.is_connected(_transfer_text_edit_dialog_text):
+		_text_edit_dialog.confirmed.disconnect(_transfer_text_edit_dialog_text)
 
 	_text_edit_dialog.popup_centered()
 	_text_edit_dialog.text = source.text
 	_text_edit_dialog.set_line_column(source.get_caret_line(), source.get_caret_column())
 	_text_edit_dialog.popup_centered()
-	_text_edit_dialog.connect(
-		"confirmed", Callable(self, "_transfer_text_edit_dialog_text").bind(source), CONNECT_ONE_SHOT
+	_text_edit_dialog.confirmed.connect(
+		_transfer_text_edit_dialog_text.bind(source),
+		CONNECT_ONE_SHOT,
 	)
 
 
 func _transfer_text_edit_dialog_text(target: TextEdit) -> void:
 	target.set_text(_text_edit_dialog.text)
-	target.emit_signal("text_changed")
+	target.text_changed.emit()
 	_quiz.emit_changed()
 	target.set_caret_line(_text_edit_dialog.get_line())
 	target.set_caret_column(_text_edit_dialog.get_column())

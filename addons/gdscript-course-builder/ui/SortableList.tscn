@@ -1,20 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://b2q4a0se73jgn"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/SortableList.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://sh5kwcjmikfn" path="res://addons/gdscript-course-builder/ui/SortableList.gd" id="1"]
 
-[node name="SortableList" type="ScrollContainer"]
+[node name="SortableList" type="ScrollContainer" unique_id=959712431 node_paths=PackedStringArray("_item_list", "_overlay_layer")]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 follow_focus = true
-scroll_horizontal_enabled = false
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
+_item_list = NodePath("Items")
+_overlay_layer = NodePath("Overlay")
 
-[node name="Items" type="VBoxContainer" parent="."]
-offset_right = 1920.0
+[node name="Items" type="VBoxContainer" parent="." unique_id=365348339]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Overlay" type="Control" parent="."]
+[node name="Overlay" type="Control" parent="." unique_id=1171522573]
+layout_mode = 2
 mouse_filter = 2

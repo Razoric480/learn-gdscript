@@ -23,21 +23,21 @@ const INDEX_PRACTICE_TAB := 1
 var _edited_lesson: Lesson
 var _last_search_result: SearchResult
 
-@onready var _no_content_block := $NoContent as Control
-@onready var _content_block := $Content as Control
+@export var _no_content_block: Control
+@export var _content_block: Control
 
-@onready var _lesson_path_value := $Content/LessonPath/LineEdit as LineEdit
-@onready var _lesson_title_value := $Content/LessonTitle/LineEdit as LineEdit
-@onready var _edit_slug_button := $Content/LessonPath/SlugButton as Button
-@onready var _edit_slug_dialog := $SlugDialog as SlugDialog
+@export var _lesson_path_value: LineEdit
+@export var _lesson_title_value: LineEdit
+@export var _edit_slug_button: Button
+@export var _edit_slug_dialog: SlugDialog
 
-@onready var _lesson_tabs := $Content/LessonContent as TabContainer
-@onready var _lesson_content_blocks := $Content/LessonContent/ContentBlocks/ItemList as SortableList
-@onready var _add_content_block_button := $Content/LessonContent/ContentBlocks/ToolBar/AddBlockButton as Button
-@onready var _add_quiz_button := $Content/LessonContent/ContentBlocks/ToolBar/AddQuizButton as Button
-@onready var _insert_content_block_dialog := $InsertContentBlockDialog as InsertContentBlockDialog
-@onready var _lesson_practices := $Content/LessonContent/Practices/ItemList as SortableList
-@onready var _add_practice_button := $Content/LessonContent/Practices/ToolBar/AddPracticeButton as Button
+@export var _lesson_tabs: TabContainer
+@export var _lesson_content_blocks: SortableList
+@export var _add_content_block_button: Button
+@export var _add_quiz_button: Button
+@export var _insert_content_block_dialog: InsertContentBlockDialog
+@export var _lesson_practices: SortableList
+@export var _add_practice_button: Button
 
 
 func _ready() -> void:
@@ -70,7 +70,8 @@ func _update_theme() -> void:
 		return
 
 	_lesson_path_value.add_theme_color_override(
-		"font_color_uneditable", get_theme_color("disabled_font_color", "Editor")
+		"font_color_uneditable",
+		get_theme_color("disabled_font_color", "Editor"),
 	)
 	_add_content_block_button.icon = get_theme_icon("New", "EditorIcons")
 	_add_quiz_button.icon = _add_content_block_button.icon
@@ -79,7 +80,8 @@ func _update_theme() -> void:
 	var tab_style = get_theme_stylebox("panel", "TabContainer")
 	if tab_style is StyleBoxFlat:
 		tab_style.bg_color = get_theme_color("base_color", "Editor").lerp(
-			get_theme_color("dark_color_1", "Editor"), 0.5
+			get_theme_color("dark_color_1", "Editor"),
+			0.5,
 		)
 	_lesson_tabs.add_theme_stylebox_override("panel", tab_style)
 
@@ -297,7 +299,8 @@ func _on_practice_added(at_index: int = -1) -> void:
 
 	var practice_data = Practice.new()
 	practice_data.practice_id = FileUtils.generate_random_lesson_subresource_path(
-		_edited_lesson, "practice"
+		_edited_lesson,
+		"practice",
 	)
 
 	if at_index >= 0 and at_index < _edited_lesson.practices.size():
@@ -363,12 +366,13 @@ class SearchResult:
 	var end_column := 0
 	var property := ""
 
+
 	func _init(
-		p_block_index: int,
-		p_start_line: int,
-		p_start_column: int,
-		p_end_column: int,
-		p_property: String
+			p_block_index: int,
+			p_start_line: int,
+			p_start_column: int,
+			p_end_column: int,
+			p_property: String,
 	) -> void:
 		block_index = p_block_index
 		property = p_property

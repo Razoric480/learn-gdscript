@@ -9,36 +9,38 @@ signal choice_changed
 signal index_changed
 signal removed
 
-var list_index := -1: set = set_list_index
-var is_radio := false: set = set_is_radio
+var list_index := -1:
+	set = set_list_index
+var is_radio := false:
+	set = set_is_radio
 
 var button_group: ButtonGroup
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
+@export var _background_panel: PanelContainer
 
-@onready var _sort_up_button := $BackgroundPanel/Layout/SortButtons/SortUpButton as Button
-@onready var _sort_down_button := $BackgroundPanel/Layout/SortButtons/SortDownButton as Button
+@export var _sort_up_button: Button
+@export var _sort_down_button: Button
 
-@onready var _index_label := $BackgroundPanel/Layout/IndexLabel as Label
-@onready var _choice_line_edit := $BackgroundPanel/Layout/LineEdit as LineEdit
-@onready var _valid_answer_checkbox := $BackgroundPanel/Layout/CheckBox as CheckBox
-@onready var _remove_choice_button := $BackgroundPanel/Layout/RemoveButton as Button
+@export var _index_label: Label
+@export var _choice_line_edit: LineEdit
+@export var _valid_answer_checkbox: CheckBox
+@export var _remove_choice_button: Button
 
-@onready var _confirm_dialog := $ConfirmationDialog as ConfirmationDialog
+@export var _confirm_dialog: ConfirmationDialog
 
-@onready var _parent := get_parent() as Container
+@export var _parent: Container
 
 
 func _ready() -> void:
-	_sort_up_button.connect("pressed", Callable(self, "_change_position_in_parent").bind(-1))
-	_sort_down_button.connect("pressed", Callable(self, "_change_position_in_parent").bind(1))
+	_sort_up_button.pressed.connect(_change_position_in_parent.bind(-1))
+	_sort_down_button.pressed.connect(_change_position_in_parent.bind(1))
 
-	_remove_choice_button.connect("pressed", Callable(self, "_on_remove_choice_requested"))
-	_choice_line_edit.connect("text_changed", Callable(self, "_on_choice_text_changed"))
+	_remove_choice_button.pressed.connect(_on_remove_choice_requested)
+	_choice_line_edit.text_changed.connect(_on_choice_text_changed)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_remove"))
+	_confirm_dialog.confirmed.connect(_remove)
 
-	_valid_answer_checkbox.connect("pressed", Callable(self, "emit_signal").bind("choice_changed"))
+	_valid_answer_checkbox.pressed.connect(emit_signal.bind("choice_changed"))
 	_index_label.text = "%d." % [get_index()]
 
 	# Update theme items
@@ -93,7 +95,7 @@ func _on_remove_choice_requested() -> void:
 
 
 func _on_choice_text_changed(new_text: String) -> void:
-	emit_signal("choice_changed")
+	choice_changed.emit()
 
 
 func _change_position_in_parent(offset: int) -> void:
@@ -102,9 +104,9 @@ func _change_position_in_parent(offset: int) -> void:
 	if new_index < 1 or new_index >= _parent.get_child_count():
 		return
 	_parent.move_child(self, new_index)
-	emit_signal("index_changed")
+	index_changed.emit()
 
 
 func _remove() -> void:
 	queue_free()
-	emit_signal("removed")
+	removed.emit()

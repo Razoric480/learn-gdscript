@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cbj6vio5dq060" path="res://ui/screens/welcome_screen/background.png" id="1"]
 [ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="2"]
-[ext_resource type="StyleBox" path="res://ui/screens/practice/gdquestboy_frame_main_menu.tres" id="3"]
+[ext_resource type="StyleBox" uid="uid://dmcpuk8fejld8" path="res://ui/screens/practice/gdquestboy_frame_main_menu.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://m003a0rm27w4" path="res://ui/screens/welcome_screen/title.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://by3dlo6kxjw1f" path="res://ui/screens/welcome_screen/title_background.png" id="6"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_main_menu_normal.tres" id="7"]
@@ -623,7 +623,8 @@ libraries/ = SubResource("AnimationLibrary_byl2v")
 
 [node name="GDQuestBoy" type="PanelContainer" parent="." unique_id=1788617050]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -633,6 +634,7 @@ offset_top = -512.0
 offset_right = 227.0
 offset_bottom = -12.0
 grow_horizontal = 2
+grow_vertical = 0
 theme_override_styles/panel = ExtResource("3")
 
 [node name="Margin" type="MarginContainer" parent="GDQuestBoy" unique_id=1391373550]

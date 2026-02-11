@@ -1,35 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://ca4typ7mkwta5"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/CodeRefList.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://cocfvdo6wp7fq" path="res://addons/gdscript-course-builder/ui/CodeRefList.gd" id="1"]
 
-[node name="CodeRefList" type="VBoxContainer"]
+[node name="CodeRefList" type="VBoxContainer" unique_id=1756425357 node_paths=PackedStringArray("_add_button")]
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
+_add_button = NodePath("Header/AddButton")
 
-[node name="Header" type="HBoxContainer" parent="."]
-offset_right = 140.0
-offset_bottom = 20.0
+[node name="Header" type="HBoxContainer" parent="." unique_id=306572432]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="Header"]
-offset_top = 3.0
-offset_right = 60.0
-offset_bottom = 17.0
+[node name="Label" type="Label" parent="Header" unique_id=1584371900]
+layout_mode = 2
 text = "Code Ref:"
 
-[node name="Spacer" type="Control" parent="Header"]
-offset_left = 64.0
-offset_right = 64.0
-offset_bottom = 20.0
+[node name="Spacer" type="Control" parent="Header" unique_id=1512708720]
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddButton" type="Button" parent="Header"]
-offset_left = 68.0
-offset_right = 140.0
-offset_bottom = 20.0
+[node name="AddButton" type="Button" parent="Header" unique_id=1968240111]
+layout_mode = 2
 text = "Add Field"

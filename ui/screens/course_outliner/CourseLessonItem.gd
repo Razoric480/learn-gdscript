@@ -20,8 +20,8 @@ var _mouse_hovering := false
 func _ready() -> void:
 	_update_visuals()
 	
-	connect("mouse_entered", Callable(self, "_on_mouse_entered"))
-	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 
 func _draw() -> void:
@@ -38,7 +38,7 @@ func _draw() -> void:
 func _gui_input(event: InputEvent) -> void:
 	var mb := event as InputEventMouseButton
 	if mb and mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
-		emit_signal("selected")
+		selected.emit()
 
 
 func set_lesson_index(value: int) -> void:

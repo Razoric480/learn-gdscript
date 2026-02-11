@@ -11,28 +11,28 @@ var _list_index := -1
 var _hint_text := ""
 var _drag_preview_style: StyleBox
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-@onready var _drag_icon := $BackgroundPanel/Layout/DragIcon as TextureRect
-@onready var _drop_target := $DropTarget as Control
-@onready var _sort_up_button := $BackgroundPanel/Layout/SortButtons/SortUpButton as Button
-@onready var _sort_down_button := $BackgroundPanel/Layout/SortButtons/SortDownButton as Button
+@export var _background_panel: PanelContainer
+@export var _drag_icon: TextureRect
+@export var _drop_target: Control
+@export var _sort_up_button: Button
+@export var _sort_down_button: Button
 
-@onready var _index_label := $BackgroundPanel/Layout/IndexLabel as Label
-@onready var _hint_value := $BackgroundPanel/Layout/TextEdit as TextEdit
-@onready var _remove_hint_button := $BackgroundPanel/Layout/RemoveButton as Button
+@export var _index_label: Label
+@export var _hint_value: TextEdit
+@export var _remove_hint_button: Button
 
-@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@export var _confirm_dialog: ConfirmationDialog
 
 
 func _ready() -> void:
 	_update_theme()
 
-	_sort_up_button.connect("pressed", Callable(self, "_on_hint_moved_up"))
-	_sort_down_button.connect("pressed", Callable(self, "_on_hint_moved_down"))
-	_remove_hint_button.connect("pressed", Callable(self, "_on_remove_hint_requested"))
-	_hint_value.connect("text_changed", Callable(self, "_on_hint_text_changed"))
+	_sort_up_button.pressed.connect(_on_hint_moved_up)
+	_sort_down_button.pressed.connect(_on_hint_moved_down)
+	_remove_hint_button.pressed.connect(_on_remove_hint_requested)
+	_hint_value.text_changed.connect(_on_hint_text_changed)
 
-	_confirm_dialog.connect("confirmed", Callable(self, "_on_remove_hint_confirmed"))
+	_confirm_dialog.confirmed.connect(_on_remove_hint_confirmed)
 
 
 func _update_theme() -> void:
@@ -49,7 +49,8 @@ func _update_theme() -> void:
 	_drag_preview_style = panel_style.duplicate()
 	if _drag_preview_style is StyleBoxFlat:
 		panel_style.bg_color = get_theme_color("base_color", "Editor").lerp(
-			get_theme_color("dark_color_1", "Editor"), 0.2
+			get_theme_color("dark_color_1", "Editor"),
+			0.2,
 		)
 
 	_drag_icon.texture = get_theme_icon("Sort", "EditorIcons")
@@ -103,17 +104,17 @@ func _on_remove_hint_requested() -> void:
 
 
 func _on_remove_hint_confirmed() -> void:
-	emit_signal("hint_removed")
+	hint_removed.emit()
 
 
 func _on_hint_text_changed() -> void:
 	_hint_text = _hint_value.text
-	emit_signal("hint_text_changed", _hint_value.text)
+	hint_text_changed.emit(_hint_value.text)
 
 
 func _on_hint_moved_up() -> void:
-	emit_signal("hint_moved", -1)
+	hint_moved.emit(-1)
 
 
 func _on_hint_moved_down() -> void:
-	emit_signal("hint_moved", 1)
+	hint_moved.emit(1)

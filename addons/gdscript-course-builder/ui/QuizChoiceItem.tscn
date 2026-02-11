@@ -1,116 +1,81 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene format=3 uid="uid://olhbbsfcg02x"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/QuizChoiceItem.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://cxwqm8xxrbvl0" path="res://addons/gdscript-course-builder/ui/QuizChoiceItem.gd" id="1"]
 
-[sub_resource type="Image" id=1]
-data = {
-"data": PackedByteArray( 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42 ),
-"format": "RGB8",
-"height": 8,
-"mipmaps": false,
-"width": 8
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axqqn"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 4
 
-[sub_resource type="ImageTexture" id=2]
-flags = 4
-flags = 4
-image = SubResource( 1 )
-size = Vector2( 8, 8 )
+[sub_resource type="DPITexture" id="DPITexture_8461t"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
 
-[sub_resource type="StyleBoxTexture" id=3]
-texture = SubResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-
-[sub_resource type="Image" id=4]
-data = {
-"data": PackedByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
-"format": "LumAlpha8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
-
-[sub_resource type="ImageTexture" id=5]
-flags = 4
-flags = 4
-image = SubResource( 4 )
-size = Vector2( 16, 16 )
-
-[node name="QuizChoiceItem" type="MarginContainer"]
+[node name="QuizChoiceItem" type="MarginContainer" unique_id=910710337 node_paths=PackedStringArray("_background_panel", "_sort_up_button", "_sort_down_button", "_index_label", "_choice_line_edit", "_valid_answer_checkbox", "_remove_choice_button", "_confirm_dialog")]
 offset_right = 84.0
 offset_bottom = 64.0
-mouse_filter = 1
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_top = 2
 theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
+_background_panel = NodePath("BackgroundPanel")
+_sort_up_button = NodePath("BackgroundPanel/Layout/SortButtons/SortUpButton")
+_sort_down_button = NodePath("BackgroundPanel/Layout/SortButtons/SortDownButton")
+_index_label = NodePath("BackgroundPanel/Layout/IndexLabel")
+_choice_line_edit = NodePath("BackgroundPanel/Layout/LineEdit")
+_valid_answer_checkbox = NodePath("BackgroundPanel/Layout/CheckBox")
+_remove_choice_button = NodePath("BackgroundPanel/Layout/RemoveButton")
+_confirm_dialog = NodePath("ConfirmationDialog")
 
-[node name="BackgroundPanel" type="PanelContainer" parent="."]
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 252.0
-offset_bottom = 62.0
+[node name="BackgroundPanel" type="PanelContainer" parent="." unique_id=1832030297]
+layout_mode = 2
 mouse_filter = 1
-theme_override_styles/panel = SubResource( 3 )
+theme_override_styles/panel = SubResource("StyleBoxFlat_axqqn")
 
-[node name="Layout" type="HBoxContainer" parent="BackgroundPanel"]
-offset_right = 250.0
-offset_bottom = 60.0
+[node name="Layout" type="HBoxContainer" parent="BackgroundPanel" unique_id=1191978418]
+layout_mode = 2
 
-[node name="SortButtons" type="VBoxContainer" parent="BackgroundPanel/Layout"]
-offset_right = 28.0
-offset_bottom = 60.0
+[node name="SortButtons" type="VBoxContainer" parent="BackgroundPanel/Layout" unique_id=1799552262]
+layout_mode = 2
 alignment = 1
 
-[node name="SortUpButton" type="Button" parent="BackgroundPanel/Layout/SortButtons"]
-offset_top = 6.0
-offset_right = 28.0
-offset_bottom = 28.0
+[node name="SortUpButton" type="Button" parent="BackgroundPanel/Layout/SortButtons" unique_id=1747696365]
+layout_mode = 2
 tooltip_text = "Move up by one position."
-icon = SubResource( 5 )
+icon = SubResource("DPITexture_8461t")
 flat = true
 
-[node name="SortDownButton" type="Button" parent="BackgroundPanel/Layout/SortButtons"]
-offset_top = 32.0
-offset_right = 28.0
-offset_bottom = 54.0
+[node name="SortDownButton" type="Button" parent="BackgroundPanel/Layout/SortButtons" unique_id=1581141844]
+layout_mode = 2
 tooltip_text = "Move down by one position."
-icon = SubResource( 5 )
+icon = SubResource("DPITexture_8461t")
 flat = true
 
-[node name="IndexLabel" type="Label" parent="BackgroundPanel/Layout"]
-offset_left = 32.0
-offset_right = 44.0
-offset_bottom = 14.0
+[node name="IndexLabel" type="Label" parent="BackgroundPanel/Layout" unique_id=111382191]
+layout_mode = 2
 size_flags_vertical = 0
 text = "0."
 
-[node name="LineEdit" type="LineEdit" parent="BackgroundPanel/Layout"]
-offset_left = 48.0
-offset_right = 106.0
-offset_bottom = 60.0
-custom_minimum_size = Vector2( 0, 60 )
+[node name="LineEdit" type="LineEdit" parent="BackgroundPanel/Layout" unique_id=1740346204]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CheckBox" type="CheckBox" parent="BackgroundPanel/Layout"]
-offset_left = 110.0
-offset_right = 218.0
-offset_bottom = 60.0
+[node name="CheckBox" type="CheckBox" parent="BackgroundPanel/Layout" unique_id=1892455222]
+layout_mode = 2
 text = "Valid answer"
 
-[node name="RemoveButton" type="Button" parent="BackgroundPanel/Layout"]
-offset_left = 222.0
-offset_right = 250.0
-offset_bottom = 60.0
-icon = SubResource( 5 )
+[node name="RemoveButton" type="Button" parent="BackgroundPanel/Layout" unique_id=131510500]
+layout_mode = 2
+icon = SubResource("DPITexture_8461t")
 flat = true
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 252.0
-offset_bottom = 72.0
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=992030352]

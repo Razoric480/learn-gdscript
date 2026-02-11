@@ -12,9 +12,9 @@ var _base_path := ""
 var _drop_highlight: TreeItem
 var _selected_lesson := -1
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-@onready var _lesson_items := $BackgroundPanel/ItemList as Control
-@onready var _add_lesson_button := $ToolBar/AddButton as Button
+@export var _background_panel: PanelContainer
+@export var _lesson_items: Control
+@export var _add_lesson_button: Button
 
 
 func _ready() -> void:

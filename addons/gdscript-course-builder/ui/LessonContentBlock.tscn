@@ -3,35 +3,26 @@
 [ext_resource type="Script" uid="uid://dpj7fq8w8jvy5" path="res://addons/gdscript-course-builder/ui/LessonContentBlock.gd" id="1"]
 [ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/TextEditDialog.tscn" id="2"]
 
-[sub_resource type="Image" id="Image_g40d8"]
-data = {
-"data": PackedByteArray(37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42),
-"format": "RGB8",
-"height": 8,
-"mipmaps": false,
-"width": 8
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g40d8"]
+content_margin_left = 10.0
+content_margin_top = 0.0
+content_margin_right = 10.0
+content_margin_bottom = 12.0
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 31
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 4
 
-[sub_resource type="ImageTexture" id="2"]
-image = SubResource("Image_g40d8")
+[sub_resource type="DPITexture" id="DPITexture_8461t"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
 
-[sub_resource type="StyleBoxTexture" id="7"]
-texture = SubResource("2")
-region_rect = Rect2(0, 0, 8, 8)
-
-[sub_resource type="Image" id="Image_n837h"]
-data = {
-"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": "LumAlpha8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
-
-[sub_resource type="ImageTexture" id="5"]
-image = SubResource("Image_n837h")
-
-[node name="LessonContentBlock" type="MarginContainer" unique_id=2099931130]
+[node name="LessonContentBlock" type="MarginContainer" unique_id=2099931130 node_paths=PackedStringArray("_background_panel", "_header_bar", "_drag_icon", "_drop_target", "_title_label", "_title", "_title_placeholder", "_remove_button", "_options_block_type", "_text_content_value", "_text_content_expand_button", "_text_edit_dialog", "_text_placeholder", "_visual_element_value", "_select_file_button", "_clear_file_button", "_visuals_on_left_checkbox", "_content_separator_checkbox", "_confirm_dialog")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,11 +32,30 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 script = ExtResource("1")
+_background_panel = NodePath("BackgroundPanel")
+_header_bar = NodePath("BackgroundPanel/Layout/HeaderBar")
+_drag_icon = NodePath("BackgroundPanel/Layout/HeaderBar/DragIcon")
+_drop_target = NodePath("DropTarget")
+_title_label = NodePath("BackgroundPanel/Layout/HeaderBar/ContentTitle/Label")
+_title = NodePath("BackgroundPanel/Layout/HeaderBar/ContentTitle/LineEdit")
+_title_placeholder = NodePath("BackgroundPanel/Layout/HeaderBar/ContentTitle/LineEdit/Label")
+_remove_button = NodePath("BackgroundPanel/Layout/HeaderBar/RemoveButton")
+_options_block_type = NodePath("BackgroundPanel/Layout/BlockType/OptionList")
+_text_content_value = NodePath("BackgroundPanel/Layout/TextContent/Editor/TextEdit")
+_text_content_expand_button = NodePath("BackgroundPanel/Layout/TextContent/Editor/ExpandButton")
+_text_edit_dialog = NodePath("TextEditDialog")
+_text_placeholder = NodePath("BackgroundPanel/Layout/TextContent/Editor/TextEdit/Label")
+_visual_element_value = NodePath("BackgroundPanel/Layout/VisualElement/LineEdit")
+_select_file_button = NodePath("BackgroundPanel/Layout/VisualElement/SelectFileButton")
+_clear_file_button = NodePath("BackgroundPanel/Layout/VisualElement/ClearFileButton")
+_visuals_on_left_checkbox = NodePath("BackgroundPanel/Layout/VisualElement/AlignLeftCheckBox")
+_content_separator_checkbox = NodePath("BackgroundPanel/Layout/ContentSeparator/CheckBox")
+_confirm_dialog = NodePath("ConfirmDialog")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="." unique_id=1138450610]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_g40d8")
 
 [node name="Layout" type="VBoxContainer" parent="BackgroundPanel" unique_id=1414747956]
 layout_mode = 2
@@ -57,7 +67,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 13
-texture = SubResource("5")
+texture = SubResource("DPITexture_8461t")
 
 [node name="ContentTitle" type="HBoxContainer" parent="BackgroundPanel/Layout/HeaderBar" unique_id=1597113591]
 layout_mode = 2
@@ -85,7 +95,7 @@ vertical_alignment = 1
 [node name="RemoveButton" type="Button" parent="BackgroundPanel/Layout/HeaderBar" unique_id=1673742685]
 layout_mode = 2
 text = "Remove"
-icon = SubResource("5")
+icon = SubResource("DPITexture_8461t")
 flat = true
 
 [node name="Padding" type="Control" parent="BackgroundPanel/Layout" unique_id=86029022]
@@ -127,7 +137,7 @@ text = "Write content here"
 
 [node name="ExpandButton" type="Button" parent="BackgroundPanel/Layout/TextContent/Editor" unique_id=443384368]
 layout_mode = 2
-icon = SubResource("5")
+icon = SubResource("DPITexture_8461t")
 
 [node name="VisualElement" type="HBoxContainer" parent="BackgroundPanel/Layout" unique_id=467225491]
 layout_mode = 2
@@ -171,4 +181,5 @@ mouse_filter = 1
 dialog_autowrap = true
 
 [node name="TextEditDialog" parent="." unique_id=1694403981 instance=ExtResource("2")]
+size = Vector2i(123, 51)
 visible = false

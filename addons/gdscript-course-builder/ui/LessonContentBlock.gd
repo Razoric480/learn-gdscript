@@ -14,31 +14,31 @@ var _confirm_dialog_mode := -1
 var _drag_preview_style: StyleBox
 var _file_dialog: EditorFileDialog
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-@onready var _header_bar := $BackgroundPanel/Layout/HeaderBar as Control
-@onready var _drag_icon := $BackgroundPanel/Layout/HeaderBar/DragIcon as TextureRect
-@onready var _drop_target := $DropTarget as Control
+@export var _background_panel: PanelContainer
+@export var _header_bar: Control
+@export var _drag_icon: TextureRect
+@export var _drop_target: Control
 
-@onready var _title_label := $BackgroundPanel/Layout/HeaderBar/ContentTitle/Label as Label
-@onready var _title := $BackgroundPanel/Layout/HeaderBar/ContentTitle/LineEdit as LineEdit
-@onready var _title_placeholder := $BackgroundPanel/Layout/HeaderBar/ContentTitle/LineEdit/Label as Label
-@onready var _remove_button := $BackgroundPanel/Layout/HeaderBar/RemoveButton as Button
+@export var _title_label: Label
+@export var _title: LineEdit
+@export var _title_placeholder: Label
+@export var _remove_button: Button
 
-@onready var _options_block_type := $BackgroundPanel/Layout/BlockType/OptionList as OptionButton
+@export var _options_block_type: OptionButton
 
-@onready var _text_content_value := $BackgroundPanel/Layout/TextContent/Editor/TextEdit as TextEdit
-@onready var _text_content_expand_button := $BackgroundPanel/Layout/TextContent/Editor/ExpandButton as Button
-@onready var _text_edit_dialog := $TextEditDialog as TextEditDialog
-@onready var _text_placeholder := $BackgroundPanel/Layout/TextContent/Editor/TextEdit/Label as Label
+@export var _text_content_value: TextEdit
+@export var _text_content_expand_button: Button
+@export var _text_edit_dialog: TextEditDialog
+@export var _text_placeholder: Label
 
-@onready var _visual_element_value := $BackgroundPanel/Layout/VisualElement/LineEdit as LineEdit
-@onready var _select_file_button := $BackgroundPanel/Layout/VisualElement/SelectFileButton as Button
-@onready var _clear_file_button := $BackgroundPanel/Layout/VisualElement/ClearFileButton as Button
-@onready var _visuals_on_left_checkbox := $BackgroundPanel/Layout/VisualElement/AlignLeftCheckBox as CheckBox
+@export var _visual_element_value: LineEdit
+@export var _select_file_button: Button
+@export var _clear_file_button: Button
+@export var _visuals_on_left_checkbox: CheckBox
 
-@onready var _content_separator_checkbox := $BackgroundPanel/Layout/ContentSeparator/CheckBox as CheckBox
+@export var _content_separator_checkbox: CheckBox
 
-@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@export var _confirm_dialog: ConfirmationDialog
 
 
 func _ready() -> void:
@@ -75,7 +75,8 @@ func _update_theme() -> void:
 	if panel_style is StyleBoxFlat:
 		panel_style.bg_color = get_theme_color("base_color", "Editor")
 		panel_style.border_color = get_theme_color("prop_section", "Editor").lerp(
-			get_theme_color("accent_color", "Editor"), 0.1
+			get_theme_color("accent_color", "Editor"),
+			0.1,
 		)
 		panel_style.border_width_bottom = 2
 		panel_style.border_width_top = (
@@ -92,7 +93,8 @@ func _update_theme() -> void:
 	_drag_preview_style = get_theme_stylebox("panel", "Panel").duplicate()
 	if _drag_preview_style is StyleBoxFlat:
 		_drag_preview_style.bg_color = get_theme_color("prop_section", "Editor").lerp(
-			get_theme_color("accent_color", "Editor"), 0.3
+			get_theme_color("accent_color", "Editor"),
+			0.3,
 		)
 		_drag_preview_style.corner_detail = 4
 		_drag_preview_style.set_corner_radius_all(2)
@@ -144,7 +146,10 @@ func setup(content_block: ContentBlock) -> void:
 
 func search(search_text: String, from_line := 0, from_column := 0) -> Vector2i:
 	var result := _text_content_value.search(
-		search_text, TextEdit.SEARCH_MATCH_CASE, from_line, from_column
+		search_text,
+		TextEdit.SEARCH_MATCH_CASE,
+		from_line,
+		from_column,
 	)
 	if not result == Vector2i(-1, -1):
 		var line := result.x
@@ -237,7 +242,8 @@ func _on_text_content_changed() -> void:
 func _open_expanded_text_box() -> void:
 	_text_edit_dialog.text = _edited_content_block.text
 	_text_edit_dialog.set_line_column(
-		_text_content_value.get_caret_line(), _text_content_value.get_caret_column()
+		_text_content_value.get_caret_line(),
+		_text_content_value.get_caret_column(),
 	)
 	_text_edit_dialog.popup_centered()
 

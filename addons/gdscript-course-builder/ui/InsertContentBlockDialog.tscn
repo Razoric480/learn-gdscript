@@ -1,66 +1,45 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3 uid="uid://drvae8h62p7i5"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/InsertContentBlockDialog.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://cg46ciiogbopm" path="res://addons/gdscript-course-builder/ui/InsertContentBlockDialog.gd" id="1"]
 
-[node name="InsertContentBlockDialog" type="Window"]
-visible = true
-offset_right = 420.0
-offset_bottom = 180.0
-custom_minimum_size = Vector2( 420, 180 )
-window_title = "Select the type of content..."
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="InsertContentBlockDialog" type="Window" unique_id=562067976 node_paths=PackedStringArray("_add_block_button", "_add_quiz_button", "_cancel_button")]
+oversampling_override = 1.0
+script = ExtResource("1")
+_add_block_button = NodePath("MarginContainer/Layout/Options/AddBlockButton")
+_add_quiz_button = NodePath("MarginContainer/Layout/Options/AddQuizButton")
+_cancel_button = NodePath("MarginContainer/Layout/Buttons/CancelButton")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1524741630]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_top = 4
 theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Layout" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 8.0
-offset_top = 4.0
-offset_right = 412.0
-offset_bottom = 176.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Layout" type="VBoxContainer" parent="MarginContainer" unique_id=889285611]
+layout_mode = 2
 
-[node name="Options" type="VBoxContainer" parent="MarginContainer/Layout"]
-offset_right = 404.0
-offset_bottom = 148.0
+[node name="Options" type="VBoxContainer" parent="MarginContainer/Layout" unique_id=401585115]
+layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="AddBlockButton" type="Button" parent="MarginContainer/Layout/Options"]
-offset_top = 32.0
-offset_right = 404.0
-offset_bottom = 72.0
-custom_minimum_size = Vector2( 0, 40 )
+[node name="AddBlockButton" type="Button" parent="MarginContainer/Layout/Options" unique_id=337071816]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 text = "Add Content Block"
 
-[node name="AddQuizButton" type="Button" parent="MarginContainer/Layout/Options"]
-offset_top = 76.0
-offset_right = 404.0
-offset_bottom = 116.0
-custom_minimum_size = Vector2( 0, 40 )
+[node name="AddQuizButton" type="Button" parent="MarginContainer/Layout/Options" unique_id=1198146809]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 text = "Add Quiz"
 
-[node name="Buttons" type="HBoxContainer" parent="MarginContainer/Layout"]
-offset_top = 152.0
-offset_right = 404.0
-offset_bottom = 172.0
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/Layout" unique_id=1255922999]
+layout_mode = 2
 alignment = 1
 
-[node name="CancelButton" type="Button" parent="MarginContainer/Layout/Buttons"]
-offset_left = 175.0
-offset_right = 229.0
-offset_bottom = 20.0
+[node name="CancelButton" type="Button" parent="MarginContainer/Layout/Buttons" unique_id=49566670]
+layout_mode = 2
 text = "Cancel"

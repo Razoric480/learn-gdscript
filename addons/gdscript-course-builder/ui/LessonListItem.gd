@@ -18,12 +18,12 @@ var _drag_preview_style: StyleBox
 
 var _confirm_dialog_mode := -1
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-@onready var _lesson_name_label := $BackgroundPanel/Layout/Header/LessonName as Label
-@onready var _lesson_path_label := $BackgroundPanel/Layout/LessonPath as Label
+@export var _background_panel: PanelContainer
+@export var _lesson_name_label: Label
+@export var _lesson_path_label: Label
 
-@onready var _remove_item_button := $BackgroundPanel/Layout/Header/RemoveButton as Button
-@onready var _confirm_dialog := $ConfirmDialog as ConfirmationDialog
+@export var _remove_item_button: Button
+@export var _confirm_dialog: ConfirmationDialog
 
 
 func _ready() -> void:
@@ -46,13 +46,15 @@ func _update_theme() -> void:
 	_selected_style = _normal_style.duplicate()
 	if _selected_style is StyleBoxFlat:
 		_selected_style.bg_color = get_theme_color("base_color", "Editor").lerp(
-			get_theme_color("contrast_color_1", "Editor"), 0.35
+			get_theme_color("contrast_color_1", "Editor"),
+			0.35,
 		)
 
 	_drag_preview_style = _normal_style.duplicate()
 	if _drag_preview_style is StyleBoxFlat:
 		_drag_preview_style.bg_color = get_theme_color("base_color", "Editor").lerp(
-			get_theme_color("dark_color_1", "Editor"), 0.35
+			get_theme_color("dark_color_1", "Editor"),
+			0.35,
 		)
 
 	_background_panel.add_theme_stylebox_override("panel", _normal_style)

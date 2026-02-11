@@ -9,18 +9,16 @@ signal text_changed
 signal index_changed
 signal removed
 
-var list_index := -1: set = set_list_index
+@export var _background_panel: PanelContainer
+@export var _sort_up_button: Button
+@export var _sort_down_button: Button
+@export var _index_label: Label
+@export var _line_edit: LineEdit
+@export var _remove_button: Button
+@export var _confirm_dialog: ConfirmationDialog
 
-@onready var _background_panel := $BackgroundPanel as PanelContainer
-
-@onready var _sort_up_button := $BackgroundPanel/Layout/SortButtons/SortUpButton as Button
-@onready var _sort_down_button := $BackgroundPanel/Layout/SortButtons/SortDownButton as Button
-
-@onready var _index_label := $BackgroundPanel/Layout/IndexLabel as Label
-@onready var _line_edit := $BackgroundPanel/Layout/LineEdit as LineEdit
-@onready var _remove_button := $BackgroundPanel/Layout/RemoveButton as Button
-
-@onready var _confirm_dialog := $ConfirmationDialog as ConfirmationDialog
+var list_index := -1:
+	set = set_list_index
 
 @onready var _parent := get_parent() as Container
 

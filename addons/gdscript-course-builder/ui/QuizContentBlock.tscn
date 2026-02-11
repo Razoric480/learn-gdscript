@@ -1,235 +1,182 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene format=3 uid="uid://b47wolubhr6q1"]
 
-[ext_resource path="res://addons/gdscript-course-builder/ui/TextEditDialog.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/gdscript-course-builder/ui/QuizContentBlock.gd" type="Script" id=2]
+[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/TextEditDialog.tscn" id="1"]
+[ext_resource type="Script" uid="uid://ciwwgdxv3eehl" path="res://addons/gdscript-course-builder/ui/QuizContentBlock.gd" id="2"]
 
-[sub_resource type="Image" id=6]
+[sub_resource type="Image" id="Image_yg68t"]
 data = {
-"data": PackedByteArray( 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42 ),
+"data": PackedByteArray(37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42, 37, 37, 42),
 "format": "RGB8",
 "height": 8,
 "mipmaps": false,
 "width": 8
 }
 
-[sub_resource type="ImageTexture" id=2]
-flags = 4
-flags = 4
-image = SubResource( 6 )
-size = Vector2( 8, 8 )
+[sub_resource type="ImageTexture" id="2"]
+image = SubResource("Image_yg68t")
 
-[sub_resource type="StyleBoxTexture" id=7]
-texture = SubResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
+[sub_resource type="StyleBoxTexture" id="7"]
+texture = SubResource("2")
+region_rect = Rect2(0, 0, 8, 8)
 
-[sub_resource type="Image" id=8]
+[sub_resource type="Image" id="Image_mm4ww"]
 data = {
-"data": PackedByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "LumAlpha8",
 "height": 16,
 "mipmaps": false,
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id=5]
-flags = 4
-flags = 4
-image = SubResource( 8 )
-size = Vector2( 16, 16 )
+[sub_resource type="ImageTexture" id="5"]
+image = SubResource("Image_mm4ww")
 
-[node name="QuizContentBlock" type="MarginContainer"]
+[node name="QuizContentBlock" type="MarginContainer" unique_id=359732105 node_paths=PackedStringArray("_background_panel", "_header_bar", "_drag_icon", "_drop_target", "_title_label", "_remove_button", "_question_line_edit", "_quiz_type_options", "_body_text_edit", "_body_expand_button", "_body_info_label", "_explanation_text_edit", "_explanation_expand_button", "_explanation_info_label", "_answers_container", "_text_edit_dialog", "_confirm_dialog")]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_top = 2
 theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")
+_background_panel = NodePath("BackgroundPanel")
+_header_bar = NodePath("BackgroundPanel/Layout/HeaderBar")
+_drag_icon = NodePath("BackgroundPanel/Layout/HeaderBar/DragIcon")
+_drop_target = NodePath("DropTarget")
+_title_label = NodePath("BackgroundPanel/Layout/HeaderBar/ContentTitle")
+_remove_button = NodePath("BackgroundPanel/Layout/HeaderBar/RemoveButton")
+_question_line_edit = NodePath("BackgroundPanel/Layout/Question/LineEdit")
+_quiz_type_options = NodePath("BackgroundPanel/Layout/Settings/QuizTypeOption")
+_body_text_edit = NodePath("BackgroundPanel/Layout/Body/Editor/TextEdit")
+_body_expand_button = NodePath("BackgroundPanel/Layout/Body/Editor/ExpandButton")
+_body_info_label = NodePath("BackgroundPanel/Layout/Body/Editor/TextEdit/Label")
+_explanation_text_edit = NodePath("BackgroundPanel/Layout/Explanation/Editor/TextEdit")
+_explanation_expand_button = NodePath("BackgroundPanel/Layout/Explanation/Editor/ExpandButton")
+_explanation_info_label = NodePath("BackgroundPanel/Layout/Explanation/Editor/TextEdit/Label")
+_answers_container = NodePath("BackgroundPanel/Layout/Answers")
+_text_edit_dialog = NodePath("TextEditDialog")
+_confirm_dialog = NodePath("ConfirmDialog")
 
-[node name="BackgroundPanel" type="PanelContainer" parent="."]
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 1916.0
-offset_bottom = 1078.0
+[node name="BackgroundPanel" type="PanelContainer" parent="." unique_id=206516575]
+layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource( 7 )
+theme_override_styles/panel = SubResource("7")
 
-[node name="Layout" type="VBoxContainer" parent="BackgroundPanel"]
-offset_right = 1912.0
-offset_bottom = 1076.0
+[node name="Layout" type="VBoxContainer" parent="BackgroundPanel" unique_id=1078701161]
+layout_mode = 2
 
-[node name="HeaderBar" type="HBoxContainer" parent="BackgroundPanel/Layout"]
-offset_right = 1912.0
-offset_bottom = 22.0
+[node name="HeaderBar" type="HBoxContainer" parent="BackgroundPanel/Layout" unique_id=399673739]
+layout_mode = 2
 
-[node name="DragIcon" type="TextureRect" parent="BackgroundPanel/Layout/HeaderBar"]
-offset_top = 3.0
-offset_right = 16.0
-offset_bottom = 19.0
-mouse_default_cursor_shape = 13
+[node name="DragIcon" type="TextureRect" parent="BackgroundPanel/Layout/HeaderBar" unique_id=1677812212]
+layout_mode = 2
 size_flags_vertical = 4
-texture = SubResource( 5 )
+mouse_default_cursor_shape = 13
+texture = SubResource("5")
 
-[node name="ContentTitle" type="Label" parent="BackgroundPanel/Layout/HeaderBar"]
-offset_left = 20.0
-offset_top = 4.0
-offset_right = 32.0
-offset_bottom = 18.0
+[node name="ContentTitle" type="Label" parent="BackgroundPanel/Layout/HeaderBar" unique_id=973413160]
+layout_mode = 2
 text = "1."
-valign = 1
+vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="BackgroundPanel/Layout/HeaderBar"]
-offset_left = 36.0
-offset_right = 1826.0
-offset_bottom = 22.0
-mouse_filter = 2
+[node name="Spacer" type="Control" parent="BackgroundPanel/Layout/HeaderBar" unique_id=1462117704]
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="RemoveButton" type="Button" parent="BackgroundPanel/Layout/HeaderBar"]
-offset_left = 1830.0
-offset_right = 1912.0
-offset_bottom = 22.0
+[node name="RemoveButton" type="Button" parent="BackgroundPanel/Layout/HeaderBar" unique_id=569653581]
+layout_mode = 2
 text = "Remove"
-icon = SubResource( 5 )
+icon = SubResource("5")
 flat = true
 
-[node name="Padding" type="Control" parent="BackgroundPanel/Layout"]
-offset_top = 26.0
-offset_right = 1912.0
-offset_bottom = 34.0
-custom_minimum_size = Vector2( 0, 8 )
+[node name="Padding" type="Control" parent="BackgroundPanel/Layout" unique_id=413579099]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Question" type="HBoxContainer" parent="BackgroundPanel/Layout"]
-offset_top = 38.0
-offset_right = 1912.0
-offset_bottom = 62.0
+[node name="Question" type="HBoxContainer" parent="BackgroundPanel/Layout" unique_id=1289999487]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="BackgroundPanel/Layout/Question"]
-offset_top = 5.0
-offset_right = 63.0
-offset_bottom = 19.0
+[node name="Label" type="Label" parent="BackgroundPanel/Layout/Question" unique_id=598520815]
+layout_mode = 2
 text = "Question:"
 
-[node name="LineEdit" type="LineEdit" parent="BackgroundPanel/Layout/Question"]
-offset_left = 67.0
-offset_right = 1912.0
-offset_bottom = 24.0
+[node name="LineEdit" type="LineEdit" parent="BackgroundPanel/Layout/Question" unique_id=753087419]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 
-[node name="Settings" type="HBoxContainer" parent="BackgroundPanel/Layout"]
-offset_top = 66.0
-offset_right = 1912.0
-offset_bottom = 86.0
+[node name="Settings" type="HBoxContainer" parent="BackgroundPanel/Layout" unique_id=1199433205]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="BackgroundPanel/Layout/Settings"]
-offset_top = 3.0
-offset_right = 73.0
-offset_bottom = 17.0
+[node name="Label" type="Label" parent="BackgroundPanel/Layout/Settings" unique_id=670570826]
+layout_mode = 2
 text = "Quiz type:"
 
-[node name="QuizTypeOption" type="OptionButton" parent="BackgroundPanel/Layout/Settings"]
-offset_left = 77.0
-offset_right = 205.0
-offset_bottom = 20.0
-text = "Multiple choice"
-items = [ "Multiple choice", null, false, 0, null, "Single choice", null, false, 1, null, "Text input", null, false, 2, null ]
-selected = 0
+[node name="QuizTypeOption" type="OptionButton" parent="BackgroundPanel/Layout/Settings" unique_id=253066893]
+layout_mode = 2
 
-[node name="Body" type="VBoxContainer" parent="BackgroundPanel/Layout"]
-offset_top = 90.0
-offset_right = 1912.0
-offset_bottom = 416.0
+[node name="Body" type="VBoxContainer" parent="BackgroundPanel/Layout" unique_id=1801717157]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Editor" type="HBoxContainer" parent="BackgroundPanel/Layout/Body"]
-offset_right = 1912.0
-offset_bottom = 326.0
+[node name="Editor" type="HBoxContainer" parent="BackgroundPanel/Layout/Body" unique_id=385818984]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/Layout/Body/Editor"]
-offset_right = 1880.0
-offset_bottom = 326.0
-custom_minimum_size = Vector2( 0, 120 )
+[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/Layout/Body/Editor" unique_id=1038298996]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
 
-[node name="Label" type="Label" parent="BackgroundPanel/Layout/Body/Editor/TextEdit"]
+[node name="Label" type="Label" parent="BackgroundPanel/Layout/Body/Editor/TextEdit" unique_id=12637174]
+layout_mode = 0
 offset_right = 97.0
 offset_bottom = 14.0
-theme_override_colors/font_color = Color( 1, 1, 1, 0.305882 )
+theme_override_colors/font_color = Color(1, 1, 1, 0.305882)
 text = "Question explanation"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ExpandButton" type="Button" parent="BackgroundPanel/Layout/Body/Editor"]
-offset_left = 1884.0
-offset_right = 1912.0
-offset_bottom = 326.0
-icon = SubResource( 5 )
+[node name="ExpandButton" type="Button" parent="BackgroundPanel/Layout/Body/Editor" unique_id=1098492018]
+layout_mode = 2
+icon = SubResource("5")
 
-[node name="Explanation" type="VBoxContainer" parent="BackgroundPanel/Layout"]
-offset_top = 420.0
-offset_right = 1912.0
-offset_bottom = 746.0
+[node name="Explanation" type="VBoxContainer" parent="BackgroundPanel/Layout" unique_id=1163816593]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Editor" type="HBoxContainer" parent="BackgroundPanel/Layout/Explanation"]
-offset_right = 1912.0
-offset_bottom = 326.0
+[node name="Editor" type="HBoxContainer" parent="BackgroundPanel/Layout/Explanation" unique_id=2029997401]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/Layout/Explanation/Editor"]
-offset_right = 1880.0
-offset_bottom = 326.0
-custom_minimum_size = Vector2( 0, 120 )
+[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/Layout/Explanation/Editor" unique_id=2006243100]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
 
-[node name="Label" type="Label" parent="BackgroundPanel/Layout/Explanation/Editor/TextEdit"]
+[node name="Label" type="Label" parent="BackgroundPanel/Layout/Explanation/Editor/TextEdit" unique_id=1072330703]
+layout_mode = 0
 offset_right = 97.0
 offset_bottom = 14.0
-theme_override_colors/font_color = Color( 1, 1, 1, 0.305882 )
+theme_override_colors/font_color = Color(1, 1, 1, 0.305882)
 text = "Solution explanation"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ExpandButton" type="Button" parent="BackgroundPanel/Layout/Explanation/Editor"]
-offset_left = 1884.0
-offset_right = 1912.0
-offset_bottom = 326.0
-icon = SubResource( 5 )
+[node name="ExpandButton" type="Button" parent="BackgroundPanel/Layout/Explanation/Editor" unique_id=1252692146]
+layout_mode = 2
+icon = SubResource("5")
 
-[node name="Answers" type="PanelContainer" parent="BackgroundPanel/Layout"]
-offset_top = 750.0
-offset_right = 1912.0
-offset_bottom = 1076.0
+[node name="Answers" type="PanelContainer" parent="BackgroundPanel/Layout" unique_id=39020254]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DropTarget" type="Control" parent="."]
+[node name="DropTarget" type="Control" parent="." unique_id=362987151]
 visible = false
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 1916.0
-offset_bottom = 1078.0
+layout_mode = 2
 mouse_filter = 1
 
-[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 1916.0
-offset_bottom = 1078.0
-custom_minimum_size = Vector2( 380, 80 )
-window_title = ""
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="." unique_id=176074973]
 dialog_autowrap = true
 
-[node name="TextEditDialog" parent="." instance=ExtResource( 1 )]
-offset_top = 2.0
-offset_bottom = 1078.0
+[node name="TextEditDialog" parent="." unique_id=1045552772 instance=ExtResource("1")]
+oversampling_override = 1.0
