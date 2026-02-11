@@ -62,7 +62,7 @@ func _ready() -> void:
 	_update_theme()
 	_drag_icon.set_drag_forwarding(get_drag_preview, Callable(), Callable())
 
-	_text_content_dialog.size = _text_content_dialog.custom_minimum_size
+	_text_content_dialog.size = _text_content_dialog.min_size
 
 	_remove_button.pressed.connect(_on_remove_practice_requested)
 	_title.text_changed.connect(_on_title_text_changed)
@@ -204,7 +204,7 @@ func _rebuild_hints() -> void:
 
 	var i := 0
 	for hint in _edited_practice.hints:
-		var scene_instance: LessonPracticeHint = HintScene.instance()
+		var scene_instance: LessonPracticeHint = HintScene.instantiate()
 		_hint_list.add_item(scene_instance)
 		scene_instance.hint_moved.connect(_on_practice_hint_shifted.bind(i))
 		scene_instance.hint_text_changed.connect(_on_practice_hint_changed.bind(i))

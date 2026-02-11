@@ -21,7 +21,7 @@ static func get_settings_directory(from_node: Node) -> String:
 	if not plugin_instance:
 		return ""
 
-	var editor_paths: EditorPaths = Engine.get_singleton("EditorPaths")
+	var editor_paths := plugin_instance.get_editor_interface().get_editor_paths()
 	var settings_dir := editor_paths.get_project_settings_dir()
 	return settings_dir.path_join(SETTINGS_SUBPATH).path_join(PLUGIN_DIR_NAME)
 

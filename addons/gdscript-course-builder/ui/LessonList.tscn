@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bqr70byhoih3a"]
 
 [ext_resource type="Script" uid="uid://dxgvlswomi5i" path="res://addons/gdscript-course-builder/ui/LessonList.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/SortableList.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b2q4a0se73jgn" path="res://addons/gdscript-course-builder/ui/SortableList.tscn" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehr7j"]
 content_margin_left = 0.0
@@ -15,11 +15,14 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="LessonList" type="VBoxContainer" unique_id=2066005375]
+[node name="LessonList" type="VBoxContainer" unique_id=2066005375 node_paths=PackedStringArray("_background_panel", "_lesson_items", "_add_lesson_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
+_background_panel = NodePath("BackgroundPanel")
+_lesson_items = NodePath("BackgroundPanel/ItemList")
+_add_lesson_button = NodePath("ToolBar/AddButton")
 
 [node name="BackgroundPanel" type="PanelContainer" parent="." unique_id=557016121]
 custom_minimum_size = Vector2(280, 0)

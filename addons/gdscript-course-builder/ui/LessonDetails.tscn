@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cs7nunbvsrjpb"]
 
-[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/SlugDialog.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://addons/gdscript-course-builder/ui/SortableList.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://d3tb62o6di15r" path="res://addons/gdscript-course-builder/ui/SlugDialog.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://b2q4a0se73jgn" path="res://addons/gdscript-course-builder/ui/SortableList.tscn" id="2"]
 [ext_resource type="Script" uid="uid://4v4lgegjv6tf" path="res://addons/gdscript-course-builder/ui/LessonDetails.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://drvae8h62p7i5" path="res://addons/gdscript-course-builder/ui/InsertContentBlockDialog.tscn" id="4"]
 
@@ -21,11 +21,24 @@ corner_detail = 5
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
 "
 
-[node name="LessonDetails" type="MarginContainer" unique_id=1427851278]
+[node name="LessonDetails" type="MarginContainer" unique_id=1427851278 node_paths=PackedStringArray("_no_content_block", "_content_block", "_lesson_path_value", "_lesson_title_value", "_edit_slug_button", "_edit_slug_dialog", "_lesson_tabs", "_lesson_content_blocks", "_add_content_block_button", "_add_quiz_button", "_insert_content_block_dialog", "_lesson_practices", "_add_practice_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("3")
+_no_content_block = NodePath("NoContent")
+_content_block = NodePath("Content")
+_lesson_path_value = NodePath("Content/LessonPath/LineEdit")
+_lesson_title_value = NodePath("Content/LessonTitle/LineEdit")
+_edit_slug_button = NodePath("Content/LessonPath/SlugButton")
+_edit_slug_dialog = NodePath("SlugDialog")
+_lesson_tabs = NodePath("Content/LessonContent")
+_lesson_content_blocks = NodePath("Content/LessonContent/ContentBlocks/ItemList")
+_add_content_block_button = NodePath("Content/LessonContent/ContentBlocks/ToolBar/AddBlockButton")
+_add_quiz_button = NodePath("Content/LessonContent/ContentBlocks/ToolBar/AddQuizButton")
+_insert_content_block_dialog = NodePath("InsertContentBlockDialog")
+_lesson_practices = NodePath("Content/LessonContent/Practices/ItemList")
+_add_practice_button = NodePath("Content/LessonContent/Practices/ToolBar/AddPracticeButton")
 
 [node name="Content" type="VBoxContainer" parent="." unique_id=298183099]
 visible = false
@@ -134,7 +147,6 @@ layout_mode = 2
 text = "Add or select a lesson to edit."
 
 [node name="SlugDialog" parent="." unique_id=649729576 instance=ExtResource("1")]
-oversampling_override = 1.0
 position = Vector2i(0, 36)
 
 [node name="InsertContentBlockDialog" parent="." unique_id=882200666 instance=ExtResource("4")]

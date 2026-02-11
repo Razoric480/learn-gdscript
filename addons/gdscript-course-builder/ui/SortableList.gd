@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 			_active_insert_area = _possible_insert_area
 			_possible_insert_area = -1
 			_insert_area_timer = 0.0
-			_overlay_layer.update()
+			_overlay_layer.queue_redraw()
 
 	# Remove any residual state that we might have from previous drag attempts.
 	if get_viewport().gui_is_dragging() or not _is_dragging:
@@ -76,7 +76,7 @@ func _process(delta: float) -> void:
 
 	if not _highlight_rect.position.x == -1 or not _highlight_rect.position.y == -1:
 		_highlight_rect = Rect2(-1, -1, 0, 0)
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 
 	for child_node in _item_list.get_children():
 		if child_node.has_method("disable_drop_target"):
@@ -95,7 +95,7 @@ func _gui_input(event: InputEvent) -> void:
 			_active_insert_area = -1
 			_possible_insert_area = -1
 			_insert_area_timer = 0.0
-			_overlay_layer.update()
+			_overlay_layer.queue_redraw()
 			return
 
 		# Iterate through the areas until we find one.
@@ -120,14 +120,14 @@ func _gui_input(event: InputEvent) -> void:
 			_active_insert_area = -1
 			_possible_insert_area = area_index
 			_insert_area_timer = 0.0
-			_overlay_layer.update()
+			_overlay_layer.queue_redraw()
 			return
 
 		# We reached here without triggering any area, clear all state data.
 		_active_insert_area = -1
 		_possible_insert_area = -1
 		_insert_area_timer = 0.0
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 		return
 
 	var mb := event as InputEventMouseButton
@@ -248,10 +248,10 @@ func _can_drop_data(position: Vector2, drag_data) -> bool:
 	_highlight_rect = Rect2(-1, -1, 0, 0)
 
 	if typeof(drag_data) != TYPE_DICTIONARY:
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 		return false
 	if not drag_data.has("source") or not drag_data.source == _drag_source_tag:
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 		return false
 
 	var item_index := 0
@@ -267,7 +267,7 @@ func _can_drop_data(position: Vector2, drag_data) -> bool:
 
 		if drop_rect.has_point(position):
 			if item_index == drag_data.item_index:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return false
 
 			if child_node.has_method("enable_drop_target"):
@@ -277,10 +277,10 @@ func _can_drop_data(position: Vector2, drag_data) -> bool:
 			# Corresponding halves of the target item would put the dragged item to its current place,
 			# so we can ignore that.
 			if position.y > middle_point and item_index == drag_data.item_index - 1:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return false
 			if position.y <= middle_point and item_index == drag_data.item_index + 1:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return false
 
 			if position.y > middle_point:
@@ -297,12 +297,12 @@ func _can_drop_data(position: Vector2, drag_data) -> bool:
 				_highlight_on_top = true
 
 			_highlight_rect.position.y += scroll_vertical
-			_overlay_layer.update()
+			_overlay_layer.queue_redraw()
 			return true
 
 		item_index += 1
 
-	_overlay_layer.update()
+	_overlay_layer.queue_redraw()
 	return false
 
 
@@ -313,10 +313,10 @@ func _drop_data(position: Vector2, drag_data) -> void:
 	_highlight_rect = Rect2(-1, -1, 0, 0)
 
 	if typeof(drag_data) != TYPE_DICTIONARY:
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 		return
 	if not drag_data.has("source") or not drag_data.source == _drag_source_tag:
-		_overlay_layer.update()
+		_overlay_layer.queue_redraw()
 		return
 
 	var item_index := 0
@@ -332,17 +332,17 @@ func _drop_data(position: Vector2, drag_data) -> void:
 
 		if drop_rect.has_point(position):
 			if item_index == drag_data.item_index:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return
 
 			var middle_point = drop_rect.position.y + drop_rect.size.y / 2
 			# Corresponding halves of the target item would put the dragged item to its current place,
 			# so we can ignore that.
 			if position.y > middle_point and item_index == drag_data.item_index - 1:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return
 			if position.y <= middle_point and item_index == drag_data.item_index + 1:
-				_overlay_layer.update()
+				_overlay_layer.queue_redraw()
 				return
 
 			if position.y > middle_point:
@@ -350,12 +350,12 @@ func _drop_data(position: Vector2, drag_data) -> void:
 			else:
 				item_moved.emit(drag_data.item_index, item_index)
 
-			_overlay_layer.update()
+			_overlay_layer.queue_redraw()
 			return
 
 		item_index += 1
 
-	_overlay_layer.update()
+	_overlay_layer.queue_redraw()
 	return
 
 

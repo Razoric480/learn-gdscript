@@ -84,7 +84,7 @@ func set_is_radio(value: bool) -> void:
 	is_radio = value
 	if not _valid_answer_checkbox:
 		await self.ready
-	_valid_answer_checkbox.group = button_group if is_radio else null
+	_valid_answer_checkbox.button_group = button_group if is_radio else null
 	_valid_answer_checkbox.button_pressed = false
 
 

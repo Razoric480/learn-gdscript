@@ -51,7 +51,7 @@ var _drag_preview_style: StyleBox
 func _ready() -> void:
 	_drag_icon.set_drag_forwarding(get_drag_preview, Callable(), Callable())
 
-	_text_edit_dialog.size = _text_edit_dialog.custom_minimum_size
+	_text_edit_dialog.size = _text_edit_dialog.min_size
 
 	_remove_button.pressed.connect(_on_remove_block_requested)
 

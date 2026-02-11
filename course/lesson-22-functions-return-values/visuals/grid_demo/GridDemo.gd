@@ -33,8 +33,8 @@ func _ready() -> void:
 	_info_label = Label.new()
 	_info_label.add_theme_font_override("font", TITLE_FONT)
 	_info_label.text = tr("Hover over a cell to see its pixel position")
-	_info_label.align = Label.ALIGNMENT_CENTER
-	_info_label.autowrap = true
+	_info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_info_label.position = Vector2(0, _grid_offset.y + _grid_size_px.y + 20)
 	_info_label.size = Vector2(600, 60)
 	add_child(_info_label)
@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 
 	if new_hovered_cell != _hovered_cell:
 		_hovered_cell = new_hovered_cell
-		_grid_node.update()
+		_grid_node.queue_redraw()
 		_update_info_label()
 
 

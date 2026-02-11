@@ -153,8 +153,8 @@ func _recreate_content_blocks() -> void:
 
 	var index := 0
 	for content_block in _edited_lesson.content_blocks:
-		var scene_type := QuizContentBlockScene if content_block is Quiz else ContentBlockScene
-		var scene_instance = scene_type.instance()
+		var scene_type: PackedScene = QuizContentBlockScene if content_block is Quiz else ContentBlockScene
+		var scene_instance = scene_type.instantiate()
 		_lesson_content_blocks.add_item(scene_instance)
 		scene_instance.connect("block_removed", _on_content_block_removed.bind(index))
 

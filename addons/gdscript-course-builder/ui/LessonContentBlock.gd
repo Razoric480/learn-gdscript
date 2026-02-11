@@ -273,7 +273,7 @@ func _on_text_content_value_gui_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
 	# Open the expanded text editor when pressing Ctrl Enter.
-	if event.control and event.pressed and event.keycode == KEY_SPACE:
+	if event.ctrl_pressed and event.pressed and event.keycode == KEY_SPACE:
 		_open_expanded_text_box()
 
 
