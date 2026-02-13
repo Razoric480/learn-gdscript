@@ -17,7 +17,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="DPITexture" id="DPITexture_8461t"]
+[sub_resource type="DPITexture" id="DPITexture_qk7pc"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
 "
 
@@ -100,13 +100,13 @@ layout_mode = 2
 [node name="AddBlockButton" type="Button" parent="Content/LessonContent/ContentBlocks/ToolBar" unique_id=1329845673]
 layout_mode = 2
 text = "Add Block"
-icon = SubResource("DPITexture_8461t")
+icon = SubResource("DPITexture_qk7pc")
 flat = true
 
 [node name="AddQuizButton" type="Button" parent="Content/LessonContent/ContentBlocks/ToolBar" unique_id=1926730935]
 layout_mode = 2
 text = "Add Quiz"
-icon = SubResource("DPITexture_8461t")
+icon = SubResource("DPITexture_qk7pc")
 flat = true
 
 [node name="HSeparator" type="HSeparator" parent="Content/LessonContent/ContentBlocks" unique_id=870190704]
@@ -128,7 +128,7 @@ layout_mode = 2
 [node name="AddPracticeButton" type="Button" parent="Content/LessonContent/Practices/ToolBar" unique_id=1128760103]
 layout_mode = 2
 text = "Add Practice"
-icon = SubResource("DPITexture_8461t")
+icon = SubResource("DPITexture_qk7pc")
 flat = true
 
 [node name="HSeparator" type="HSeparator" parent="Content/LessonContent/Practices" unique_id=1185749228]
@@ -148,6 +148,8 @@ text = "Add or select a lesson to edit."
 
 [node name="SlugDialog" parent="." unique_id=649729576 instance=ExtResource("1")]
 position = Vector2i(0, 36)
+visible = false
 
 [node name="InsertContentBlockDialog" parent="." unique_id=882200666 instance=ExtResource("4")]
 position = Vector2i(0, 36)
+visible = false

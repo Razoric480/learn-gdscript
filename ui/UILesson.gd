@@ -10,11 +10,12 @@ const ContentBlockScene := preload("screens/lesson/UIContentBlock.tscn")
 const QuizInputFieldScene := preload("screens/lesson/quizzes/UIQuizInputField.tscn")
 const QuizChoiceScene := preload("screens/lesson/quizzes/UIQuizChoice.tscn")
 const PracticeButtonScene := preload("screens/lesson/UIPracticeButton.tscn")
+const GlossaryPopup := preload("res://ui/components/GlossaryPopup.gd")
 
 const AUTOSCROLL_PADDING := 20
 const AUTOSCROLL_DURATION := 0.24
 
-@export var test_lesson: Resource
+@export var test_lesson: Lesson
 
 signal lesson_displayed
 
@@ -29,31 +30,31 @@ var _integration_test_mode := false
 var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").msdf_size
 var _tweener: Tween
 
-@onready var _scroll_container := $OuterMargin/ScrollContainer as ScrollContainer
-@onready var _scroll_content := $OuterMargin/ScrollContainer/InnerMargin as Control
-@onready var _title := $OuterMargin/ScrollContainer/InnerMargin/Content/Title as Label
-@onready var _content_blocks := $OuterMargin/ScrollContainer/InnerMargin/Content/ContentBlocks as VBoxContainer
-@onready var _content_container := $OuterMargin/ScrollContainer/InnerMargin/Content as VBoxContainer
-@onready var _practices_visibility_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer as VBoxContainer
-@onready var _practices_container := $OuterMargin/ScrollContainer/InnerMargin/Content/PracticesContainer/Practices as VBoxContainer
-@onready var _debounce_timer := $DebounceTimer as Timer
-@onready var _glossary_popup := $GlossaryPopup
+@export var _scroll_container: ScrollContainer
+@export var _scroll_content: Control
+@export var _title: Label
+@export var _content_blocks: VBoxContainer
+@export var _content_container: VBoxContainer
+@export var _practices_visibility_container: VBoxContainer
+@export var _practices_container: VBoxContainer
+@export var _debounce_timer: Timer
+@export var _glossary_popup: GlossaryPopup
 
 @onready var _start_content_width := _content_container.size.x
 
 
 func _ready() -> void:
-	Events.connect("font_size_scale_changed", Callable(self, "_update_content_container_width"))
+	Events.font_size_scale_changed.connect(_update_content_container_width)
 	_update_content_container_width(UserProfiles.get_profile().font_size_scale)
-	_scroll_container.get_v_scroll_bar().connect("value_changed", Callable(self, "_on_content_scrolled"))
-	_debounce_timer.connect("timeout", Callable(self, "_emit_read_content"))
-	TranslationManager.connect("translation_changed", Callable(self, "_on_translation_changed"))
+	_scroll_container.get_v_scroll_bar().value_changed.connect(_on_content_scrolled)
+	_debounce_timer.timeout.connect(_emit_read_content)
+	TranslationManager.translation_changed.connect(_on_translation_changed)
 
 	_glossary = load("res://course/glossary.tres")
 
 	if test_lesson and get_parent() == get_tree().root:
 		setup(test_lesson, null)
-		for child in _content_blocks.get_children():
+		for child: CanvasItem in _content_blocks.get_children():
 			child.show()
 		_practices_container.show()
 
@@ -120,38 +121,40 @@ func setup(lesson: Lesson, course: Course) -> void:
 				break
 
 	for block in lesson.content_blocks:
-		if block is ContentBlock:
+		var content_block := block as ContentBlock
+		var quiz_block := block as Quiz
+		if content_block != null:
 			var instance: UIContentBlock = ContentBlockScene.instantiate()
-			instance.name = block.content_id.get_file().get_basename()
+			instance.name = content_block.content_id.get_file().get_basename()
 			_content_blocks.add_child(instance)
-			instance.setup(block)
+			instance.setup(content_block)
 			instance.hide()
 
-			if restore_id == block.content_id:
+			if restore_id == content_block.content_id:
 				restore_node = instance
 
-		elif block is Quiz:
-			var scene = QuizInputFieldScene if block is QuizInputField else QuizChoiceScene
-			var instance = scene.instantiate()
-			instance.name = block.quiz_id.get_file().get_basename()
+		elif quiz_block != null:
+			var scene = QuizInputFieldScene if quiz_block is QuizInputField else QuizChoiceScene
+			var instance: UIBaseQuiz = scene.instantiate()
+			instance.name = quiz_block.quiz_id.get_file().get_basename()
 			_content_blocks.add_child(instance)
-			instance.setup(block)
+			instance.setup(quiz_block)
 			instance.hide()
 
 			var completed_before := false
 			if course:
 				completed_before = user_profile.is_lesson_quiz_completed(
-					course.resource_path, lesson.resource_path, block.quiz_id
+					course.resource_path, lesson.resource_path, quiz_block.quiz_id
 				)
 				if completed_before:
 					_quizzes_done += 1
 			instance.completed_before = completed_before
 
-			instance.connect("quiz_passed", Callable(Events, "emit_signal").bind("quiz_completed", block))
+			instance.connect("quiz_passed", Callable(Events, "emit_signal").bind("quiz_completed", quiz_block))
 			instance.connect("quiz_passed", Callable(self, "_reveal_up_to_next_quiz"))
 			instance.connect("quiz_skipped", Callable(self, "_reveal_up_to_next_quiz"))
 
-			if restore_id == block.quiz_id:
+			if restore_id == quiz_block.quiz_id:
 				restore_node = instance
 
 	var highlighted_next := false
@@ -175,7 +178,7 @@ func setup(lesson: Lesson, course: Course) -> void:
 
 	if _integration_test_mode:
 		await get_tree().process_frame
-		emit_signal("lesson_displayed")
+		lesson_displayed.emit()
 		return
 
 	# Wait until the lesson is considered loaded by the system, and then update the size of

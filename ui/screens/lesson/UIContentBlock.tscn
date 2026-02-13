@@ -1,83 +1,63 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene format=3 uid="uid://c8ms8v7cpg4cs"]
 
-[ext_resource path="res://ui/theme/fonts/font_lesson_heading.tres" type="FontFile" id=1]
-[ext_resource path="res://ui/theme/fonts/font_text.tres" type="FontFile" id=2]
-[ext_resource path="res://ui/theme/hseparator_lesson_content.tres" type="StyleBox" id=3]
-[ext_resource path="res://ui/theme/gdscript_app_theme.tres" type="Theme" id=4]
-[ext_resource path="res://ui/screens/lesson/UIContentBlock.gd" type="Script" id=5]
+[ext_resource type="FontFile" path="res://ui/theme/fonts/font_lesson_heading.tres" id="1"]
+[ext_resource type="FontFile" path="res://ui/theme/fonts/font_text.tres" id="2"]
+[ext_resource type="StyleBox" path="res://ui/theme/hseparator_lesson_content.tres" id="3"]
+[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="4"]
+[ext_resource type="Script" uid="uid://cv20a35mjckfa" path="res://ui/screens/lesson/UIContentBlock.gd" id="5"]
 
-[node name="UIContentBlock" type="MarginContainer"]
+[node name="UIContentBlock" type="MarginContainer" unique_id=774982207]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 4 )
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_top = 0
+theme = ExtResource("4")
 theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("5")
 
-[node name="Panel" type="PanelContainer" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
+[node name="Panel" type="PanelContainer" parent="." unique_id=536079353]
+layout_mode = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
-offset_right = 1920.0
-offset_bottom = 1080.0
-mouse_filter = 2
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=381141421]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_top = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 10
 
-[node name="Layout" type="VBoxContainer" parent="Panel/MarginContainer"]
-offset_right = 1920.0
-offset_bottom = 1070.0
+[node name="Layout" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=258798223]
+layout_mode = 2
 mouse_filter = 2
 
-[node name="ContentHeader" type="Label" parent="Panel/MarginContainer/Layout"]
-offset_right = 1920.0
-offset_bottom = 44.0
-theme_override_fonts/font = ExtResource( 1 )
+[node name="ContentHeader" type="Label" parent="Panel/MarginContainer/Layout" unique_id=1862021322]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1")
 text = "Placeholder heading"
-autowrap = true
 
-[node name="ContentLayout" type="HBoxContainer" parent="Panel/MarginContainer/Layout"]
-offset_top = 60.0
-offset_right = 1920.0
-offset_bottom = 89.0
+[node name="ContentLayout" type="HBoxContainer" parent="Panel/MarginContainer/Layout" unique_id=15059850]
+layout_mode = 2
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="TextContent" type="RichTextLabel" parent="Panel/MarginContainer/Layout/ContentLayout" groups=["rich_text_label"]]
-offset_right = 1920.0
-offset_bottom = 29.0
-custom_minimum_size = Vector2( 320, 0 )
-mouse_filter = 1
+[node name="TextContent" type="RichTextLabel" parent="Panel/MarginContainer/Layout/ContentLayout" unique_id=1076591512 groups=["rich_text_label"]]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource( 2 )
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("2")
 bbcode_enabled = true
 text = "Placeholder text"
-text = "Placeholder text"
-fit_content_height = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+fit_content = true
 
-[node name="ContentSeparator" type="HSeparator" parent="Panel/MarginContainer/Layout"]
-offset_left = 860.0
-offset_top = 105.0
-offset_right = 1060.0
-offset_bottom = 113.0
-custom_minimum_size = Vector2( 200, 0 )
-mouse_filter = 2
+[node name="ContentSeparator" type="HSeparator" parent="Panel/MarginContainer/Layout" unique_id=1610525268]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
 size_flags_horizontal = 4
-theme_override_styles/separator = ExtResource( 3 )
+mouse_filter = 2
+theme_override_styles/separator = ExtResource("3")

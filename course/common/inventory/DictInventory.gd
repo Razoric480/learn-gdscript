@@ -33,31 +33,31 @@ var inventory = {
 	"gems": 10,
 }
 
-@onready var _grid := $Margin/Column/Grid as GridContainer
+@export var _grid: GridContainer
 
 
 func _ready():
 	update_display()
 
 
-func add_item(name: String, amount := 1):
-	assert(name in ITEM_DATABASE)
-	if name in inventory:
-		inventory[name] += amount
+func add_item(_name: String, amount := 1):
+	assert(_name in ITEM_DATABASE)
+	if _name in inventory:
+		inventory[_name] += amount
 	else:
-		inventory[name] = amount
+		inventory[_name] = amount
 	update_display()
 
 
-func remove_item(name: String, amount := 1):
-	assert(name in ITEM_DATABASE)
-	if name in inventory:
-		inventory[name] -= amount
-		if inventory[name] <= 0:
-			inventory.erase(name)
+func remove_item(_name: String, amount := 1):
+	assert(_name in ITEM_DATABASE)
+	if _name in inventory:
+		inventory[_name] -= amount
+		if inventory[_name] <= 0:
+			inventory.erase(_name)
 		update_display()
 	else:
-		printerr("Trying to remove nonexistent item in inventory: " + name)
+		printerr("Trying to remove nonexistent item in inventory: " + _name)
 
 
 func update_display():
@@ -65,7 +65,7 @@ func update_display():
 		child.queue_free()
 
 	for item in inventory:
-		var instance = DictItemScene.instantiate()
+		var instance: DictItem = DictItemScene.instantiate()
 		assert(item in ITEM_DATABASE, "The item must exist in the ITEM_DATABASE dictionary.")
 		instance.icon = ITEM_DATABASE[item].icon
 		instance.item_name = ITEM_DATABASE[item].name

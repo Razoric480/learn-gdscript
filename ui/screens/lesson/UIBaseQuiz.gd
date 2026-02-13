@@ -20,26 +20,24 @@ const SIZE_CHANGE_TIME := 0.5
 
 var completed_before := false: set = set_completed_before
 
-@onready var _outline := $Outline as PanelContainer
-@onready var _question := $ClipContentBoundary/ChoiceContainer/ChoiceView/QuizHeader/Question as RichTextLabel
-@onready var _explanation := $ClipContentBoundary/ResultContainer/ResultView/Explanation as RichTextLabel
-@onready var _content := $ClipContentBoundary/ChoiceContainer/ChoiceView/Content as RichTextLabel
-@onready var _completed_before_icon := (
-	$ClipContentBoundary/ChoiceContainer/ChoiceView/QuizHeader/CompletedBeforeIcon as TextureRect
-)
+@export var _outline: PanelContainer
+@export var _question: RichTextLabel
+@export var _explanation: RichTextLabel
+@export var _content: RichTextLabel
+@export var _completed_before_icon: TextureRect
 
-@onready var _choice_container := $ClipContentBoundary/ChoiceContainer as MarginContainer
-@onready var _result_container := $ClipContentBoundary/ResultContainer as MarginContainer
+@export var _choice_container: MarginContainer
+@export var _result_container: MarginContainer
 
-@onready var _submit_button := $ClipContentBoundary/ChoiceContainer/ChoiceView/HBoxContainer/SubmitButton as Button
-@onready var _skip_button := $ClipContentBoundary/ChoiceContainer/ChoiceView/HBoxContainer/SkipButton as Button
+@export var _submit_button: Button
+@export var _skip_button: Button
 
-@onready var _result_label := $ClipContentBoundary/ResultContainer/ResultView/Label as Label
-@onready var _correct_answer_label := $ClipContentBoundary/ResultContainer/ResultView/CorrectAnswer as Label
+@export var _result_label: Label
+@export var _correct_answer_label: Label
 
 var _error_tween: Tween
 var _size_tween: Tween
-@onready var _help_message := $ClipContentBoundary/ChoiceContainer/ChoiceView/HelpMessage as Label
+@export var _help_message: Label
 
 var _quiz: Quiz
 var _shake_pos: float = 0
@@ -53,13 +51,13 @@ var _animating_hint := false
 func _ready() -> void:
 	_completed_before_icon.visible = completed_before
 
-	_submit_button.connect("pressed", Callable(self, "_test_answer"))
-	_skip_button.connect("pressed", Callable(self, "_show_answer").bind(false))
-	connect("item_rect_changed", Callable(self, "_on_item_rect_changed"))
+	_submit_button.pressed.connect(_test_answer)
+	_skip_button.pressed.connect(_show_answer.bind(false))
+	item_rect_changed.connect(_on_item_rect_changed)
 
-	_help_message.connect("visibility_changed", Callable(self, "_on_help_message_visibility_changed"))
-	_choice_container.connect("minimum_size_changed", Callable(self, "_on_choice_container_minimum_size_changed"))
-	_result_container.connect("minimum_size_changed", Callable(self, "_on_result_container_minimum_size_changed"))
+	#_help_message.visibility_changed.connect(_on_help_message_visibility_changed)
+	_choice_container.minimum_size_changed.connect(_on_choice_container_minimum_size_changed)
+	_result_container.minimum_size_changed.connect(_on_result_container_minimum_size_changed)
 
 
 func _notification(what: int) -> void:

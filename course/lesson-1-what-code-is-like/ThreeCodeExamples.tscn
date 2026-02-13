@@ -1594,16 +1594,26 @@ color_regions = {
 }
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_c4s16"]
+keyword_colors = {
+"function": Color(1, 0.094118, 0.321569, 1),
+"if": Color(1, 0.094118, 0.321569, 1)
+}
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_xqo7k"]
+keyword_colors = {
+"def": Color(1, 0.094118, 0.321569, 1),
+"if": Color(1, 0.094118, 0.321569, 1)
+}
 
-[node name="ThreeCodeExamples" type="VBoxContainer" unique_id=35946930]
+[node name="ThreeCodeExamples" type="VBoxContainer" unique_id=35946930 node_paths=PackedStringArray("_python_code", "_js_code")]
 custom_minimum_size = Vector2(0, 220)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 script = ExtResource("2")
+_python_code = NodePath("PythonCodeExample")
+_js_code = NodePath("JavascriptCodeExample")
 
 [node name="GDScriptCodeExample" parent="." unique_id=2080668463 instance=ExtResource("1")]
 custom_minimum_size = Vector2(0, 186)

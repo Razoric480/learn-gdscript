@@ -33,11 +33,11 @@ var _tween: Tween
 
 @onready var turn_degrees = rotation_degrees
 
-@onready var _pivot := $Pivot as Node2D
-@onready var _sprite := $Pivot/Sprite2D as Sprite2D
-@onready var _shadow := $Pivot/Shadow as Sprite2D
-@onready var _canvas := $Canvas as Node2D
-@onready var _camera := $Camera2D as Camera2D
+@export var _pivot: Node2D
+@export var _sprite: Sprite2D
+@export var _shadow: Sprite2D
+@export var _canvas: Node2D
+@export var _camera: Camera2D
 
 
 func _ready() -> void:

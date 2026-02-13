@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://cpqjprsgqindy"]
 
-[ext_resource path="res://ui/screens/lesson/UIBaseQuiz.tscn" type="PackedScene" id=1]
-[ext_resource path="res://ui/screens/lesson/quizzes/UIQuizChoice.gd" type="Script" id=2]
+[ext_resource type="PackedScene" uid="uid://dhomxd6dxm47v" path="res://ui/screens/lesson/UIBaseQuiz.tscn" id="1"]
+[ext_resource type="Script" uid="uid://ntrdj8j03rq5" path="res://ui/screens/lesson/quizzes/UIQuizChoice.gd" id="2"]
 
-[node name="UIQuizChoice" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="UIQuizChoice" unique_id=2006356372 instance=ExtResource("1")]
+custom_minimum_size = Vector2(400, 0)
+script = ExtResource("2")
 
-[node name="Question" parent="ClipContentBoundary/ChoiceContainer/ChoiceView/QuizHeader" index="0"]
-text = "[b]Question[/b]"
+[node name="Question" parent="ClipContentBoundary/ChoiceContainer/ChoiceView/QuizHeader" parent_id_path=PackedInt32Array(813369328) index="0" unique_id=567387143]
+fit_content = true
+
+[node name="Content" parent="ClipContentBoundary/ChoiceContainer/ChoiceView" parent_id_path=PackedInt32Array(2027027835) index="1" unique_id=2059183518]
+fit_content = true

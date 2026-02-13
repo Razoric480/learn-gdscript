@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cc36082jpjh1y" path="res://ui/screens/welcome_screen/WelcomeScreen.tscn" id="1"]
 [ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="2"]
-[ext_resource type="PackedScene" path="res://ui/LoadingScreen.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://kiq5qcdgwl3i" path="res://ui/LoadingScreen.tscn" id="3"]
 [ext_resource type="Script" uid="uid://bf6dk8kxcn8jk" path="res://ui/UICore.gd" id="4"]
 [ext_resource type="PackedScene" path="res://ui/components/popups/ReportFormPopup.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://ui/components/popups/SettingsPopup.tscn" id="6"]
 
-[node name="UICore" type="Control" unique_id=1662218660]
+[node name="UICore" type="Control" unique_id=1662218660 node_paths=PackedStringArray("_pages", "_loading_screen", "_welcome_screen", "_settings_screen", "_course_screen", "_settings_popup", "_report_form_popup")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -18,6 +18,13 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("2")
 script = ExtResource("4")
+_pages = NodePath("Pages")
+_loading_screen = NodePath("Pages/LoadingScreen")
+_welcome_screen = NodePath("Pages/WelcomeScreen")
+_settings_screen = NodePath("Pages/SettingsScreen")
+_course_screen = NodePath("Pages/CourseScreen")
+_settings_popup = NodePath("SettingsPopup")
+_report_form_popup = NodePath("ReportFormPopup")
 
 [node name="Pages" type="Control" parent="." unique_id=1205245911]
 anchors_preset = 0
@@ -50,11 +57,12 @@ mouse_filter = 2
 
 [node name="LoadingScreen" parent="Pages" unique_id=1402416088 instance=ExtResource("3")]
 layout_mode = 1
-anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
 [node name="ReportFormPopup" parent="." unique_id=190140582 instance=ExtResource("5")]
+visible = false
 
 [node name="SettingsPopup" parent="." unique_id=2139668409 instance=ExtResource("6")]
+visible = false

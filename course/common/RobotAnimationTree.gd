@@ -4,7 +4,7 @@
 # became problematic when using a method track to go back to the idle animation.
 extends AnimationTree
 
-@onready var _state_machine = self["parameters/playback"]
+@onready var _state_machine: AnimationNodeStateMachinePlayback = self["parameters/playback"]
 @onready var _animation_player = get_node(anim_player) as AnimationPlayer
 
 

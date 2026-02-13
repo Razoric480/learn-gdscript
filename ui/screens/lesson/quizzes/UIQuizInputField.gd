@@ -6,6 +6,7 @@ extends UIBaseQuiz
 
 func _ready() -> void:
 	_line_edit.connect("text_submitted", Callable(self, "_test_answer"))
+	super._ready()
 
 
 func _get_answers() -> Array:

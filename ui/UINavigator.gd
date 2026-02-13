@@ -7,6 +7,7 @@ signal return_to_welcome_screen_requested
 const CourseOutliner := preload("./screens/course_outliner/CourseOutliner.gd")
 const BreadCrumbs := preload("./components/BreadCrumbs.gd")
 const LessonDonePopup := preload("./components/popups/LessonDonePopup.gd")
+const SalePopup := preload("res://ui/components/SalePopup.gd")
 
 const SCREEN_TRANSITION_DURATION := 0.75
 const OUTLINER_TRANSITION_DURATION := 0.5
@@ -27,48 +28,47 @@ var _lesson_count: int = 0
 
 var _tween: Tween = null
 
-@onready var _home_button := $Layout/Header/MarginContainer/HeaderContent/HomeButton as Button
-@onready var _outliner_button := $Layout/Header/MarginContainer/HeaderContent/OutlinerButton as Button
-@onready var _back_button := $Layout/Header/MarginContainer/HeaderContent/BackButton as Button
-@onready var _breadcrumbs := $Layout/Header/MarginContainer/HeaderContent/BreadCrumbs as BreadCrumbs
-@onready var _settings_button := $Layout/Header/MarginContainer/HeaderContent/SettingsButton as Button
-@onready var _report_button := $Layout/Header/MarginContainer/HeaderContent/ReportButton as Button
+@export var _home_button: Button
+@export var _outliner_button: Button
+@export var _back_button: Button
+@export var _breadcrumbs: BreadCrumbs
+@export var _settings_button: Button
+@export var _report_button: Button
 
-@onready var _screen_container := $Layout/Content/ScreenContainer as Container
-@onready var _course_outliner := $Layout/Content/CourseOutliner as CourseOutliner
+@export var _screen_container: Container
+@export var _course_outliner: CourseOutliner
 
-@onready var _lesson_done_popup := $LessonDonePopup as LessonDonePopup
+@export var _lesson_done_popup: LessonDonePopup
 
-@onready var _sale_button := $Layout/Header/MarginContainer/HeaderContent/SaleButton as Button
-@onready var _sale_popup := $SalePopup
+@export var _sale_button: Button
+@export var _sale_popup: SalePopup
 
 
 func _ready() -> void:
 	_lesson_count = course.lessons.size()
 	_course_outliner.course = course
 
-	NavigationManager.connect("navigation_requested", Callable(self, "_navigate_to"))
-	NavigationManager.connect("back_navigation_requested", Callable(self, "_navigate_back"))
-	NavigationManager.connect("outliner_navigation_requested", Callable(self, "_navigate_to_outliner"))
+	NavigationManager.navigation_requested.connect(_navigate_to)
+	NavigationManager.back_navigation_requested.connect(_navigate_back)
+	NavigationManager.outliner_navigation_requested.connect(_navigate_to_outliner)
 
+	Events.practice_next_requested.connect(_on_practice_next_requested)
+	Events.practice_previous_requested.connect(_on_practice_previous_requested)
+	Events.practice_requested.connect(_on_practice_requested)
 
-	Events.connect("practice_next_requested", Callable(self, "_on_practice_next_requested"))
-	Events.connect("practice_previous_requested", Callable(self, "_on_practice_previous_requested"))
-	Events.connect("practice_requested", Callable(self, "_on_practice_requested"))
+	_lesson_done_popup.accepted.connect(_on_lesson_completed)
 
-	_lesson_done_popup.connect("accepted", Callable(self, "_on_lesson_completed"))
+	_outliner_button.pressed.connect(NavigationManager.navigate_to_outliner)
+	_back_button.pressed.connect(NavigationManager.navigate_back)
+	_home_button.pressed.connect(NavigationManager.navigate_to_welcome_screen)
 
-	_outliner_button.connect("pressed", Callable(NavigationManager, "navigate_to_outliner"))
-	_back_button.connect("pressed", Callable(NavigationManager, "navigate_back"))
-	_home_button.connect("pressed", Callable(NavigationManager, "navigate_to_welcome_screen"))
-
-	_settings_button.connect("pressed", Callable(Events, "emit_signal").bind("settings_requested"))
-	_report_button.connect("pressed", Callable(Events, "emit_signal").bind("report_form_requested"))
+	_settings_button.pressed.connect(Events.settings_requested.emit)
+	_report_button.pressed.connect(Events.report_form_requested.emit)
 
 	if not UserProfiles.get_profile().is_sponsored_profile or _sale_popup.is_sale_over():
 		_sale_button.hide()
 	else:
-		_sale_button.connect("pressed", Callable(_sale_popup, "show"))
+		_sale_button.pressed.connect(_sale_popup.show)
 
 	if NavigationManager.current_url == "":
 		if load_into_outliner:
@@ -85,7 +85,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Workaround for a bug where pressing Left triggers ui_back in a popup even
 	# though the event is set to Ctrl+Alt+Left.
 	# warning-ignore:unsafe_property_access
-	if event.is_action_released("ui_back") and event.alt:
+	if event.is_action_released("ui_back") and event is InputEventWithModifiers and (event as InputEventWithModifiers).alt_pressed:
 		NavigationManager.navigate_back()
 
 

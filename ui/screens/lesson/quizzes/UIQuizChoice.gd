@@ -10,6 +10,7 @@ const QuizAnswerButtonScene := preload("res://ui/screens/lesson/quizzes/QuizAnsw
 func _ready() -> void:
 	if test_quiz and test_quiz is Quiz:
 		setup(test_quiz)
+	super._ready()
 
 
 func setup(quiz: Quiz) -> void:

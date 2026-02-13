@@ -14,7 +14,7 @@ var progress_value := 0.0: set = set_progress_value
 var _state: int = State.IDLE
 var _tweener: Tween
 
-@onready var _progress_bar := $MarginContainer/Control/ProgressBar as ProgressBar
+@export var _progress_bar: ProgressBar
 
 
 func _ready() -> void:

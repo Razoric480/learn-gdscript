@@ -160,7 +160,7 @@ static func enhance(text_edit: TextEdit) -> void:
 
 	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region('"', '"', COLOR_QUOTES)
 	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region("'", "'", COLOR_QUOTES)
-	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region("#", "\n", COLOR_COMMENTS, true)
+	(text_edit.syntax_highlighter as CodeHighlighter).add_color_region("#", "", COLOR_COMMENTS, true)
 
 	for classname in ClassDB.get_class_list():
 		(text_edit.syntax_highlighter as CodeHighlighter).add_keyword_color(classname, COLOR_CLASS)
