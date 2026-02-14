@@ -29,7 +29,7 @@ func get_profile(profile_name: String = current_player) -> Profile:
 	
 	if not profile_exists(profile_name):
 		var directory := file_path.get_base_dir()
-		DirAccess.make_dir_absolute(directory)
+		DirAccess.make_dir_recursive_absolute(directory)
 		
 		var user_profile := Profile.new()
 		user_profile.resource_path = file_path

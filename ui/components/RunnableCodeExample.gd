@@ -21,7 +21,7 @@ const HSLIDER_GRABBER_HIGHLIGHT: StyleBoxFlat = preload("res://ui/theme/hslider_
 var _scene_instance: CanvasItem: set = _set_scene_instance
 var _lock := false
 
-var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").msdf_size
+var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").base_font.msdf_size
 
 @onready var _gdscript_text_edit := $GDScriptCode as TextEdit
 @onready var _run_button := $Frame/HBoxContainer/RunButton as Button

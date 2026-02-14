@@ -109,7 +109,7 @@ func download() -> void:
 		var time  := Time.get_datetime_dict_from_system();
 		var dir_name := "error_logs"
 		var file_name := "%d-%02d-%02d-%02d-%02d" % [time.year, time.month, time.day, time.hour, time.minute];
-		var ok := DirAccess.make_dir_absolute("user://%s/"%[dir_name])
+		var ok := DirAccess.make_dir_recursive_absolute("user://%s/"%[dir_name])
 		if ok != OK:
 			push_error("could not create %s"%[dir_name])
 		var file := FileAccess.open("user://%s/%s.log"%[dir_name, file_name], FileAccess.WRITE)

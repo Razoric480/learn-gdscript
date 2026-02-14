@@ -27,7 +27,8 @@ var _quizzes_done := -1  # Start with -1 because we will always autoincrement at
 var _quizz_count := 0
 var _integration_test_mode := false
 
-var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").msdf_size
+var _base_text_font_size := preload("res://ui/theme/fonts/font_text.tres").base_font.msdf_size
+
 var _tweener: Tween
 
 @export var _scroll_container: ScrollContainer

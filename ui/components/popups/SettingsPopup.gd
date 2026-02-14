@@ -9,7 +9,7 @@ const FRAMERATE_MAP := {
 	Framerates.NO_LIMIT: 0,
 }
 
-var _sample_default_font: FontFile
+var _sample_default_font: Font
 
 @onready var _panel := $PanelContainer as PanelContainer
 @onready var _color_rect := $ColorRect as ColorRect

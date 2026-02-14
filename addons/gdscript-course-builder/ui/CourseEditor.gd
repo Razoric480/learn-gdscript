@@ -218,8 +218,9 @@ func _load_or_create_cache() -> void:
 	_cache_file = ConfigFile.new()
 	var error = _cache_file.load(cache_path)
 	if error == ERR_FILE_NOT_FOUND:
-		if not FileAccess.file_exists(cache_path.get_base_dir()):
-			DirAccess.make_dir_absolute(cache_path.get_base_dir())
+		if not DirAccess.dir_exists_absolute(cache_path.get_base_dir()):
+			error = DirAccess.make_dir_recursive_absolute(cache_path.get_base_dir())
+			print(error)
 
 		error = _cache_file.save(cache_path)
 
@@ -522,8 +523,8 @@ func _on_play_current_requested() -> void:
 	if temp_path.is_empty():
 		printerr("Cannot play the scene because the temporary folder cannot be created.")
 		return
-	if not FileAccess.file_exists(temp_path):
-		DirAccess.make_dir_absolute(temp_path)
+	if not DirAccess.dir_exists_absolute(temp_path):
+		DirAccess.make_dir_recursive_absolute(temp_path)
 
 	# Like Godot, we want to save changes before playing the scene.
 	if _dirty_status_label.visible:

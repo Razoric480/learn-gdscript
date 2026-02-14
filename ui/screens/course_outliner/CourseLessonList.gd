@@ -5,8 +5,8 @@ signal lesson_selected(lesson_index)
 const CourseLessonItem := preload("res://ui/screens/course_outliner/CourseLessonItem.gd")
 const CourseLessonItemScene := preload("res://ui/screens/course_outliner/CourseLessonItem.tscn")
 
-@onready var _lesson_items := $ScrollContainer/MarginContainer/Items as Control
-@onready var _scroll_container := $ScrollContainer as ScrollContainer
+@export var _lesson_items: Control
+@export var _scroll_container: ScrollContainer
 
 
 func _ready() -> void:

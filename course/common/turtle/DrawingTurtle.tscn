@@ -24,8 +24,6 @@ texture = ExtResource("3")
 [node name="Sprite2D" type="Sprite2D" parent="Pivot" unique_id=503864077]
 texture = ExtResource("1")
 
-[node name="Tween" type="Tween" parent="." unique_id=727117636]
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=22182668]
 top_level = true
 position_smoothing_enabled = true

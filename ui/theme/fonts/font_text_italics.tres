@@ -1,11 +1,8 @@
-[gd_resource type="FontFile" load_steps=3 format=2]
+[gd_resource type="FontVariation" format=3 uid="uid://bks8wpv64xumn"]
 
-[ext_resource path="res://ui/theme/fonts/OpenSans-Italic.ttf" type="FontFile" id=1]
-[ext_resource path="res://ui/theme/fonts/NotoSansSC-Regular.ttf" type="FontFile" id=2]
+[ext_resource type="FontFile" uid="uid://5l2e4qc7i6or" path="res://ui/theme/fonts/OpenSans-Italic.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://vo57wyj2oe5y" path="res://ui/theme/fonts/NotoSansSC-Regular.ttf" id="2_8ps7x"]
 
 [resource]
-size = 20
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 2 )
+fallbacks = Array[Font]([ExtResource("2_8ps7x")])
+base_font = ExtResource("1")

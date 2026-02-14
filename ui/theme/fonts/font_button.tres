@@ -1,31 +1,8 @@
-[gd_resource type="FontFile" format=3 uid="uid://do26pel1j45uv"]
+[gd_resource type="FontVariation" format=3 uid="uid://do26pel1j45uv"]
 
-[ext_resource type="FontFile" uid="uid://bk64arns0bdbk" path="res://ui/theme/fonts/Montserrat-Bold.ttf" id="1"]
-[ext_resource type="FontFile" uid="uid://qqya62gjsiae" path="res://ui/theme/fonts/NotoSansSC-Bold.ttf" id="3"]
+[ext_resource type="FontFile" uid="uid://dsiqr1yk8vvil" path="res://ui/theme/fonts/Montserrat-Bold.ttf" id="1_47mj4"]
+[ext_resource type="FontFile" uid="uid://bi0nrcpl755q0" path="res://ui/theme/fonts/NotoSansSC-Bold.ttf" id="2_bve2s"]
 
 [resource]
-fallbacks = Array[Font]([ExtResource("1"), ExtResource("3")])
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/14/0/ascent = 0.0
-cache/0/14/0/descent = 0.0
-cache/0/14/0/underline_position = 0.0
-cache/0/14/0/underline_thickness = 0.0
-cache/0/14/0/scale = 1.0
-cache/0/50/0/ascent = 0.0
-cache/0/50/0/descent = 0.0
-cache/0/50/0/underline_position = 0.0
-cache/0/50/0/underline_thickness = 0.0
-cache/0/50/0/scale = 1.0
+fallbacks = Array[Font]([ExtResource("2_bve2s")])
+base_font = ExtResource("1_47mj4")

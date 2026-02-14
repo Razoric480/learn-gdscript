@@ -1,16 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3 uid="uid://5hxgb4qdg7ax"]
 
-[ext_resource path="res://ui/screens/end_screen/main_menu/star_2.png" type="Texture2D" id=1]
-[ext_resource path="res://ui/screens/end_screen/main_menu/FloatingStar.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://d3ys6vyqtrknw" path="res://ui/screens/end_screen/main_menu/star_2.png" id="1"]
+[ext_resource type="Script" uid="uid://ffmam80m3ilv" path="res://ui/screens/end_screen/main_menu/FloatingStar.gd" id="2"]
 
-[node name="FloatingStar" type="TextureRect"]
-texture = ExtResource( 1 )
+[node name="FloatingStar" type="TextureRect" unique_id=858965429]
+texture = ExtResource("1")
 stretch_mode = 3
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Tween" type="Tween" parent="."]
-repeat = true
-playback/repeat = true
+script = ExtResource("2")

@@ -15,7 +15,7 @@ func _ready() -> void:
 	_pause_rect.visible = false
 	_viewport.name = "SubViewport"
 	_viewport_container.add_child(_viewport)
-	_scene_tree.connect("screen_resized", Callable(self, "_on_screen_resized"))
+	get_viewport().size_changed.connect(_on_screen_resized)
 	call_deferred("_on_screen_resized")
 
 

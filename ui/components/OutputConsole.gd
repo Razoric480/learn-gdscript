@@ -23,7 +23,7 @@ var _slice_properties: ScriptSlice = null
 func _ready() -> void:
 	_external_error_popup.set_as_top_level(true)
 	_error_popup.set_as_top_level(true)
-	_error_overlay_popup.connect("hide", Callable(_error_popup, "hide"))
+	#_error_overlay_popup.connect("hide", Callable(_error_popup, "hide"))
 	connect("resized", Callable(self, "_on_resized"))
 
 	MessageBus.connect("print_requested", Callable(self, "print_bus_message"))
