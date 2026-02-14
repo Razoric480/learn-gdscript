@@ -11,7 +11,7 @@
 class_name OfflineScriptVerifier
 extends ScriptVerifier
 
-const PARSE_WRAPPER_CLASS := "GDScriptParserWrap"
+const PARSE_WRAPPER_CLASS := "GDScriptErrorChecker"
 
 # Array[ScriptError]
 var errors := []
@@ -25,20 +25,22 @@ func _init(new_script_text: String) -> void:
 func test() -> void:
 	if ClassDB.class_exists(PARSE_WRAPPER_CLASS):
 		var wrap: RefCounted = ClassDB.instantiate(PARSE_WRAPPER_CLASS)
-		wrap.parse_script(_new_script_text)
-		if wrap.has_error():
-			var error_line: int = wrap.get_error_line() - 1
-			var line_text := _new_script_text.split("\n")[error_line]
-			var error_data := make_error_from_data(
-				1,
-				wrap.get_error(),
-				"gdscript",
-				-1,
-				error_line,
-				line_text.length() - line_text.strip_edges(true, false).length(),
-				line_text.strip_edges(false).length()
-			)
-			errors = [error_data]
+		wrap.set_source(_new_script_text)
+		if wrap.has_errors():
+			errors = []
+			for i in wrap.get_error_count():
+				var error_line: int = wrap.get_error_line(i) - 1
+				var line_text := _new_script_text.split("\n")[error_line]
+				var error_data := make_error_from_data(
+					1,
+					wrap.get_error(i),
+					"gdscript",
+					-1,
+					error_line,
+					line_text.length() - line_text.strip_edges(true, false).length(),
+					line_text.strip_edges(false).length()
+				)
+				errors.push_back(error_data)
 		else:
 			errors = []
 	else:

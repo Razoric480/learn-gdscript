@@ -33,7 +33,7 @@ func setup(text: String, is_multiple_choice: bool) -> void:
 
 
 func get_answer() -> String:
-	return _button_text if _button.pressed else ""
+	return _button_text if _button.button_pressed else ""
 
 
 func _on_toggled(is_pressed: bool) -> void:

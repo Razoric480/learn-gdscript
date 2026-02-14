@@ -115,7 +115,7 @@ func _make_visual_element() -> void:
 	# As this is a box container, we can reverse the order of elements by
 	# raising the panel.
 	if _content_block.reverse_blocks and is_instance_valid(_visual_element):
-		_visual_element.raise()
+		_visual_element.move_to_front()
 
 
 func _update_labels() -> void:

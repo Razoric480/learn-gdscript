@@ -12,20 +12,16 @@ var _current_message_source: Node
 var _error_explanation: String
 var _error_suggestion: String
 
-@onready var _error_label := $MarginContainer/Column/ErrorLabel as Label
-@onready var _content_block := $MarginContainer/Column/Content as Control
-@onready var _error_explanation_block := $MarginContainer/Column/Content/ErrorExplanation as Revealer
-@onready var _error_explanation_value := (
-	$MarginContainer/Column/Content/ErrorExplanation/Value as RichTextLabel
-)
-@onready var _error_suggestion_block := $MarginContainer/Column/Content/ErrorSuggestion as Revealer
-@onready var _error_suggestion_value := (
-	$MarginContainer/Column/Content/ErrorSuggestion/Value as RichTextLabel
-)
-@onready var _no_content_label := $MarginContainer/Column/NoContent as RichTextLabel
+@export var _error_label: Label
+@export var _content_block: Control
+@export var _error_explanation_block: Revealer
+@export var _error_explanation_value:RichTextLabel
+@export var _error_suggestion_block: Revealer
+@export var _error_suggestion_value:RichTextLabel
+@export var _no_content_label: RichTextLabel
 
-@onready var _exclusive_buttons := $MarginContainer/Column/Buttons as Control
-@onready var _close_button := $MarginContainer/Column/Buttons/CloseButton as Button
+@export var _exclusive_buttons: Control
+@export var _close_button: Button
 
 
 func _ready() -> void:

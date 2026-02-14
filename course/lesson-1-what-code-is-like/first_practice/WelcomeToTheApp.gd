@@ -7,7 +7,7 @@ func _ready():
 	print("Welcome!")
 # /EXPORT welcome_to_app
 	await get_tree().create_timer(1.0).timeout
-	Events.practice_completed.emit()
+	Events.practice_run_completed.emit()
 
 func _run():
 	_animation_tree.travel("saying_hi")

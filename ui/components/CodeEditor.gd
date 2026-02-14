@@ -26,19 +26,19 @@ var _initial_text := ""
 # Once done, we use this var to restore the buttons' previous disabled state.
 var _buttons_previous_disabled_state := {}
 
-@onready var slice_editor := $Column/PanelContainer/SliceEditor as SliceEditor
+@export var slice_editor: SliceEditor
 
-@onready var _run_button := $Column/MarginContainer/Column/Row/RunButton as Button
-@onready var _pause_button := $Column/MarginContainer/Column/Row/PauseButton as Button
-@onready var _restore_button := $Column/MarginContainer/Column/Row/RestoreButton as Button
-@onready var _solution_button := $Column/MarginContainer/Column/Row2/SolutionButton as Button
-@onready var _console_button := $Column/MarginContainer/Column/Row2/ConsoleButton as Button
-@onready var _continue_button := $Column/MarginContainer/Column/Row2/ContinueButton as Button
+@export var _run_button: Button
+@export var _pause_button: Button
+@export var _restore_button: Button
+@export var _solution_button: Button
+@export var _console_button: Button
+@export var _continue_button: Button
 
-@onready var _distraction_free_mode_button := $Column/PanelContainer/DFMButton as Button
+@export var _distraction_free_mode_button: Button
 
-@onready var _locked_overlay := $Column/PanelContainer/LockedOverlay as Control
-@onready var _locked_overlay_label := $Column/PanelContainer/LockedOverlay/Layout/Label as Label
+@export var _locked_overlay: Control
+@export var _locked_overlay_label: Label
 
 
 # Buttons to toggle disabled when running the code, until the server responds.
@@ -83,12 +83,12 @@ func _ready() -> void:
 	slice_editor.grab_focus()
 
 	if not Engine.is_editor_hint():
-		for button in _buttons_with_shortcuts:
+		for button: Button in _buttons_with_shortcuts:
 			assert(
-				button.shortcut.shortcut is InputEventAction,
+				button.shortcut.events.front() is InputEventAction,
 				"Buttons must use an action as a shortcut to generate a shortcut tooltip for them."
 			)
-			var action_name: String = button.shortcut.shortcut.action
+			var action_name: String = button.shortcut.events.front().action
 			button.tooltip_text += "\n" + TextUtils.convert_input_action_to_tooltip(action_name)
 
 

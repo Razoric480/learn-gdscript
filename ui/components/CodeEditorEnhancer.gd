@@ -151,6 +151,10 @@ const KEYWORDS := [
 # Enhances a TextEdit to better highlight GDScript code.
 static func enhance(text_edit: TextEdit) -> void:
 	text_edit.syntax_highlighter = CodeHighlighter.new()
+	(text_edit.syntax_highlighter as CodeHighlighter).number_color = Color.hex(0xa1ffe0)
+	(text_edit.syntax_highlighter as CodeHighlighter).symbol_color = Color.hex(0xabc9ff)
+	(text_edit.syntax_highlighter as CodeHighlighter).function_color = Color.hex(0x57b3ff)
+	(text_edit.syntax_highlighter as CodeHighlighter).member_variable_color = Color.hex(0xbce0ff)
 	#TODO text_edit.show_line_numbers = true
 	text_edit.draw_tabs = true
 	text_edit.draw_spaces = true

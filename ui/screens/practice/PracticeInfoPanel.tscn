@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://isw5sjt67wn8" path="res://ui/screens/practice/PracticeInfoPanel.gd" id="2"]
 [ext_resource type="FontFile" path="res://ui/theme/fonts/font_title.tres" id="3"]
 [ext_resource type="PackedScene" path="res://ui/components/ScrollableTextBox.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://ui/components/Revealer.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://cvl6pxx3qb736" path="res://ui/components/Revealer.tscn" id="5"]
 [ext_resource type="StyleBox" path="res://ui/theme/panel_normal.tres" id="6"]
 [ext_resource type="StyleBox" path="res://ui/theme/revealer_hints_panel.tres" id="7"]
 [ext_resource type="FontFile" path="res://ui/theme/fonts/font_practice_progress.tres" id="8"]
@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://ckvual55dmiwg" path="res://ui/icons/practice_list.png" id="11"]
 [ext_resource type="StyleBox" path="res://ui/theme/practice_info_separator.tres" id="12"]
 
-[node name="PracticeInfoPanel" type="PanelContainer" unique_id=1958886134 node_paths=PackedStringArray("_docs_item_list")]
+[node name="PracticeInfoPanel" type="PanelContainer" unique_id=1958886134 node_paths=PackedStringArray("docs_container", "_docs_item_list")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,6 +21,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1")
 script = ExtResource("2")
+docs_container = NodePath("LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Documentation")
 _docs_item_list = NodePath("LessonRequirements/Margin/Column/Scroll/MarginContainer/Column/Documentation/DocumentationItems")
 
 [node name="Panel" type="Panel" parent="." unique_id=1595266243]
@@ -79,7 +80,6 @@ layout_mode = 2
 
 [node name="Goals" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=688170191 instance=ExtResource("5")]
 layout_mode = 2
-size_flags_horizontal = 3
 title = "Goals"
 is_expanded = true
 
@@ -88,19 +88,16 @@ layout_mode = 2
 
 [node name="Hints" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=163375710 instance=ExtResource("5")]
 layout_mode = 2
-size_flags_horizontal = 3
 title = "Hints"
 content_panel = ExtResource("7")
 
 [node name="Checks" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=89551840 instance=ExtResource("5")]
 layout_mode = 2
-size_flags_horizontal = 3
 title = "Checks"
 is_expanded = true
 
 [node name="Documentation" parent="LessonRequirements/Margin/Column/Scroll/MarginContainer/Column" unique_id=373290168 instance=ExtResource("5")]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 title = "Documentation"
 is_expanded = true

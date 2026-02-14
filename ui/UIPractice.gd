@@ -50,28 +50,28 @@ var _current_scene_reset_values := {
 
 var _tween: Tween = null
 
-@onready var _layout_container := $Margin/Layout as Control
+@export var _layout_container: Control
 
-@onready var _output_container := find_child("Output") as Control
-@onready var _game_container := find_child("GameContainer") as Container
-@onready var _game_view := _output_container.find_child("GameView") as GameView
-@onready var _output_console := _output_container.find_child("Console") as OutputConsole
+@export var _output_container: Control
+@export var _game_container: Container
+@export var _game_view: GameView
+@export var _output_console: OutputConsole
 
-@onready var _output_anchors := $Margin/Layout/OutputAnchors as Control
-@onready var _solution_panel := find_child("SolutionContainer") as Control
-@onready var _solution_editor := _solution_panel.find_child("SliceEditor") as SliceEditor
-@onready var _use_solution_button := _solution_panel.find_child("UseSolutionButton") as Button
+@export var _output_anchors: Control
+@export var _solution_panel: Control
+@export var _solution_editor: SliceEditor
+@export var _use_solution_button: Button
 
-@onready var _info_panel_anchors := $Margin/Layout/InfoPanelAnchors as Control
-@onready var _info_panel := find_child("PracticeInfoPanel") as PracticeInfoPanel
-@onready var _documentation_panel := find_child("DocumentationPanel") as RichTextLabel
-@onready var _hints_container := _info_panel.hints_container as Revealer
+@export var _info_panel_anchors: Control
+@export var _info_panel: PracticeInfoPanel
+@export var _documentation_panel: RichTextLabel
+@export var _hints_container: Revealer
 
-@onready var _practice_list := find_child("PracticeListPopup") as PracticeListPopup
-@onready var _practice_done_popup := find_child("PracticeDonePopup") as PracticeDonePopup
-@onready var _practice_leave_unfinished_popup := find_child("PracticeLeaveUnfinishedPopup") as PracticeLeaveUnfinishedPopup
+@export var _practice_list: PracticeListPopup
+@export var _practice_done_popup: PracticeDonePopup
+@export var _practice_leave_unfinished_popup: PracticeLeaveUnfinishedPopup
 
-@onready var _code_editor := find_child("CodeEditor") as CodeEditor
+@onready var _code_editor: CodeEditor = find_child("CodeEditor")
 
 
 func _init():
@@ -571,6 +571,7 @@ func _hide_solution_panel() -> void:
 	_is_solution_panel_open = false
 	if _tween and _tween.is_valid():
 		_tween.kill()
+	_tween = create_tween()
 
 	_tween.tween_property(
 		_solution_panel,
@@ -673,7 +674,7 @@ func _update_nodes(script: GDScript, node_paths: Array) -> void:
 		if node_path is NodePath or node_path is String:
 			var node = (
 				_current_scene.get_node_or_null(node_path)
-				if node_path != ""
+				if node_path != NodePath()
 				else _current_scene
 			)
 			if node:

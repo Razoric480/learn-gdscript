@@ -6,8 +6,8 @@ var paused := false: set = set_paused
 
 var _viewport := SubViewport.new()
 
-@onready var _viewport_container = $SubViewportContainer as SubViewportContainer
-@onready var _pause_rect := $PauseRect as ColorRect
+@export var _viewport_container: SubViewportContainer
+@export var _pause_rect: ColorRect
 @onready var _scene_tree := get_tree()
 
 
@@ -31,7 +31,7 @@ func set_paused(value: bool) -> void:
 
 func use_scene(node: Node, viewport_size: Vector2) -> void:
 	_viewport.add_child(node)
-	_pause_rect.raise()
+	_pause_rect.move_to_front()
 	_viewport.size = viewport_size
 
 
