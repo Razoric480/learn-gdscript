@@ -200,7 +200,7 @@ func set_current_url(_new_url: String) -> void:
 	pass
 
 
-func get_current_url():
+func get_current_url() -> String:
 	return get_history(1)
 
 

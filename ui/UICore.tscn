@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://2fhmvmpcl8cf"]
 
 [ext_resource type="PackedScene" uid="uid://cc36082jpjh1y" path="res://ui/screens/welcome_screen/WelcomeScreen.tscn" id="1"]
-[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="2"]
+[ext_resource type="Theme" uid="uid://b03mml1yyrchy" path="res://ui/theme/gdscript_app_theme.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://kiq5qcdgwl3i" path="res://ui/LoadingScreen.tscn" id="3"]
 [ext_resource type="Script" uid="uid://bf6dk8kxcn8jk" path="res://ui/UICore.gd" id="4"]
 [ext_resource type="PackedScene" path="res://ui/components/popups/ReportFormPopup.tscn" id="5"]

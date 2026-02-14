@@ -12,7 +12,7 @@ enum LEVEL {
 var also_print_to_godot := false;
 var _js_available := OS.has_feature("JavaScript")
 var is_joypad = false
-var joypad_index = -1
+var joypad_index := -1
 var GDQUEST: JavaScriptObject
 var _log_lines := []
 
@@ -32,13 +32,13 @@ func _init() -> void:
 func write(level: int, properties: Dictionary, message: String) -> void:
 	if also_print_to_godot and OS.is_debug_build():
 		var level_index := LEVEL.values().find(level)
-		var props := {
+		var print_props := {
 			"lvl": LEVEL.keys()[level_index] if level_index > -1 else "UNKNOWN",
 			"msg": message,
 			"prp": properties,
 			"sep": "------------"
 		}
-		var object := "[%lvl]\n%msg\n%prp\n%sep".format(props, "%_")
+		var object := "[%lvl]\n%msg\n%prp\n%sep".format(print_props, "%_")
 		match(level):
 			LEVEL.FATAL,LEVEL.ERROR:
 				push_error(object);
@@ -150,15 +150,15 @@ func godot_dict_to_js_obj(properties: Dictionary):
 	for key in properties:
 		var value = properties[key]
 		if value is Dictionary:
-			value = godot_dict_to_js_obj(value)
+			value = godot_dict_to_js_obj(value as Dictionary)
 		elif value is Vector2 or value is Vector3:
 			value = "%s"%[value]
 		props[key] = value
 	return props
 
 
-func get_info():
-	var info = {
+func get_info() -> Dictionary:
+	var local_info = {
 		"OS": OS.get_name(),
 		"datetime": Time.get_datetime_dict_from_system(),
 		"video_driver": RenderingServer.get_current_rendering_driver_name(),
@@ -170,7 +170,7 @@ func get_info():
 		"locale": OS.get_locale(),
 		"joypad": Input.get_joy_name(joypad_index) if is_joypad else "" 
 	}
-	return info
+	return local_info
 
 
 func _on_joy_connection_changed(device_id, connected):

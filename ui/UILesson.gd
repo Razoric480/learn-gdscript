@@ -45,6 +45,7 @@ var _tweener: Tween
 
 
 func _ready() -> void:
+	super._ready()
 	Events.font_size_scale_changed.connect(_update_content_container_width)
 	_update_content_container_width(UserProfiles.get_profile().font_size_scale)
 	_scroll_container.get_v_scroll_bar().value_changed.connect(_on_content_scrolled)

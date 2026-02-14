@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://dyb1ekfp11ff3" path="res://ui/icons/chevron.png" id="1"]
 [ext_resource type="Script" uid="uid://c67gat850qwbv" path="res://ui/components/Revealer.gd" id="2"]
-[ext_resource type="FontFile" uid="uid://buul432qy6di5" path="res://ui/theme/fonts/font_title_small.tres" id="3"]
+[ext_resource type="FontVariation" uid="uid://buul432qy6di5" path="res://ui/theme/fonts/font_title_small.tres" id="3"]
 [ext_resource type="StyleBox" path="res://ui/theme/revealer_content_panel.tres" id="4"]
 [ext_resource type="StyleBox" path="res://ui/theme/revealer_title_panel.tres" id="5"]
-[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="6"]
-[ext_resource type="FontFile" uid="uid://pba5t1ekfnca" path="res://ui/theme/fonts/font_button_small.tres" id="7"]
+[ext_resource type="Theme" uid="uid://b03mml1yyrchy" path="res://ui/theme/gdscript_app_theme.tres" id="6"]
+[ext_resource type="FontVariation" uid="uid://pba5t1ekfnca" path="res://ui/theme/fonts/font_button_small.tres" id="7"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -20,7 +20,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="2"]
 
-[node name="Revealer" type="Container" unique_id=873480229]
+[node name="Revealer" type="Container" unique_id=873480229 node_paths=PackedStringArray("_toggle_bar", "_toggle_button", "_toggle_label", "_toggle_icon_anchor", "_toggle_icon")]
 clip_contents = true
 offset_right = 136.0
 offset_bottom = 46.0
@@ -30,6 +30,11 @@ script = ExtResource("2")
 title_font = ExtResource("3")
 title_panel = ExtResource("5")
 content_panel = ExtResource("4")
+_toggle_bar = NodePath("ToggleBar")
+_toggle_button = NodePath("ToggleBar/ToggleCapturer")
+_toggle_label = NodePath("ToggleBar/BarLayout/Label")
+_toggle_icon_anchor = NodePath("ToggleBar/BarLayout/ToggleIcon")
+_toggle_icon = NodePath("ToggleBar/BarLayout/ToggleIcon/Texture2D")
 
 [node name="ToggleBar" type="PanelContainer" parent="." unique_id=1512104780]
 modulate = Color(1, 1, 1, 0.65)

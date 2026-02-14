@@ -8,6 +8,7 @@ extends Revealer
 
 
 func _notification(what: int) -> void:
+	super._notification(what)
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
 		if is_instance_valid(_rich_text_label):
 			_rich_text_label.text = TextUtils.tr_paragraph(text)

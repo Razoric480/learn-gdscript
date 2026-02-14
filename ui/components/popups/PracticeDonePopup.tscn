@@ -1,17 +1,17 @@
 [gd_scene format=3 uid="uid://bxg50yuuugi2y"]
 
-[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="1"]
+[ext_resource type="Theme" uid="uid://b03mml1yyrchy" path="res://ui/theme/gdscript_app_theme.tres" id="1"]
 [ext_resource type="Script" uid="uid://o6tucb33kswo" path="res://ui/components/popups/PracticeDonePopup.gd" id="2"]
-[ext_resource type="FontFile" path="res://ui/theme/fonts/font_well_done_title.tres" id="3"]
-[ext_resource type="FontFile" path="res://ui/theme/fonts/font_well_done_normal.tres" id="4"]
+[ext_resource type="FontVariation" uid="uid://br1umjd7n527g" path="res://ui/theme/fonts/font_well_done_title.tres" id="3"]
+[ext_resource type="FontVariation" path="res://ui/theme/fonts/font_well_done_normal.tres" id="4"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_hover.tres" id="5"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_pressed.tres" id="6"]
 [ext_resource type="StyleBox" path="res://ui/theme/panel_normal.tres" id="7"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_normal.tres" id="8"]
 [ext_resource type="Texture2D" uid="uid://c7fcakvm0lt82" path="res://ui/screens/practice/gdquestboy_logo.png" id="9"]
 [ext_resource type="StyleBox" path="res://ui/theme/focus_accent.tres" id="10"]
-[ext_resource type="StyleBox" path="res://ui/screens/practice/gdquestboy_frame.tres" id="11"]
-[ext_resource type="FontFile" path="res://ui/theme/fonts/font_well_done_bold.tres" id="12"]
+[ext_resource type="StyleBox" uid="uid://dvsoekg7egexu" path="res://ui/screens/practice/gdquestboy_frame.tres" id="11"]
+[ext_resource type="FontVariation" uid="uid://bn2s6jhyh6rti" path="res://ui/theme/fonts/font_well_done_bold.tres" id="12"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_accent.tres" id="13"]
 
 [node name="PracticeDonePopup" type="ColorRect" unique_id=888858731]
@@ -155,7 +155,6 @@ theme_override_constants/margin_bottom = 60
 
 [node name="TextureRect" type="TextureRect" parent="Layout/GameAnchors/GameContainer/MarginContainer" unique_id=2122210041]
 layout_mode = 2
-flip_v = true
 
 [node name="Label" type="TextureRect" parent="Layout/GameAnchors/GameContainer" unique_id=1889835725]
 custom_minimum_size = Vector2(0, 48)

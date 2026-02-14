@@ -31,7 +31,7 @@ var _temp_command_stack = []
 
 var _tween: Tween
 
-@onready var turn_degrees = rotation_degrees
+@onready var turn_degrees: float = rotation_degrees
 
 @export var _pivot: Node2D
 @export var _sprite: Sprite2D
@@ -67,9 +67,9 @@ func move_forward(distance: float) -> void:
 	# Check if the polygon has vertices that align. In that case, we consider it
 	# closed.
 	if _points.size() > 1:
-		var last_point = _points[-1]
+		var last_point := _points[-1] as Vector2
 		for i in range(_points.size() - 1):
-			if _points[i].is_equal_approx(last_point):
+			if (_points[i] as Vector2).is_equal_approx(last_point):
 				_close_polygon()
 				break
 
@@ -90,7 +90,6 @@ func turn_left(angle_degrees: float) -> void:
 # new start position.
 func jump(x: float, y: float) -> void:
 	_handle_position_setting()
-	var last_point := Vector2.ZERO if _points.is_empty() else _points[-1] as Vector2
 	_close_polygon()
 
 	position += Vector2(x, y)
@@ -128,7 +127,7 @@ func stop_animation() -> void:
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	
-	for line in _canvas.get_children():
+	for line: DrawingLine2D in _canvas.get_children():
 		line.stop()
 
 
@@ -148,7 +147,7 @@ func play_draw_animation() -> void:
 		_tween.kill()
 	_tween = create_tween()
 	
-	for command in _command_stack:
+	for command: Dictionary in _command_stack:
 		var duration := 1.0
 		match command.command:
 			"set_position":

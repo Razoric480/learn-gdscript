@@ -23,11 +23,11 @@ signal expanded
 @export var content_panel: StyleBox: set = set_content_panel
 @export var content_separation: int = 2: set = set_content_separation
 
-@onready var _toggle_bar := $ToggleBar as PanelContainer
-@onready var _toggle_button := $ToggleBar/ToggleCapturer as Button
-@onready var _toggle_label := $ToggleBar/BarLayout/Label as Label
-@onready var _toggle_icon_anchor := $ToggleBar/BarLayout/ToggleIcon as Control
-@onready var _toggle_icon := $ToggleBar/BarLayout/ToggleIcon/Texture2D as TextureRect
+@export var _toggle_bar: PanelContainer
+@export var _toggle_button: Button
+@export var _toggle_label: Label
+@export var _toggle_icon_anchor: Control
+@export var _toggle_icon: TextureRect
 
 var _content_children := []
 var _percent_revealed := 0.0
@@ -45,9 +45,9 @@ func _ready() -> void:
 
 	_toggle_bar.modulate.a = TOGGLE_OPACITY
 
-	_toggle_button.connect("mouse_entered", Callable(self, "_on_toggle_entered"))
-	_toggle_button.connect("mouse_exited", Callable(self, "_on_toggle_exited"))
-	_toggle_button.connect("toggled", Callable(self, "_on_toggle_pressed"))
+	_toggle_button.mouse_entered.connect(_on_toggle_entered)
+	_toggle_button.mouse_exited.connect(_on_toggle_exited)
+	_toggle_button.toggled.connect(_on_toggle_pressed)
 
 	_toggle_content(is_expanded, true)
 	_title_style = get_title_panel_style()
@@ -326,7 +326,7 @@ func get_contents() -> Array:
 	return _content_children
 
 
-func _toggle_content(expanded: bool, immediate: bool = false) -> void:
+func _toggle_content(_is_expanded: bool, immediate: bool = false) -> void:
 	# Just change immediately.
 	if immediate:
 		for child_node in get_children():
@@ -334,10 +334,10 @@ func _toggle_content(expanded: bool, immediate: bool = false) -> void:
 			if not control_node or control_node == _toggle_bar:
 				continue
 
-			control_node.visible = expanded
+			control_node.visible = _is_expanded
 
-		_toggle_icon.rotation = 90.0 * int(expanded)
-		_percent_revealed = 1.0 * int(expanded)
+		_toggle_icon.rotation = 90.0 * int(_is_expanded)
+		_percent_revealed = 1.0 * int(_is_expanded)
 		return
 
 	# Animate the change smoothly.
@@ -349,20 +349,20 @@ func _toggle_content(expanded: bool, immediate: bool = false) -> void:
 		if not control_node or control_node == _toggle_bar:
 			continue
 
-		if expanded:
+		if _is_expanded:
 			control_node.visible = true
 
 	_tweener = create_tween()
-	_tweener.connect("step_finished", Callable(self, "_on_tweener_step"))
-	_tweener.connect("finished", Callable(self, "_on_tweener_completed"))
+	_tweener.step_finished.connect(_on_tweener_step)
+	_tweener.finished.connect(_on_tweener_completed)
 	
 	_tweener.tween_property(
 		_toggle_icon, "rotation",
-		90.0 * int(expanded),
+		90.0 * int(_is_expanded),
 		ANIMATION_ICON_DURATION
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
-	var final_value := 1.0 * int(expanded)
+	var final_value := 1.0 * int(_is_expanded)
 	_tweener.tween_property(
 		self, "_percent_revealed",
 		final_value,
@@ -382,7 +382,7 @@ func _on_toggle_pressed(pressed: bool) -> void:
 	set_is_expanded(pressed)
 
 
-func _on_tweener_step(step: int) -> void:
+func _on_tweener_step(_step: int) -> void:
 	_title_style = get_title_panel_style()
 	minimum_size_changed.emit()
 

@@ -88,6 +88,7 @@ func _init():
 
 
 func _ready() -> void:
+	super._ready()
 	randomize()
 	if Engine.is_editor_hint():
 		return
@@ -549,6 +550,7 @@ func _show_solution_panel() -> void:
 	_is_solution_panel_open = true
 	if _tween and _tween.is_valid():
 		_tween.kill()
+	_tween = create_tween()
 
 	_tween.tween_property(
 		_solution_panel,

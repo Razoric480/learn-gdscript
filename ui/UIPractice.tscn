@@ -6,21 +6,25 @@
 [ext_resource type="PackedScene" uid="uid://b0p3dbj5sajyl" path="res://ui/components/GameView.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://ui/components/OutputConsole.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://ui/components/popups/PracticeListPopup.tscn" id="6"]
-[ext_resource type="StyleBox" path="res://ui/screens/practice/gdquestboy_frame.tres" id="7"]
+[ext_resource type="StyleBox" uid="uid://dvsoekg7egexu" path="res://ui/screens/practice/gdquestboy_frame.tres" id="7"]
 [ext_resource type="Script" uid="uid://cv27s4712b182" path="res://ui/UIPractice.gd" id="8"]
 [ext_resource type="PackedScene" path="res://ui/components/GDQuestLogo.tscn" id="9"]
-[ext_resource type="PackedScene" path="res://ui/components/popups/PracticeDonePopup.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://bxg50yuuugi2y" path="res://ui/components/popups/PracticeDonePopup.tscn" id="10"]
 [ext_resource type="StyleBox" path="res://ui/theme/panel_sliceeditor.tres" id="11"]
 [ext_resource type="Script" uid="uid://sfilcjuvjf0w" path="res://ui/components/SliceEditor.gd" id="12"]
-[ext_resource type="FontFile" uid="uid://buul432qy6di5" path="res://ui/theme/fonts/font_title_small.tres" id="13"]
+[ext_resource type="FontVariation" uid="uid://buul432qy6di5" path="res://ui/theme/fonts/font_title_small.tres" id="13"]
 [ext_resource type="StyleBox" path="res://ui/theme/panel_sliceeditor_title.tres" id="14"]
-[ext_resource type="Theme" path="res://ui/theme/gdscript_app_theme.tres" id="15"]
+[ext_resource type="Theme" uid="uid://b03mml1yyrchy" path="res://ui/theme/gdscript_app_theme.tres" id="15"]
 [ext_resource type="PackedScene" path="res://ui/components/popups/PracticeLeaveUnfinishedPopup.tscn" id="16"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_pressed.tres" id="17"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_hover.tres" id="18"]
 [ext_resource type="StyleBox" path="res://ui/theme/button_outline_large_normal.tres" id="19"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_p3qxn"]
+number_color = Color(0, 0.6313726, 1, 0.8784314)
+symbol_color = Color(0, 0.67058825, 0.7882353, 1)
+function_color = Color(0, 0.34117648, 0.7019608, 1)
+member_variable_color = Color(0, 0.7372549, 0.8784314, 1)
 keyword_colors = {
 "AESContext": Color(0.666667, 0, 0.729412, 1),
 "AStar2D": Color(0.666667, 0, 0.729412, 1),
@@ -221,6 +225,7 @@ keyword_colors = {
 "ClassDB": Color(0.666667, 0, 0.729412, 1),
 "CodeEdit": Color(0.666667, 0, 0.729412, 1),
 "CodeHighlighter": Color(0.666667, 0, 0.729412, 1),
+"CodeTextEditor": Color(0.666667, 0, 0.729412, 1),
 "CollisionObject2D": Color(0.666667, 0, 0.729412, 1),
 "CollisionObject3D": Color(0.666667, 0, 0.729412, 1),
 "CollisionObject3DGizmoPlugin": Color(0.666667, 0, 0.729412, 1),
@@ -262,6 +267,7 @@ keyword_colors = {
 "ConfirmationDialog": Color(0.666667, 0, 0.729412, 1),
 "ConnectDialog": Color(0.666667, 0, 0.729412, 1),
 "ConnectDialogBinds": Color(0.666667, 0, 0.729412, 1),
+"ConnectionInfoDialog": Color(0.666667, 0, 0.729412, 1),
 "ConnectionsDock": Color(0.666667, 0, 0.729412, 1),
 "Container": Color(0.666667, 0, 0.729412, 1),
 "Control": Color(0.666667, 0, 0.729412, 1),
@@ -269,6 +275,7 @@ keyword_colors = {
 "ControlEditorPopupButton": Color(0.666667, 0, 0.729412, 1),
 "ControlEditorPresetPicker": Color(0.666667, 0, 0.729412, 1),
 "ControlEditorToolbar": Color(0.666667, 0, 0.729412, 1),
+"ControlPositioningWarning": Color(0.666667, 0, 0.729412, 1),
 "ConvertTransformModifier3D": Color(0.666667, 0, 0.729412, 1),
 "ConvexPolygonShape2D": Color(0.666667, 0, 0.729412, 1),
 "ConvexPolygonShape3D": Color(0.666667, 0, 0.729412, 1),
@@ -362,11 +369,14 @@ keyword_colors = {
 "EditorFileSystemImportFormatSupportQuery": Color(0.666667, 0, 0.729412, 1),
 "EditorFontPreviewPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorGradientPreviewPlugin": Color(0.666667, 0, 0.729412, 1),
+"EditorHelp": Color(0.666667, 0, 0.729412, 1),
 "EditorHelpBit": Color(0.666667, 0, 0.729412, 1),
+"EditorHelpBitTooltip": Color(0.666667, 0, 0.729412, 1),
 "EditorHelpSearch": Color(0.666667, 0, 0.729412, 1),
 "EditorImagePreviewPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorImportPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorInspector": Color(0.666667, 0, 0.729412, 1),
+"EditorInspectorActionButton": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorCategory": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorDefaultPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorParticleProcessMaterialPlugin": Color(0.666667, 0, 0.729412, 1),
@@ -399,6 +409,7 @@ keyword_colors = {
 "EditorInspectorPluginTextureRegion": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorPluginTileData": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorRootMotionPlugin": Color(0.666667, 0, 0.729412, 1),
+"EditorInspectorSection": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorToolButtonPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorInspectorVisualShaderModePlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorInterface": Color(0.666667, 0, 0.729412, 1),
@@ -420,19 +431,38 @@ keyword_colors = {
 "EditorPackedScenePreviewPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorPaths": Color(0.666667, 0, 0.729412, 1),
 "EditorPerformanceProfiler": Color(0.666667, 0, 0.729412, 1),
+"EditorPlainTextSyntaxHighlighter": Color(0.666667, 0, 0.729412, 1),
 "EditorPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorPluginSettings": Color(0.666667, 0, 0.729412, 1),
 "EditorProfiler": Color(0.666667, 0, 0.729412, 1),
 "EditorProperty": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyAnchorsPreset": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyArray": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyArrayObject": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyCheck": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyColor": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyDictionary": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyDictionaryObject": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyEnum": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyFlags": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyFloat": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyInteger": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyLayers": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyLayersGrid": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyLocale": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyLocalizableString": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyMultilineText": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyNameProcessor": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyNil": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyNodePath": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyObjectID": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyPath": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyRect2": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyResource": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertySizeFlags": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyText": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyTextEnum": Color(0.666667, 0, 0.729412, 1),
+"EditorPropertyVector2": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyVector2i": Color(0.666667, 0, 0.729412, 1),
 "EditorPropertyVectorN": Color(0.666667, 0, 0.729412, 1),
 "EditorQuickOpenDialog": Color(0.666667, 0, 0.729412, 1),
@@ -459,6 +489,7 @@ keyword_colors = {
 "EditorSettingsInspectorPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorShaderLanguagePlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorSpinSlider": Color(0.666667, 0, 0.729412, 1),
+"EditorStandardSyntaxHighlighter": Color(0.666667, 0, 0.729412, 1),
 "EditorSyntaxHighlighter": Color(0.666667, 0, 0.729412, 1),
 "EditorTexturePreviewPlugin": Color(0.666667, 0, 0.729412, 1),
 "EditorTextureTooltipPlugin": Color(0.666667, 0, 0.729412, 1),
@@ -472,6 +503,7 @@ keyword_colors = {
 "EditorVCSInterface": Color(0.666667, 0, 0.729412, 1),
 "EditorValidationPanel": Color(0.666667, 0, 0.729412, 1),
 "EditorVariantTypeOptionButton": Color(0.666667, 0, 0.729412, 1),
+"EditorVariantTypePopupMenu": Color(0.666667, 0, 0.729412, 1),
 "EditorVersionButton": Color(0.666667, 0, 0.729412, 1),
 "EditorVisualProfiler": Color(0.666667, 0, 0.729412, 1),
 "EditorZoomWidget": Color(0.666667, 0, 0.729412, 1),
@@ -493,8 +525,11 @@ keyword_colors = {
 "FileDialog": Color(0.666667, 0, 0.729412, 1),
 "FileSystemDock": Color(0.666667, 0, 0.729412, 1),
 "FileSystemList": Color(0.666667, 0, 0.729412, 1),
+"FindBar": Color(0.666667, 0, 0.729412, 1),
+"FindInFiles": Color(0.666667, 0, 0.729412, 1),
 "FindInFilesContainer": Color(0.666667, 0, 0.729412, 1),
 "FindInFilesDialog": Color(0.666667, 0, 0.729412, 1),
+"FindInFilesPanel": Color(0.666667, 0, 0.729412, 1),
 "FindReplaceBar": Color(0.666667, 0, 0.729412, 1),
 "FlowContainer": Color(0.666667, 0, 0.729412, 1),
 "FogMaterial": Color(0.666667, 0, 0.729412, 1),
@@ -547,6 +582,7 @@ keyword_colors = {
 "GodotPhysicsDirectSpaceState2D": Color(0.666667, 0, 0.729412, 1),
 "GodotPhysicsServer2D": Color(0.666667, 0, 0.729412, 1),
 "GodotPhysicsServer3D": Color(0.666667, 0, 0.729412, 1),
+"GotoLinePopup": Color(0.666667, 0, 0.729412, 1),
 "Gradient": Color(0.666667, 0, 0.729412, 1),
 "GradientEditorPlugin": Color(0.666667, 0, 0.729412, 1),
 "GradientTexture1D": Color(0.666667, 0, 0.729412, 1),
@@ -574,6 +610,7 @@ keyword_colors = {
 "HTTPRequest": Color(0.666667, 0, 0.729412, 1),
 "HashingContext": Color(0.666667, 0, 0.729412, 1),
 "HeightMapShape3D": Color(0.666667, 0, 0.729412, 1),
+"HighlightedLabel": Color(0.666667, 0, 0.729412, 1),
 "HingeJoint3D": Color(0.666667, 0, 0.729412, 1),
 "HistoryDock": Color(0.666667, 0, 0.729412, 1),
 "IKModifier3D": Color(0.666667, 0, 0.729412, 1),
@@ -951,6 +988,9 @@ keyword_colors = {
 "QuadMesh": Color(0.666667, 0, 0.729412, 1),
 "QuadOccluder3D": Color(0.666667, 0, 0.729412, 1),
 "QuickOpenResultContainer": Color(0.666667, 0, 0.729412, 1),
+"QuickOpenResultGridItem": Color(0.666667, 0, 0.729412, 1),
+"QuickOpenResultItem": Color(0.666667, 0, 0.729412, 1),
+"QuickOpenResultListItem": Color(0.666667, 0, 0.729412, 1),
 "RDAttachmentFormat": Color(0.666667, 0, 0.729412, 1),
 "RDFramebufferPass": Color(0.666667, 0, 0.729412, 1),
 "RDPipelineColorBlendState": Color(0.666667, 0, 0.729412, 1),
@@ -1056,9 +1096,11 @@ keyword_colors = {
 "ScriptEditorBase": Color(0.666667, 0, 0.729412, 1),
 "ScriptEditorDebugger": Color(0.666667, 0, 0.729412, 1),
 "ScriptEditorPlugin": Color(0.666667, 0, 0.729412, 1),
+"ScriptEditorQuickOpen": Color(0.666667, 0, 0.729412, 1),
 "ScriptExtension": Color(0.666667, 0, 0.729412, 1),
 "ScriptLanguage": Color(0.666667, 0, 0.729412, 1),
 "ScriptLanguageExtension": Color(0.666667, 0, 0.729412, 1),
+"ScriptTextEditor": Color(0.666667, 0, 0.729412, 1),
 "ScrollBar": Color(0.666667, 0, 0.729412, 1),
 "ScrollContainer": Color(0.666667, 0, 0.729412, 1),
 "SectionedInspector": Color(0.666667, 0, 0.729412, 1),
@@ -1170,6 +1212,7 @@ keyword_colors = {
 "StyleBoxEmpty": Color(0.666667, 0, 0.729412, 1),
 "StyleBoxFlat": Color(0.666667, 0, 0.729412, 1),
 "StyleBoxLine": Color(0.666667, 0, 0.729412, 1),
+"StyleBoxPreview": Color(0.666667, 0, 0.729412, 1),
 "StyleBoxTexture": Color(0.666667, 0, 0.729412, 1),
 "SubViewport": Color(0.666667, 0, 0.729412, 1),
 "SubViewportContainer": Color(0.666667, 0, 0.729412, 1),
@@ -1577,7 +1620,7 @@ color_regions = {
 "' '": Color(1, 0.960784, 0.25098, 1)
 }
 
-[node name="UIPractice" type="PanelContainer" unique_id=284412307 node_paths=PackedStringArray("_layout_container", "_output_container", "_game_container", "_game_view", "_output_console", "_output_anchors", "_solution_panel", "_solution_editor", "_use_solution_button", "_info_panel_anchors", "_info_panel", "_hints_container", "_practice_list", "_practice_done_popup", "_practice_leave_unfinished_popup", "_code_editor")]
+[node name="UIPractice" type="PanelContainer" unique_id=284412307 node_paths=PackedStringArray("_layout_container", "_output_container", "_game_container", "_game_view", "_output_console", "_output_anchors", "_solution_panel", "_solution_editor", "_use_solution_button", "_info_panel_anchors", "_info_panel", "_hints_container", "_practice_list", "_practice_done_popup", "_practice_leave_unfinished_popup")]
 process_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1600,7 +1643,6 @@ _hints_container = NodePath("Margin/Layout/InfoPanelAnchors/PracticeInfoPanel/Le
 _practice_list = NodePath("PracticeListPopup")
 _practice_done_popup = NodePath("PracticeDonePopup")
 _practice_leave_unfinished_popup = NodePath("PracticeLeaveUnfinishedPopup")
-_code_editor = NodePath("Margin/Layout/CodeEditor")
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=1084256760]
 layout_mode = 2

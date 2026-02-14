@@ -53,6 +53,7 @@ func popup_centered() -> void:
 	
 	if _tween and _tween.is_valid():
 		_tween.kill()
+	_tween = create_tween()
 	
 	_tween.tween_property(
 		_popup_container,

@@ -60,7 +60,7 @@ func list_profiles() -> PackedStringArray:
 		if file_name.get_extension() != "tres":
 			continue
 		
-		var profile = ResourceLoader.load(file_name) as Profile
+		var profile := ResourceLoader.load(file_name) as Profile
 		if profile:
 			profiles.push_back(profile.player_name)
 

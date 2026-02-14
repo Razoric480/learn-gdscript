@@ -194,7 +194,7 @@ func _on_text_changed() -> void:
 			# We simulate pressing backspace to remove the last typed character.
 			var event := InputEventKey.new()
 			event.keycode = KEY_BACKSPACE
-			event.button_pressed = true
+			event.pressed = true
 			Input.parse_input_event(event)
 			set_caret_column(get_caret_column() + 1)
 

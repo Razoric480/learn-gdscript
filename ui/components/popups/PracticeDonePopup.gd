@@ -66,7 +66,7 @@ func fade_in(game_container: Control) -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_layout_container.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_KEEP_SIZE)
 	# Set the texture for the output replication.
-	_game_texture.texture = game_container.find_child("GameView").get_viewport().get_texture()
+	_game_texture.texture = game_container.find_child("GameView").get_viewport_override().get_texture()
 	
 	# Fade in the background.
 	_tween = create_tween()

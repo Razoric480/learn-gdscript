@@ -4,6 +4,7 @@
 
 [node name="SlugDialog" type="Window" unique_id=1467199696 node_paths=PackedStringArray("_slug_label", "_slug_value", "_confirm_button", "_cancel_button")]
 oversampling_override = 1.0
+position = Vector2i(0, 36)
 script = ExtResource("1")
 _slug_label = NodePath("Margin/Layout/SlugText/Label")
 _slug_value = NodePath("Margin/Layout/SlugText/LineEdit")

@@ -8,7 +8,6 @@ const CSV_EXPLANATION_FIELD := "error_explanation"
 const CSV_SUGGESTION_FIELD := "error_suggestion"
 
 var _main_table := {}
-var _translated_table := {}
 
 
 func _init():
@@ -40,7 +39,7 @@ func _load_csv_file(file_path: String) -> Dictionary:
 		)
 		return {}
 
-	var database_file = FileAccess.open(file_path, FileAccess.READ)
+	var database_file := FileAccess.open(file_path, FileAccess.READ)
 	if database_file == null:
 		printerr(
 			"Failed to open the error database source at '%s': Error code %d" % [file_path, FileAccess.get_open_error()]

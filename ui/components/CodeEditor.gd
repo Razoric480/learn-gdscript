@@ -18,7 +18,12 @@ const ACTIONS := {
 const EDITOR_EXPAND_ICON := preload("res://ui/icons/expand.png")
 const EDITOR_COLLAPSE_ICON := preload("res://ui/icons/collapse.png")
 
-@export var text := "": get = get_text, set = set_text # (String, MULTILINE)
+@export var text := "":
+	get:
+		return slice_editor.text
+	set(v):
+		text = v
+		slice_editor.text = v
 
 var _initial_text := ""
 
@@ -112,14 +117,10 @@ func update_cursor_position(line: int, column: int) -> void:
 
 func set_text(new_text: String) -> void:
 	text = new_text
-	if not is_inside_tree():
-		await self.ready
 	slice_editor.text = new_text
 
 
 func get_text() -> String:
-	if not is_inside_tree():
-		return text
 	return slice_editor.text
 
 
